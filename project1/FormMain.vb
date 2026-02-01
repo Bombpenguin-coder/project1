@@ -134,58 +134,31 @@ Public Class FormMain
     Private Sub btnAddResident_Click(sender As Object, e As EventArgs) Handles btnAddResident.Click
         Dim addForm As New FormAddResidents()
 
+        ' Inside btnAddResident_Click...
         If addForm.ShowDialog() = DialogResult.OK Then
             Try
-                Using conn As New MySqlConnection(connectionString)
-                    conn.Open()
+                ' 1. Bundle the data into our new Model
+                Dim newResident As New Resident()
+                newResident.LastName = addForm.LastName
+                newResident.FirstName = addForm.FirstName
+                newResident.MiddleName = addForm.MiddleName
+                newResident.Age = addForm.Age
+                newResident.Gender = addForm.Gender
+                newResident.Address = addForm.Address
+                newResident.District = addForm.District
+                newResident.Barangay = addForm.Barangay
+                newResident.City = addForm.City
 
-                    Dim queryCheck As String = "
-                        SELECT COUNT(*) FROM residents 
-                        WHERE LOWER(TRIM(lastname)) = LOWER(TRIM(@LastName))
-                        AND LOWER(TRIM(firstname)) = LOWER(TRIM(@FirstName))
-                        AND LOWER(TRIM(middlename)) = LOWER(TRIM(@MiddleName))
-                        AND LOWER(TRIM(address)) = LOWER(TRIM(@Address))
-                    "
+                ' 2. Send it to the Repository
+                Dim repo As New ResidentRepository()
+                repo.AddResident(newResident)
 
-                    Using cmdCheck As New MySqlCommand(queryCheck, conn)
-                        cmdCheck.Parameters.AddWithValue("@LastName", addForm.LastName)
-                        cmdCheck.Parameters.AddWithValue("@FirstName", addForm.FirstName)
-                        cmdCheck.Parameters.AddWithValue("@MiddleName", addForm.MiddleName)
-                        cmdCheck.Parameters.AddWithValue("@Address", addForm.Address)
-
-                        Dim count As Integer = Convert.ToInt32(cmdCheck.ExecuteScalar())
-                        If count > 0 Then
-                            MessageBox.Show("This resident already exists in the database!", "Duplicate Entry", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                            Exit Sub
-                        End If
-                    End Using
-
-                    Dim queryInsert As String = "
-                        INSERT INTO residents 
-                        (lastname, firstname, middlename, age, gender, address, district, barangay, city)
-                        VALUES
-                        (@LastName, @FirstName, @MiddleName, @Age, @Gender, @Address, @District, @Barangay, @City)
-                    "
-
-                    Using cmd As New MySqlCommand(queryInsert, conn)
-                        cmd.Parameters.AddWithValue("@LastName", addForm.LastName)
-                        cmd.Parameters.AddWithValue("@FirstName", addForm.FirstName)
-                        cmd.Parameters.AddWithValue("@MiddleName", addForm.MiddleName)
-                        cmd.Parameters.AddWithValue("@Age", addForm.Age)
-                        cmd.Parameters.AddWithValue("@Gender", addForm.Gender)
-                        cmd.Parameters.AddWithValue("@Address", addForm.Address)
-                        cmd.Parameters.AddWithValue("@District", addForm.District)
-                        cmd.Parameters.AddWithValue("@Barangay", addForm.Barangay)
-                        cmd.Parameters.AddWithValue("@City", addForm.City)
-                        cmd.ExecuteNonQuery()
-                    End Using
-                End Using
-
+                ' 3. Success!
                 LoadResidentsFromDatabase()
                 MessageBox.Show("Resident added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
             Catch ex As Exception
-                MessageBox.Show("Error adding resident: " & ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show("Error adding resident: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
         End If
     End Sub
@@ -201,20 +174,16 @@ Public Class FormMain
 
         If result = DialogResult.Yes Then
             Try
-                Using conn As New MySqlConnection(connectionString)
-                    conn.Open()
-                    Dim query As String = "DELETE FROM residents WHERE id = @id"
-                    Using cmd As New MySqlCommand(query, conn)
-                        cmd.Parameters.AddWithValue("@id", selectedId)
-                        cmd.ExecuteNonQuery()
-                    End Using
-                End Using
+                ' 1. Call the Repository
+                Dim repo As New ResidentRepository()
+                repo.DeleteResident(selectedId)
 
+                ' 2. Refresh UI
                 MessageBox.Show("Resident deleted successfully.", "Deleted", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 LoadResidentsFromDatabase()
 
             Catch ex As Exception
-                MessageBox.Show("Error deleting resident: " & ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show("Error deleting: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
         End If
     End Sub
@@ -270,101 +239,60 @@ Public Class FormMain
         ' 4. Show the form and execute update
         If editForm.ShowDialog() = DialogResult.OK Then
             Try
-                Using conn As New MySqlConnection(connectionString)
-                    conn.Open()
+                ' 1. Pack the data
+                Dim updatedRes As New Resident()
+                updatedRes.Id = selectedId
+                updatedRes.LastName = editForm.LastName
+                updatedRes.FirstName = editForm.FirstName
+                updatedRes.MiddleName = editForm.MiddleName
+                updatedRes.BirthDate = editForm.BirthDate
+                updatedRes.Age = editForm.Age
+                updatedRes.Gender = editForm.Gender
+                updatedRes.Address = editForm.Address
+                updatedRes.District = editForm.District
+                updatedRes.Barangay = editForm.Barangay
+                updatedRes.City = editForm.City
 
-                    Dim query As String = "
-                    UPDATE residents SET 
-                        lastname=@LastName, firstname=@FirstName, middlename=@MiddleName, 
-                        birthdate=@BirthDate, age=@Age, gender=@Gender, address=@Address, 
-                        district=@District, barangay=@Barangay, city=@City 
-                    WHERE id=@id
-                "
+                ' 2. Call the Repository
+                Dim repo As New ResidentRepository()
+                repo.UpdateResident(updatedRes)
 
-                    Using cmd As New MySqlCommand(query, conn)
-                        ' Retrieve updated values using the form's ReadOnly Properties
-                        cmd.Parameters.AddWithValue("@LastName", editForm.LastName)
-                        cmd.Parameters.AddWithValue("@FirstName", editForm.FirstName)
-                        cmd.Parameters.AddWithValue("@MiddleName", editForm.MiddleName)
-
-                        ' Use BirthDate and Age properties
-                        cmd.Parameters.AddWithValue("@BirthDate", editForm.BirthDate)
-                        cmd.Parameters.AddWithValue("@Age", editForm.Age) ' Storing calculated age
-
-                        cmd.Parameters.AddWithValue("@Gender", editForm.Gender)
-                        cmd.Parameters.AddWithValue("@Address", editForm.Address)
-                        cmd.Parameters.AddWithValue("@District", editForm.District)
-                        cmd.Parameters.AddWithValue("@Barangay", editForm.Barangay)
-                        cmd.Parameters.AddWithValue("@City", editForm.City)
-
-                        ' Add the ID parameter for the WHERE clause
-                        cmd.Parameters.AddWithValue("@id", selectedId)
-
-                        cmd.ExecuteNonQuery()
-                    End Using
-                End Using
-
+                ' 3. Refresh UI
                 MessageBox.Show("Resident updated successfully!", "Updated", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                LoadResidentsFromDatabase() ' Call your function to refresh the DataGridView
+                LoadResidentsFromDatabase()
 
             Catch ex As Exception
-                MessageBox.Show("Error updating resident: " & ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show("Error updating: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
         End If
     End Sub
 
     Private Sub LoadResidentsFromDatabase(Optional searchTerm As String = "")
         Try
-            Using conn As New MySqlConnection(connectionString)
-                conn.Open()
+            ' 1. Create the worker
+            Dim repo As New ResidentRepository()
 
-                ' 1. Define the base query with specific columns
-                Dim query As String = "SELECT id, lastname, firstname, middlename, birthdate, age, gender, address, district, barangay, city FROM residents"
+            ' 2. Ask the worker for data (No SQL here!)
+            ResidentsTable = repo.GetAllResidents(searchTerm)
 
-                ' 2. Check for Search Term and Append WHERE clause
-                If Not String.IsNullOrWhiteSpace(searchTerm) Then
-                    ' Filter by combining name fields OR searching the address/barangay
-                    query &= " WHERE CONCAT(lastname, ' ', firstname, ' ', middlename) LIKE @SearchTerm "
-                    query &= " OR address LIKE @SearchTerm "
-                    query &= " OR barangay LIKE @SearchTerm "
-                End If
+            ' 3. Update the UI
+            dgvResidents.DataSource = ResidentsTable
 
-                ' Add ORDER BY to keep the list organized
-                query &= " ORDER BY lastname, firstname"
+            ' Re-apply column formatting after binding the new filtered data
+            If dgvResidents.Columns.Contains("id") Then dgvResidents.Columns("id").Visible = False
+            If dgvResidents.Columns.Contains("lastname") Then dgvResidents.Columns("lastname").HeaderText = "Last Name"
+            If dgvResidents.Columns.Contains("firstname") Then dgvResidents.Columns("firstname").HeaderText = "First Name"
+            If dgvResidents.Columns.Contains("middlename") Then dgvResidents.Columns("middlename").HeaderText = "Middle Name"
+            If dgvResidents.Columns.Contains("age") Then dgvResidents.Columns("age").HeaderText = "Age"
+            If dgvResidents.Columns.Contains("gender") Then dgvResidents.Columns("gender").HeaderText = "Gender"
+            If dgvResidents.Columns.Contains("address") Then dgvResidents.Columns("address").HeaderText = "Address"
+            If dgvResidents.Columns.Contains("district") Then dgvResidents.Columns("district").HeaderText = "District"
+            If dgvResidents.Columns.Contains("barangay") Then dgvResidents.Columns("barangay").HeaderText = "Barangay"
+            If dgvResidents.Columns.Contains("city") Then dgvResidents.Columns("city").HeaderText = "City"
 
-                Using cmd As New MySqlCommand(query, conn)
-
-                    ' 3. Add Parameter only if search term exists (Crucial for security/performance)
-                    If Not String.IsNullOrWhiteSpace(searchTerm) Then
-                        ' The '%' wildcard is necessary for the LIKE operator
-                        cmd.Parameters.AddWithValue("@SearchTerm", "%" & searchTerm & "%")
-                    End If
-
-                    Using adapter As New MySqlDataAdapter(cmd)
-                        ResidentsTable.Clear()
-                        adapter.Fill(ResidentsTable)
-
-                        ' Binding the data
-                        dgvResidents.DataSource = ResidentsTable
-                    End Using
-                End Using
-
-                ' Re-apply column formatting after binding the new filtered data
-                If dgvResidents.Columns.Contains("id") Then dgvResidents.Columns("id").Visible = False
-                If dgvResidents.Columns.Contains("lastname") Then dgvResidents.Columns("lastname").HeaderText = "Last Name"
-                If dgvResidents.Columns.Contains("firstname") Then dgvResidents.Columns("firstname").HeaderText = "First Name"
-                If dgvResidents.Columns.Contains("middlename") Then dgvResidents.Columns("middlename").HeaderText = "Middle Name"
-                If dgvResidents.Columns.Contains("age") Then dgvResidents.Columns("age").HeaderText = "Age"
-                If dgvResidents.Columns.Contains("gender") Then dgvResidents.Columns("gender").HeaderText = "Gender"
-                If dgvResidents.Columns.Contains("address") Then dgvResidents.Columns("address").HeaderText = "Address"
-                If dgvResidents.Columns.Contains("district") Then dgvResidents.Columns("district").HeaderText = "District"
-                If dgvResidents.Columns.Contains("barangay") Then dgvResidents.Columns("barangay").HeaderText = "Barangay"
-                If dgvResidents.Columns.Contains("city") Then dgvResidents.Columns("city").HeaderText = "City"
-
-                UpdateResidentCount()
-            End Using
+            UpdateResidentCount()
         Catch ex As Exception
-            MessageBox.Show("Error loading residents: " & ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("Error loading residents: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 

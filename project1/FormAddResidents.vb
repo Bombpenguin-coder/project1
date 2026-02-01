@@ -1,138 +1,161 @@
-﻿Imports MySql.Data.MySqlClient
+﻿Public Class FormAddResidents
 
-Public Class FormAddResidents
+    ' 1. ID Property (Stores the ID if we are editing)
+    Public Property ResidentID As Integer = 0
 
-    ' 1. CRITICAL: Add the ResidentID property for Edit Mode tracking
-    Public Property ResidentID As Integer = 0 ' 0 means ADD mode, > 0 means EDIT mode
-
-    Public MainForm As FormMain
-
-    ' 2. Property Getters are the correct way to retrieve the final values
-    '    when the main form accesses them (after DialogResult.OK)
-    Public ReadOnly Property LastName As String
+    ' 2. TEXT FIELDS (Read/Write Bridges)
+    Public Property LastName As String
         Get
             Return txtLastName.Text.Trim()
         End Get
+        Set(value As String)
+            txtLastName.Text = value
+        End Set
     End Property
-    Public ReadOnly Property FirstName As String
+
+    Public Property FirstName As String
         Get
             Return txtFirstName.Text.Trim()
         End Get
+        Set(value As String)
+            txtFirstName.Text = value
+        End Set
     End Property
-    Public ReadOnly Property MiddleName As String
+
+    Public Property MiddleName As String
         Get
             Return txtMiddleName.Text.Trim()
         End Get
+        Set(value As String)
+            txtMiddleName.Text = value
+        End Set
     End Property
 
-    ' Calculates age on retrieval, useful if you need the age outside
+    Public Property Address As String
+        Get
+            Return txtAddress.Text.Trim()
+        End Get
+        Set(value As String)
+            txtAddress.Text = value
+        End Set
+    End Property
+
+    Public Property District As String
+        Get
+            Return txtDistrict.Text.Trim()
+        End Get
+        Set(value As String)
+            txtDistrict.Text = value
+        End Set
+    End Property
+
+    Public Property City As String
+        Get
+            Return txtCity.Text.Trim()
+        End Get
+        Set(value As String)
+            txtCity.Text = value
+        End Set
+    End Property
+
+    ' 3. DROPDOWNS
+    Public Property Gender As String
+        Get
+            Return cmbGender.Text
+        End Get
+        Set(value As String)
+            cmbGender.Text = value
+        End Set
+    End Property
+
+    Public Property Barangay As String
+        Get
+            Return cmbBarangay.Text
+        End Get
+        Set(value As String)
+            cmbBarangay.Text = value
+        End Set
+    End Property
+
+    ' 4. DATE & AGE (With Safety Checks)
+    Public Property BirthDate As Date
+        Get
+            Return dtpBirthDate.Value.Date
+        End Get
+        Set(value As Date)
+            ' Protect the DatePicker from crashing with invalid dates
+            If value < dtpBirthDate.MinDate Then
+                dtpBirthDate.Value = dtpBirthDate.MinDate
+            ElseIf value > dtpBirthDate.MaxDate Then
+                dtpBirthDate.Value = dtpBirthDate.MaxDate
+            Else
+                dtpBirthDate.Value = value
+            End If
+        End Set
+    End Property
+
+    ' Age is calculated automatically, so we only need a Getter (ReadOnly)
     Public ReadOnly Property Age As Integer
         Get
             Dim bdate As Date = dtpBirthDate.Value.Date
             Dim calculatedAge As Integer = DateTime.Now.Year - bdate.Year
-            ' Adjust for birthday not yet reached this year
+
+            ' Subtract 1 if birthday hasn't happened yet this year
             If DateTime.Now < bdate.AddYears(calculatedAge) Then
                 calculatedAge -= 1
             End If
+
             Return If(calculatedAge < 0, 0, calculatedAge)
         End Get
     End Property
 
-    Public ReadOnly Property Gender As String
-        Get
-            Return cmbGender.Text
-        End Get
-    End Property
-
-    ' Note: Your existing code for Address, District, etc. needs to be converted
-    '       to ReadOnly Properties too, like the examples above.
-    '       I've provided the correct structure for all below.
-
-    Public ReadOnly Property Address As String
-        Get
-            Return txtAddress.Text.Trim()
-        End Get
-    End Property
-    Public ReadOnly Property District As String
-        Get
-            Return txtDistrict.Text.Trim()
-        End Get
-    End Property
-    Public ReadOnly Property Barangay As String
-        Get
-            Return cmbBarangay.Text
-        End Get
-    End Property
-    Public ReadOnly Property City As String
-        Get
-            Return txtCity.Text.Trim()
-        End Get
-    End Property
-
-    Public ReadOnly Property BirthDate As Date
-        Get
-            Return dtpBirthDate.Value.Date
-        End Get
-    End Property
+    ' ==========================================
+    ' FORM EVENTS
+    ' ==========================================
 
     Private Sub FormAddResidents_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        ' Setup ComboBox (Barangay is a bit static, but fine for now)
-        cmbBarangay.Items.Clear()
-        cmbBarangay.Items.AddRange(New String() {"Central", "South", "North"})
-        If cmbBarangay.Items.Count > 0 Then cmbBarangay.SelectedIndex = 0
-        cmbBarangay.DropDownStyle = ComboBoxStyle.DropDownList
-
-        ' 3. EDIT MODE CHECK: Change the UI based on ResidentID
-        If ResidentID > 0 Then
-            Me.Text = "Edit Resident Information (ID: " & ResidentID.ToString() & ")"
-            btnSaveResident.Text = "Update Resident"
-            ' NOTE: The main form should have ALREADY populated the textboxes here.
-        Else
-            Me.Text = "Add New Resident"
-            btnSaveResident.Text = "Save Resident"
+        ' Setup ComboBox defaults
+        If cmbBarangay.Items.Count = 0 Then
+            cmbBarangay.Items.AddRange(New String() {"Central", "South", "North"})
         End If
 
-        ' This forces the label to update based on whatever date is currently set
+        ' UI Tweak: Change title based on mode
+        If ResidentID > 0 Then
+            Me.Text = "Edit Resident (ID: " & ResidentID.ToString() & ")"
+            btnSaveResident.Text = "Update"
+        Else
+            Me.Text = "Add New Resident"
+            btnSaveResident.Text = "Save"
+        End If
+
+        ' Trigger the age calculation display
         dtpBirthDate_ValueChanged(Nothing, Nothing)
     End Sub
 
-    Private Sub btnSaveResident_Click(sender As Object, e As EventArgs) Handles btnSaveResident.Click
+    Private Sub dtpBirthDate_ValueChanged(sender As Object, e As EventArgs) Handles dtpBirthDate.ValueChanged
+        ' Update the Age label visually when date changes
+        lblCalculatedAge.Text = "Age: " & Me.Age.ToString()
+    End Sub
 
-        If String.IsNullOrWhiteSpace(txtLastName.Text) OrElse
-           String.IsNullOrWhiteSpace(txtFirstName.Text) OrElse
-           String.IsNullOrWhiteSpace(txtAddress.Text) OrElse
-           String.IsNullOrWhiteSpace(txtDistrict.Text) OrElse
-           String.IsNullOrWhiteSpace(cmbBarangay.Text) OrElse
-           String.IsNullOrWhiteSpace(txtCity.Text) OrElse
-           String.IsNullOrWhiteSpace(cmbGender.Text) Then
+    Private Sub btnSaveResident_Click(sender As Object, e As EventArgs) Handles btnSaveResident.Click
+        ' Validation
+        If String.IsNullOrWhiteSpace(LastName) OrElse
+           String.IsNullOrWhiteSpace(FirstName) OrElse
+           String.IsNullOrWhiteSpace(Address) OrElse
+           String.IsNullOrWhiteSpace(Gender) Then
 
             MessageBox.Show("Please fill in all required fields.", "Missing Data", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Return
         End If
 
-        ' Optional: Check if the calculated age is reasonable (e.g., birthdate isn't today)
-        If Me.Age = 0 AndAlso dtpBirthDate.Value.Date < Date.Today Then
-            MessageBox.Show("The calculated age is 0, please check the Birth Date.", "Invalid Data", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            ' Return ' Uncomment to force correction
-        End If
-
-        If dtpBirthDate.Value.Date > Date.Today Then
-            MessageBox.Show("Birth date cannot be in the future.", "Invalid Date", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+        If Me.Age < 0 Then
+            MessageBox.Show("Invalid Birth Date.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Return
         End If
 
-        Try
-            ' 4. REMOVE REDUNDANT ASSIGNMENTS:
-            '    Because the properties are ReadOnly and use Getters, they already pull the data
-            '    from the textboxes/controls when the main form requests them.
-            '    We only need to set DialogResult = OK.
-
-            Me.DialogResult = DialogResult.OK
-            Me.Close()
-
-        Catch ex As Exception
-            MessageBox.Show("Error preparing resident data: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End Try
+        ' Success! The Main Form will retrieve the values from the Properties above.
+        Me.DialogResult = DialogResult.OK
+        Me.Close()
     End Sub
 
     Private Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click
@@ -140,31 +163,4 @@ Public Class FormAddResidents
         Me.Close()
     End Sub
 
-    Private Sub txtFirstName_TextChanged(sender As Object, e As EventArgs) Handles txtFirstName.TextChanged
-
-    End Sub
-
-    Private Sub dtpBirthDate_ValueChanged(sender As Object, e As EventArgs) Handles dtpBirthDate.ValueChanged
-        ' 1. Get the selected date
-        Dim bdate As Date = dtpBirthDate.Value.Date
-
-        ' 2. Calculate the difference in years
-        Dim currentAge As Integer = DateTime.Now.Year - bdate.Year
-
-        ' 3. Check if the birthday has happened yet this year
-        ' If today is BEFORE their birthday this year, subtract 1
-        If DateTime.Now < bdate.AddYears(currentAge) Then
-            currentAge -= 1
-        End If
-
-        ' 4. Safety Check: Prevent negative numbers (if they pick a future date)
-        If currentAge < 0 Then
-            currentAge = 0
-            lblCalculatedAge.ForeColor = Color.Red ' Visual warning
-            lblCalculatedAge.Text = "Invalid Date"
-        Else
-            lblCalculatedAge.ForeColor = Color.Black ' Normal color
-            lblCalculatedAge.Text = "Age: " & currentAge.ToString()
-        End If
-    End Sub
 End Class
