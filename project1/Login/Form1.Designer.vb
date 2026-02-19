@@ -229,12 +229,12 @@ Partial Class Form1
         Label2.BackColor = Color.Gainsboro
         Label2.Font = New Font("Microsoft Sans Serif", 20.25F, FontStyle.Bold)
         Label2.ForeColor = SystemColors.ControlLightLight
-        Label2.Location = New Point(125, 54)
+        Label2.Location = New Point(90, 54)
         Label2.MinimumSize = New Size(10, 10)
         Label2.Name = "Label2"
-        Label2.Size = New Size(215, 31)
+        Label2.Size = New Size(273, 31)
         Label2.TabIndex = 14
-        Label2.Text = " Lumang Bayan"
+        Label2.Text = " New Lower Bicutan"
         Label2.TextAlign = ContentAlignment.TopCenter
         ' 
         ' Form1
