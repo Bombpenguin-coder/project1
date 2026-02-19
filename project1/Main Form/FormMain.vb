@@ -1543,19 +1543,6 @@ Public Class FormMain
         ' Clicks the main "Documents" menu button
         btnDocuments.PerformClick()
     End Sub
-
-    Private Sub grpBooking_Enter(sender As Object, e As EventArgs) Handles grpBooking.Enter
-
-    End Sub
-
-    Private Sub pnlDashboard_Paint(sender As Object, e As PaintEventArgs) Handles pnlDashboard.Paint
-
-    End Sub
-
-    Private Sub PictureBox4_Click(sender As Object, e As EventArgs) Handles PictureBox4.Click
-
-    End Sub
-
     ' --- REPLACE your old btnPrintPreview_Click with this ---
 
     Private Sub btnPrintPreview_Click(sender As Object, e As EventArgs) Handles btnPrintPreview.Click
@@ -1659,19 +1646,6 @@ Public Class FormMain
     Private Sub btnBlotter_Click(sender As Object, e As EventArgs) Handles btnBlotter.Click
         HideAllPanels()
         pnlBlotter.Visible = True
-
-        ' Populate ComboBoxes
-        cmbIncidentType.Items.Clear()
-        cmbIncidentType.Items.AddRange(New String() {"Amicable Settlement", "Theft", "Physical Injury", "Noise Complaint", "Property Damage", "Threats", "Others"})
-
-        cmbStatus.Items.Clear()
-        cmbStatus.Items.AddRange(New String() {"Active", "Settled", "Referred to Police", "Dismissed"})
-        cmbStatus.SelectedIndex = 0 ' Default to "Active"
-
-        ' This prevents the user from even clicking a future date in the calendar!
-        ' dtpIncidentDate.MaxDate = Date.Now
-
-        ' Load the list
         LoadBlotterCases()
     End Sub
 
@@ -1699,23 +1673,25 @@ Public Class FormMain
     End Sub
 
     Private Sub btnSaveCase_Click(sender As Object, e As EventArgs) Handles btnSaveCase.Click
+        ' Open the new Pop-up Form
         Using addForm As New FormAddBlotter()
             If addForm.ShowDialog() = DialogResult.OK Then
                 Try
-                    ' 1. Pack data
+                    ' 1. Pack data into the Class
                     Dim newCase As New BlotterCase()
                     newCase.Complainant = addForm.Complainant
                     newCase.Respondent = addForm.Respondent
                     newCase.IncidentType = addForm.IncidentType
-                    newCase.Location = addForm.IncidentLocation
+                    newCase.Location = addForm.IncidentLocation ' Mapping the name change
                     newCase.IncidentDate = addForm.IncidentDate
                     newCase.Status = addForm.Status
                     newCase.Narrative = addForm.Narrative
 
-                    ' 2. Save
+                    ' 2. Send to Repository
                     Dim repo As New BlotterRepository()
                     repo.AddCase(newCase)
 
+                    ' 3. Refresh
                     MessageBox.Show("Case recorded successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     LoadBlotterCases()
 
@@ -1726,52 +1702,8 @@ Public Class FormMain
         End Using
     End Sub
 
-    Private Sub ClearBlotterForm()
-        txtComplainant.Clear()
-        txtRespondent.Clear()
-        cmbIncidentType.SelectedIndex = -1 ' Clear selection
-        txtLocation.Clear()
-        dtpIncidentDate.Value = DateTime.Now
-        cmbStatus.SelectedIndex = 0 ' Reset to "Active"
-        txtNarrative.Clear()
-        dgvBlotter.ClearSelection()
-    End Sub
-
-    ' --- ADD THIS GRID-CLICK SUBROUTINE ---
-    Private Sub dgvBlotter_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvBlotter.CellClick
-        If e.RowIndex >= 0 AndAlso dgvBlotter.CurrentRow IsNot Nothing Then
-            ' 1. Get the ID from the selected grid row
-            Dim selectedCaseId As Integer = CInt(dgvBlotter.CurrentRow.Cells("id").Value)
-
-            ' 2. Fetch the FULL details for that case from the DB
-            '    (The grid only shows a summary)
-            Try
-                Using conn As New MySqlConnection(connectionString)
-                    conn.Open()
-                    Dim query As String = "SELECT * FROM blotter_cases WHERE id = @CaseID"
-                    Using cmd As New MySqlCommand(query, conn)
-                        cmd.Parameters.AddWithValue("@CaseID", selectedCaseId)
-                        Using reader As MySqlDataReader = cmd.ExecuteReader()
-                            If reader.Read() Then
-                                ' 3. Populate the form fields
-                                txtComplainant.Text = reader("complainant").ToString()
-                                txtRespondent.Text = reader("respondent").ToString()
-                                cmbIncidentType.Text = reader("incident_type").ToString()
-                                txtLocation.Text = reader("location").ToString()
-                                dtpIncidentDate.Value = CDate(reader("incident_date"))
-                                cmbStatus.Text = reader("status").ToString()
-                                txtNarrative.Text = reader("narrative").ToString()
-                            End If
-                        End Using
-                    End Using
-                End Using
-            Catch ex As Exception
-                MessageBox.Show("Error loading case details: " & ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            End Try
-        End If
-    End Sub
-
     Private Sub btnUpdateCase_Click(sender As Object, e As EventArgs) Handles btnUpdateCase.Click
+        ' 1. Check if a row is selected
         If dgvBlotter.CurrentRow Is Nothing Then
             MessageBox.Show("Please select a case to update.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Sub
@@ -1779,21 +1711,30 @@ Public Class FormMain
 
         Dim id As Integer = CInt(dgvBlotter.CurrentRow.Cells("id").Value)
 
+        ' 2. Open the form and fill it with Grid data
         Using editForm As New FormAddBlotter()
             editForm.CaseID = id
 
-            ' 1. Populate Form (We can pull directly from Grid since we loaded all columns)
+            ' Safely grab text from the grid cells
             editForm.Complainant = dgvBlotter.CurrentRow.Cells("complainant").Value.ToString()
             editForm.Respondent = dgvBlotter.CurrentRow.Cells("respondent").Value.ToString()
             editForm.IncidentType = dgvBlotter.CurrentRow.Cells("incident_type").Value.ToString()
-            editForm.IncidentLocation = dgvBlotter.CurrentRow.Cells("location").Value.ToString()
             editForm.Status = dgvBlotter.CurrentRow.Cells("status").Value.ToString()
-            editForm.Narrative = dgvBlotter.CurrentRow.Cells("narrative").Value.ToString()
+
+            ' Note: If you hid the 'Location' or 'Narrative' columns in the grid, 
+            ' you might need to fetch them from the DB here. 
+            ' But for now, we assume they are in the grid (even if hidden).
+            If dgvBlotter.Columns.Contains("location") Then
+                editForm.IncidentLocation = dgvBlotter.CurrentRow.Cells("location").Value.ToString()
+            End If
+            If dgvBlotter.Columns.Contains("narrative") Then
+                editForm.Narrative = dgvBlotter.CurrentRow.Cells("narrative").Value.ToString()
+            End If
 
             Dim dDate = dgvBlotter.CurrentRow.Cells("incident_date").Value
             If IsDate(dDate) Then editForm.IncidentDate = CDate(dDate)
 
-            ' 2. Show & Save
+            ' 3. Show Form & Save
             If editForm.ShowDialog() = DialogResult.OK Then
                 Try
                     Dim upCase As New BlotterCase()
@@ -1801,7 +1742,7 @@ Public Class FormMain
                     upCase.Complainant = editForm.Complainant
                     upCase.Respondent = editForm.Respondent
                     upCase.IncidentType = editForm.IncidentType
-                    upCase.Location = editForm.IncidentLocation ' Map Form property to Class property
+                    upCase.Location = editForm.IncidentLocation
                     upCase.IncidentDate = editForm.IncidentDate
                     upCase.Status = editForm.Status
                     upCase.Narrative = editForm.Narrative
