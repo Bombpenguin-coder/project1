@@ -1070,14 +1070,6 @@ Public Class FormMain
         HideAllPanels()
         pnlSchedule.Visible = True
 
-        cmbFacility.Items.Clear()
-        cmbFacility.Items.AddRange(New String() {
-            "Barangay Basketball Court",
-            "Multi-Purpose Hall",
-            "Daycare Center",
-            "Barangay Conference Room"
-            })
-
         ' Load schedule for today
         LoadScheduleData(calSchedule.SelectionStart.Date)
     End Sub
@@ -1092,212 +1084,66 @@ Public Class FormMain
 
     Private Sub LoadScheduleData(ByVal selectedDate As Date)
         Try
-            Using conn As New MySqlConnection(connectionString) ' Uses your main barangay_db connection
-                conn.Open()
+            Dim repo As New ReservationRepository()
+            Dim dt As DataTable = repo.GetReservationsByDate(selectedDate)
 
-                ' Query to select reservations that START on the selected date.
-                ' The MySQL DATE() function ignores the time part.
-                Dim query As String = "
-                SELECT facility_name, event_name, start_datetime, end_datetime, resident_id 
-                FROM reservations 
-                WHERE DATE(start_datetime) = @SelectedDate 
-                ORDER BY start_datetime
-            "
+            dgvReservations.DataSource = dt
 
-                Using cmd As New MySqlCommand(query, conn)
-                    cmd.Parameters.AddWithValue("@SelectedDate", selectedDate)
+            ' Formatting
+            If dgvReservations.Columns.Contains("facility_name") Then dgvReservations.Columns("facility_name").HeaderText = "Facility"
+            If dgvReservations.Columns.Contains("event_name") Then dgvReservations.Columns("event_name").HeaderText = "Event"
 
-                    Using adapter As New MySqlDataAdapter(cmd)
-                        Dim dtSchedule As New DataTable()
-                        adapter.Fill(dtSchedule)
+            If dgvReservations.Columns.Contains("start_datetime") Then
+                dgvReservations.Columns("start_datetime").HeaderText = "Start Time"
+                dgvReservations.Columns("start_datetime").DefaultCellStyle.Format = "hh:mm tt"
+            End If
 
-                        ' Bind to the reservations grid
-                        dgvReservations.DataSource = dtSchedule
+            If dgvReservations.Columns.Contains("end_datetime") Then
+                dgvReservations.Columns("end_datetime").HeaderText = "End Time"
+                dgvReservations.Columns("end_datetime").DefaultCellStyle.Format = "hh:mm tt"
+            End If
 
+            If dgvReservations.Columns.Contains("resident_id") Then dgvReservations.Columns("resident_id").Visible = False
+            If dgvReservations.Columns.Contains("id") Then dgvReservations.Columns("id").Visible = False
 
-                        If dgvReservations.Columns.Contains("facility_name") Then
-                            dgvReservations.Columns("facility_name").HeaderText = "Facility"
-                        End If
-                        If dgvReservations.Columns.Contains("event_name") Then
-                            dgvReservations.Columns("event_name").HeaderText = "Event"
-                        End If
-                        If dgvReservations.Columns.Contains("start_datetime") Then
-                            dgvReservations.Columns("start_datetime").HeaderText = "Start Time"
-                            dgvReservations.Columns("start_datetime").DefaultCellStyle.Format = "hh:mm tt"
-                        End If
-                        If dgvReservations.Columns.Contains("end_datetime") Then
-                            dgvReservations.Columns("end_datetime").HeaderText = "End Time"
-                            dgvReservations.Columns("end_datetime").DefaultCellStyle.Format = "hh:mm tt"
-                        End If
-                        If dgvReservations.Columns.Contains("resident_id") Then
-                            dgvReservations.Columns("resident_id").Visible = False ' Hide the ID
-                        End If
-
-                    End Using
-                End Using
-            End Using
         Catch ex As Exception
             MessageBox.Show("Error loading schedule: " & ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
     Private Sub btnSaveBooking_Click(sender As Object, e As EventArgs) Handles btnSaveBooking.Click
+        Using addForm As New FormAddBooking()
+            If addForm.ShowDialog() = DialogResult.OK Then
+                Try
+                    Dim repo As New ReservationRepository()
 
-        ' --- 1. VALIDATION ---
-        If _selectedResidentIdForSchedule = 0 Then
-            MessageBox.Show("Please search for and select a resident first.", "Missing Resident", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            Return
-        End If
-
-        If cmbFacility.SelectedIndex = -1 Then
-            MessageBox.Show("Please select a facility.", "Missing Facility", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            Return
-        End If
-
-        If dtpEndTime.Value <= dtpStartTime.Value Then
-            MessageBox.Show("The booking's End Time must be after the Start Time.", "Invalid Time", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            Return
-        End If
-
-        ' --- 2. GET DATA FROM FORM ---
-        Dim facility As String = cmbFacility.Text
-        Dim eventName As String = txtEventName.Text.Trim()
-        Dim startTime As DateTime = dtpStartTime.Value
-        Dim endTime As DateTime = dtpEndTime.Value
-        Dim residentId As Integer = _selectedResidentIdForSchedule
-
-        Try
-            Using conn As New MySqlConnection(connectionString)
-                conn.Open()
-
-                ' --- 3. CONFLICT CHECKING ---
-                Dim queryCheck As String = "
-                SELECT COUNT(*) FROM reservations
-                WHERE facility_name = @Facility
-                AND (@NewStart < end_datetime) 
-                AND (@NewEnd > start_datetime)
-            "
-
-                Dim conflictCount As Integer = 0
-                Using cmdCheck As New MySqlCommand(queryCheck, conn)
-                    cmdCheck.Parameters.AddWithValue("@Facility", facility)
-                    cmdCheck.Parameters.AddWithValue("@NewStart", startTime)
-                    cmdCheck.Parameters.AddWithValue("@NewEnd", endTime)
-
-                    conflictCount = Convert.ToInt32(cmdCheck.ExecuteScalar())
-                End Using
-
-                ' If count is > 0, we have a conflict
-                If conflictCount > 0 Then
-                    MessageBox.Show("Booking conflict! This facility is already reserved during that time slot.", "Conflict Detected", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                    Return ' Stop before saving
-                End If
-
-                ' --- 4. NO CONFLICT - SAVE THE BOOKING ---
-                Dim queryInsert As String = "
-                INSERT INTO reservations (facility_name, resident_id, event_name, start_datetime, end_datetime) 
-                VALUES (@Facility, @ResidentID, @Event, @Start, @End)
-            "
-
-                Using cmdInsert As New MySqlCommand(queryInsert, conn)
-                    cmdInsert.Parameters.AddWithValue("@Facility", facility)
-                    cmdInsert.Parameters.AddWithValue("@ResidentID", residentId)
-                    cmdInsert.Parameters.AddWithValue("@Event", eventName)
-                    cmdInsert.Parameters.AddWithValue("@Start", startTime)
-                    cmdInsert.Parameters.AddWithValue("@End", endTime)
-
-                    cmdInsert.ExecuteNonQuery()
-                End Using
-            End Using
-
-            ' --- 5. FEEDBACK AND CLEANUP ---
-            MessageBox.Show("Booking saved successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
-
-            ' Refresh the schedule grid
-            LoadScheduleData(calSchedule.SelectionStart.Date)
-
-            ' Clear the booking fields
-            ClearBookingForm()
-
-        Catch ex As Exception
-            MessageBox.Show("Error saving booking: " & ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End Try
-    End Sub
-
-
-
-    Private Sub ClearBookingForm()
-        cmbFacility.SelectedIndex = -1
-        txtEventName.Clear()
-
-        lblScheduleSelectedResident.Text = "(No Resident Selected)"
-        txtScheduleResidentSearch.Clear()
-        _selectedResidentIdForSchedule = 0
-
-        dtpStartTime.Value = DateTime.Now
-        dtpEndTime.Value = DateTime.Now.AddHours(1)
-    End Sub
-
-    Private Sub txtScheduleResidentSearch_TextChanged(sender As Object, e As EventArgs) Handles txtScheduleResidentSearch.TextChanged
-        ' Call a new function to load residents into our schedule lookup grid
-        LoadResidentsForSchedule(txtScheduleResidentSearch.Text.Trim())
-    End Sub
-
-    Private Sub LoadResidentsForSchedule(Optional searchTerm As String = "")
-        Try
-            Using conn As New MySqlConnection(connectionString)
-                conn.Open()
-
-                ' 1. Select only essential columns
-                Dim query As String = "SELECT id, lastname, firstname, middlename FROM residents"
-
-                ' 2. Apply search filter
-                If Not String.IsNullOrWhiteSpace(searchTerm) Then
-                    query &= " WHERE CONCAT(lastname, ' ', firstname) LIKE @SearchTerm "
-                End If
-
-                query &= " ORDER BY lastname, firstname LIMIT 20" ' Limit results for a small grid
-
-                Using cmd As New MySqlCommand(query, conn)
-                    If Not String.IsNullOrWhiteSpace(searchTerm) Then
-                        cmd.Parameters.AddWithValue("@SearchTerm", "%" & searchTerm & "%")
+                    ' 1. Check for Conflicts
+                    If repo.HasConflict(addForm.FacilityName, addForm.StartTime, addForm.EndTime) Then
+                        MessageBox.Show("Booking conflict! This facility is already reserved during that time slot.", "Conflict Detected", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                        Return ' Stop! Don't save.
                     End If
 
-                    Using adapter As New MySqlDataAdapter(cmd)
-                        Dim dtLookup As New DataTable()
-                        adapter.Fill(dtLookup)
+                    ' 2. Pack Data
+                    Dim newRes As New Reservation()
+                    newRes.ResidentId = addForm.SelectedResidentId
+                    newRes.FacilityName = addForm.FacilityName
+                    newRes.EventName = addForm.EventName
+                    newRes.StartDateTime = addForm.StartTime
+                    newRes.EndDateTime = addForm.EndTime
 
-                        ' Bind to the NEW DataGridView in pnlSchedule
-                        dgvScheduleResidentSearch.DataSource = dtLookup
+                    ' 3. Save
+                    repo.AddReservation(newRes)
 
-                        ' Formatting the lookup grid
-                        If dgvScheduleResidentSearch.Columns.Contains("id") Then dgvScheduleResidentSearch.Columns("id").Visible = False
-                        If dgvScheduleResidentSearch.Columns.Contains("lastname") Then dgvScheduleResidentSearch.Columns("lastname").HeaderText = "Last Name"
-                        If dgvScheduleResidentSearch.Columns.Contains("firstname") Then dgvScheduleResidentSearch.Columns("firstname").HeaderText = "First Name"
-                        If dgvScheduleResidentSearch.Columns.Contains("middlename") Then dgvScheduleResidentSearch.Columns("middlename").Visible = False
-                    End Using
-                End Using
-            End Using
-        Catch ex As Exception
-            MessageBox.Show("Error loading resident lookup: " & ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End Try
-    End Sub
+                    MessageBox.Show("Booking saved successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
-    Private Sub dgvScheduleResidentSearch_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvScheduleResidentSearch.CellClick
-        If e.RowIndex >= 0 AndAlso dgvScheduleResidentSearch.CurrentRow IsNot Nothing Then
-            Dim selectedRow = dgvScheduleResidentSearch.CurrentRow
+                    ' Refresh grid for the currently selected calendar date
+                    LoadScheduleData(calSchedule.SelectionStart.Date)
 
-            ' 1. Store the selected resident's ID
-            _selectedResidentIdForSchedule = CInt(selectedRow.Cells("id").Value)
-
-            ' 2. Update the label to confirm selection
-            Dim fullName As String = $"{selectedRow.Cells("lastname").Value}, {selectedRow.Cells("firstname").Value}"
-            lblScheduleSelectedResident.Text = $"Selected: {fullName}"
-
-            ' 3. Clear the search box and hide the grid (optional, but clean)
-            txtScheduleResidentSearch.Clear()
-            dgvScheduleResidentSearch.DataSource = Nothing
-        End If
+                Catch ex As Exception
+                    MessageBox.Show("Error saving booking: " & ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End Try
+            End If
+        End Using
     End Sub
 
     Private Sub btnOfficials_Click(sender As Object, e As EventArgs) Handles btnOfficials.Click

@@ -77,6 +77,8 @@
             cmbStatus.Items.AddRange(New String() {"Active", "Settled", "Referred to Police", "Dismissed"})
         End If
 
+        dtpIncidentDate.MaxDate = DateTime.Now
+
         ' Set Title based on Mode
         If CaseID > 0 Then
             Me.Text = "Edit Blotter Case (ID: " & CaseID & ")"
