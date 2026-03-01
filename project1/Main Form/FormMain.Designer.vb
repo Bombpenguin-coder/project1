@@ -23,13 +23,6 @@ Partial Class FormMain
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormMain))
-        Dim DataGridViewCellStyle1 As DataGridViewCellStyle = New DataGridViewCellStyle()
-        Dim DataGridViewCellStyle2 As DataGridViewCellStyle = New DataGridViewCellStyle()
-        Dim DataGridViewCellStyle3 As DataGridViewCellStyle = New DataGridViewCellStyle()
-        Dim DataGridViewCellStyle4 As DataGridViewCellStyle = New DataGridViewCellStyle()
-        Dim DataGridViewCellStyle5 As DataGridViewCellStyle = New DataGridViewCellStyle()
-        Dim DataGridViewCellStyle6 As DataGridViewCellStyle = New DataGridViewCellStyle()
-        Dim DataGridViewCellStyle7 As DataGridViewCellStyle = New DataGridViewCellStyle()
         Dim DataGridViewCellStyle8 As DataGridViewCellStyle = New DataGridViewCellStyle()
         Dim DataGridViewCellStyle9 As DataGridViewCellStyle = New DataGridViewCellStyle()
         Dim DataGridViewCellStyle10 As DataGridViewCellStyle = New DataGridViewCellStyle()
@@ -44,6 +37,13 @@ Partial Class FormMain
         Dim DataGridViewCellStyle19 As DataGridViewCellStyle = New DataGridViewCellStyle()
         Dim DataGridViewCellStyle20 As DataGridViewCellStyle = New DataGridViewCellStyle()
         Dim DataGridViewCellStyle21 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle3 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle4 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle5 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle6 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle7 As DataGridViewCellStyle = New DataGridViewCellStyle()
         btnDashboard = New Button()
         btnLoginHistory = New Button()
         btnResidents = New Button()
@@ -56,6 +56,31 @@ Partial Class FormMain
         PictureBox1 = New PictureBox()
         btnLogout = New Button()
         pnlContent = New Panel()
+        pnlDocuments = New Panel()
+        dgvDocumentHistory = New DataGridView()
+        btnPrintPreview = New Button()
+        Label16 = New Label()
+        Label15 = New Label()
+        Label14 = New Label()
+        Label12 = New Label()
+        Label11 = New Label()
+        Label3 = New Label()
+        btnIssueSave = New Button()
+        txtControlNumber = New TextBox()
+        txtAmountPaid = New TextBox()
+        txtPurpose = New TextBox()
+        cmbCertificateType = New ComboBox()
+        lblSelectedResident = New Label()
+        dgvResidentLookup = New DataGridView()
+        txtResidentSearch = New TextBox()
+        pnlResidents = New Panel()
+        Label5 = New Label()
+        txtSearch = New TextBox()
+        btnEditResident = New Button()
+        btnDeleteResident = New Button()
+        btnAddResident = New Button()
+        dgvResidents = New DataGridView()
+        Label4 = New Label()
         pnlSchedule = New Panel()
         Label24 = New Label()
         Label23 = New Label()
@@ -86,16 +111,10 @@ Partial Class FormMain
         Label27 = New Label()
         pnlOfficials = New Panel()
         Label29 = New Label()
-        Label10 = New Label()
-        Label9 = New Label()
-        Label8 = New Label()
         btnClearOfficial = New Button()
         btnUpdateOfficial = New Button()
         btnDeleteOfficial = New Button()
         btnAddOfficial = New Button()
-        txtOfficialContact = New TextBox()
-        txtOfficialPosition = New TextBox()
-        txtOfficialName = New TextBox()
         dgvOfficialsList = New DataGridView()
         pnlLoginHistory = New Panel()
         Label2 = New Label()
@@ -116,37 +135,17 @@ Partial Class FormMain
         lblTotalResidents = New Label()
         Label1 = New Label()
         dgvOfficials = New DataGridView()
-        pnlDocuments = New Panel()
-        dgvDocumentHistory = New DataGridView()
-        btnPrintPreview = New Button()
-        Label16 = New Label()
-        Label15 = New Label()
-        Label14 = New Label()
-        Label12 = New Label()
-        Label11 = New Label()
-        Label3 = New Label()
-        btnIssueSave = New Button()
-        txtControlNumber = New TextBox()
-        txtAmountPaid = New TextBox()
-        txtPurpose = New TextBox()
-        cmbCertificateType = New ComboBox()
-        lblSelectedResident = New Label()
-        dgvResidentLookup = New DataGridView()
-        txtResidentSearch = New TextBox()
-        pnlResidents = New Panel()
-        Label5 = New Label()
-        txtSearch = New TextBox()
-        btnEditResident = New Button()
-        btnDeleteResident = New Button()
-        btnAddResident = New Button()
-        dgvResidents = New DataGridView()
-        Label4 = New Label()
         Panel1 = New Panel()
         lblUserInfo = New Label()
         Label13 = New Label()
         pnlMenu.SuspendLayout()
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
         pnlContent.SuspendLayout()
+        pnlDocuments.SuspendLayout()
+        CType(dgvDocumentHistory, ComponentModel.ISupportInitialize).BeginInit()
+        CType(dgvResidentLookup, ComponentModel.ISupportInitialize).BeginInit()
+        pnlResidents.SuspendLayout()
+        CType(dgvResidents, ComponentModel.ISupportInitialize).BeginInit()
         pnlSchedule.SuspendLayout()
         CType(dgvReservations, ComponentModel.ISupportInitialize).BeginInit()
         pnlBlotter.SuspendLayout()
@@ -167,11 +166,6 @@ Partial Class FormMain
         pnlResidentStat.SuspendLayout()
         CType(PictureBox2, ComponentModel.ISupportInitialize).BeginInit()
         CType(dgvOfficials, ComponentModel.ISupportInitialize).BeginInit()
-        pnlDocuments.SuspendLayout()
-        CType(dgvDocumentHistory, ComponentModel.ISupportInitialize).BeginInit()
-        CType(dgvResidentLookup, ComponentModel.ISupportInitialize).BeginInit()
-        pnlResidents.SuspendLayout()
-        CType(dgvResidents, ComponentModel.ISupportInitialize).BeginInit()
         Panel1.SuspendLayout()
         SuspendLayout()
         ' 
@@ -360,19 +354,356 @@ Partial Class FormMain
         ' 
         ' pnlContent
         ' 
-        pnlContent.Controls.Add(pnlSchedule)
-        pnlContent.Controls.Add(pnlBlotter)
-        pnlContent.Controls.Add(pnlAddUsers)
         pnlContent.Controls.Add(pnlOfficials)
         pnlContent.Controls.Add(pnlLoginHistory)
         pnlContent.Controls.Add(pnlDashboard)
         pnlContent.Controls.Add(pnlDocuments)
         pnlContent.Controls.Add(pnlResidents)
+        pnlContent.Controls.Add(pnlSchedule)
+        pnlContent.Controls.Add(pnlBlotter)
+        pnlContent.Controls.Add(pnlAddUsers)
         pnlContent.Dock = DockStyle.Fill
         pnlContent.Location = New Point(184, 0)
         pnlContent.Name = "pnlContent"
         pnlContent.Size = New Size(1086, 562)
         pnlContent.TabIndex = 1
+        ' 
+        ' pnlDocuments
+        ' 
+        pnlDocuments.BackColor = SystemColors.ControlLight
+        pnlDocuments.Controls.Add(dgvDocumentHistory)
+        pnlDocuments.Controls.Add(btnPrintPreview)
+        pnlDocuments.Controls.Add(Label16)
+        pnlDocuments.Controls.Add(Label15)
+        pnlDocuments.Controls.Add(Label14)
+        pnlDocuments.Controls.Add(Label12)
+        pnlDocuments.Controls.Add(Label11)
+        pnlDocuments.Controls.Add(Label3)
+        pnlDocuments.Controls.Add(btnIssueSave)
+        pnlDocuments.Controls.Add(txtControlNumber)
+        pnlDocuments.Controls.Add(txtAmountPaid)
+        pnlDocuments.Controls.Add(txtPurpose)
+        pnlDocuments.Controls.Add(cmbCertificateType)
+        pnlDocuments.Controls.Add(lblSelectedResident)
+        pnlDocuments.Controls.Add(dgvResidentLookup)
+        pnlDocuments.Controls.Add(txtResidentSearch)
+        pnlDocuments.Dock = DockStyle.Fill
+        pnlDocuments.Location = New Point(0, 0)
+        pnlDocuments.Name = "pnlDocuments"
+        pnlDocuments.Size = New Size(1086, 562)
+        pnlDocuments.TabIndex = 8
+        ' 
+        ' dgvDocumentHistory
+        ' 
+        dgvDocumentHistory.AllowUserToAddRows = False
+        dgvDocumentHistory.AllowUserToDeleteRows = False
+        dgvDocumentHistory.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+        dgvDocumentHistory.BackgroundColor = SystemColors.ControlLightLight
+        dgvDocumentHistory.BorderStyle = BorderStyle.None
+        DataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle8.BackColor = Color.FromArgb(CByte(62), CByte(95), CByte(68))
+        DataGridViewCellStyle8.Font = New Font("Segoe UI Light", 9F)
+        DataGridViewCellStyle8.ForeColor = SystemColors.Window
+        DataGridViewCellStyle8.SelectionBackColor = Color.FromArgb(CByte(128), CByte(175), CByte(129))
+        DataGridViewCellStyle8.SelectionForeColor = SystemColors.HighlightText
+        DataGridViewCellStyle8.WrapMode = DataGridViewTriState.True
+        dgvDocumentHistory.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle8
+        dgvDocumentHistory.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        DataGridViewCellStyle9.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle9.BackColor = SystemColors.ButtonFace
+        DataGridViewCellStyle9.Font = New Font("Segoe UI", 9F)
+        DataGridViewCellStyle9.ForeColor = SystemColors.ControlText
+        DataGridViewCellStyle9.SelectionBackColor = Color.FromArgb(CByte(128), CByte(175), CByte(129))
+        DataGridViewCellStyle9.SelectionForeColor = SystemColors.ButtonFace
+        DataGridViewCellStyle9.WrapMode = DataGridViewTriState.False
+        dgvDocumentHistory.DefaultCellStyle = DataGridViewCellStyle9
+        dgvDocumentHistory.Location = New Point(564, 131)
+        dgvDocumentHistory.Name = "dgvDocumentHistory"
+        dgvDocumentHistory.ReadOnly = True
+        dgvDocumentHistory.RowHeadersVisible = False
+        dgvDocumentHistory.SelectionMode = DataGridViewSelectionMode.FullRowSelect
+        dgvDocumentHistory.Size = New Size(510, 150)
+        dgvDocumentHistory.TabIndex = 15
+        ' 
+        ' btnPrintPreview
+        ' 
+        btnPrintPreview.Location = New Point(897, 403)
+        btnPrintPreview.Name = "btnPrintPreview"
+        btnPrintPreview.Size = New Size(107, 37)
+        btnPrintPreview.TabIndex = 14
+        btnPrintPreview.Text = "Print Preview"
+        btnPrintPreview.UseVisualStyleBackColor = True
+        ' 
+        ' Label16
+        ' 
+        Label16.AutoSize = True
+        Label16.Location = New Point(681, 383)
+        Label16.Name = "Label16"
+        Label16.Size = New Size(97, 15)
+        Label16.TabIndex = 13
+        Label16.Text = "Control Number:"
+        ' 
+        ' Label15
+        ' 
+        Label15.AutoSize = True
+        Label15.Location = New Point(681, 314)
+        Label15.Name = "Label15"
+        Label15.Size = New Size(80, 15)
+        Label15.TabIndex = 12
+        Label15.Text = "Amount Paid:"
+        ' 
+        ' Label14
+        ' 
+        Label14.AutoSize = True
+        Label14.Location = New Point(235, 318)
+        Label14.Name = "Label14"
+        Label14.Size = New Size(53, 15)
+        Label14.TabIndex = 11
+        Label14.Text = "Purpose:"
+        ' 
+        ' Label12
+        ' 
+        Label12.AutoSize = True
+        Label12.Location = New Point(34, 321)
+        Label12.Name = "Label12"
+        Label12.Size = New Size(91, 15)
+        Label12.TabIndex = 10
+        Label12.Text = "Certificate Type:"
+        ' 
+        ' Label11
+        ' 
+        Label11.AutoSize = True
+        Label11.Location = New Point(52, 98)
+        Label11.Name = "Label11"
+        Label11.Size = New Size(45, 15)
+        Label11.TabIndex = 9
+        Label11.Text = "Search:"
+        ' 
+        ' Label3
+        ' 
+        Label3.AutoSize = True
+        Label3.Font = New Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label3.Location = New Point(23, 54)
+        Label3.Name = "Label3"
+        Label3.Size = New Size(162, 25)
+        Label3.TabIndex = 8
+        Label3.Text = "Issue Documents"
+        ' 
+        ' btnIssueSave
+        ' 
+        btnIssueSave.Location = New Point(897, 345)
+        btnIssueSave.Name = "btnIssueSave"
+        btnIssueSave.Size = New Size(107, 37)
+        btnIssueSave.TabIndex = 7
+        btnIssueSave.Text = "Issue Save"
+        btnIssueSave.UseVisualStyleBackColor = True
+        ' 
+        ' txtControlNumber
+        ' 
+        txtControlNumber.Location = New Point(681, 411)
+        txtControlNumber.Name = "txtControlNumber"
+        txtControlNumber.ReadOnly = True
+        txtControlNumber.Size = New Size(147, 23)
+        txtControlNumber.TabIndex = 6
+        ' 
+        ' txtAmountPaid
+        ' 
+        txtAmountPaid.Location = New Point(681, 344)
+        txtAmountPaid.Name = "txtAmountPaid"
+        txtAmountPaid.Size = New Size(147, 23)
+        txtAmountPaid.TabIndex = 5
+        ' 
+        ' txtPurpose
+        ' 
+        txtPurpose.Location = New Point(235, 347)
+        txtPurpose.Multiline = True
+        txtPurpose.Name = "txtPurpose"
+        txtPurpose.Size = New Size(313, 84)
+        txtPurpose.TabIndex = 4
+        ' 
+        ' cmbCertificateType
+        ' 
+        cmbCertificateType.FormattingEnabled = True
+        cmbCertificateType.Location = New Point(35, 347)
+        cmbCertificateType.Name = "cmbCertificateType"
+        cmbCertificateType.Size = New Size(145, 23)
+        cmbCertificateType.TabIndex = 3
+        ' 
+        ' lblSelectedResident
+        ' 
+        lblSelectedResident.AutoSize = True
+        lblSelectedResident.Location = New Point(280, 97)
+        lblSelectedResident.Name = "lblSelectedResident"
+        lblSelectedResident.Size = New Size(69, 15)
+        lblSelectedResident.TabIndex = 2
+        lblSelectedResident.Text = "Placeholder"
+        ' 
+        ' dgvResidentLookup
+        ' 
+        dgvResidentLookup.AllowUserToAddRows = False
+        dgvResidentLookup.AllowUserToDeleteRows = False
+        dgvResidentLookup.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+        dgvResidentLookup.BackgroundColor = SystemColors.ControlLightLight
+        dgvResidentLookup.BorderStyle = BorderStyle.None
+        DataGridViewCellStyle10.Alignment = DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle10.BackColor = Color.FromArgb(CByte(62), CByte(95), CByte(68))
+        DataGridViewCellStyle10.Font = New Font("Segoe UI Light", 9F)
+        DataGridViewCellStyle10.ForeColor = SystemColors.Window
+        DataGridViewCellStyle10.SelectionBackColor = Color.FromArgb(CByte(128), CByte(175), CByte(129))
+        DataGridViewCellStyle10.SelectionForeColor = SystemColors.HighlightText
+        DataGridViewCellStyle10.WrapMode = DataGridViewTriState.True
+        dgvResidentLookup.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle10
+        dgvResidentLookup.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        DataGridViewCellStyle11.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle11.BackColor = SystemColors.ButtonFace
+        DataGridViewCellStyle11.Font = New Font("Segoe UI", 9F)
+        DataGridViewCellStyle11.ForeColor = SystemColors.ControlText
+        DataGridViewCellStyle11.SelectionBackColor = Color.FromArgb(CByte(128), CByte(175), CByte(129))
+        DataGridViewCellStyle11.SelectionForeColor = SystemColors.ButtonFace
+        DataGridViewCellStyle11.WrapMode = DataGridViewTriState.False
+        dgvResidentLookup.DefaultCellStyle = DataGridViewCellStyle11
+        dgvResidentLookup.Location = New Point(23, 131)
+        dgvResidentLookup.Name = "dgvResidentLookup"
+        dgvResidentLookup.RowHeadersVisible = False
+        dgvResidentLookup.Size = New Size(525, 150)
+        dgvResidentLookup.TabIndex = 1
+        ' 
+        ' txtResidentSearch
+        ' 
+        txtResidentSearch.Location = New Point(117, 95)
+        txtResidentSearch.Name = "txtResidentSearch"
+        txtResidentSearch.Size = New Size(111, 23)
+        txtResidentSearch.TabIndex = 0
+        ' 
+        ' pnlResidents
+        ' 
+        pnlResidents.BackColor = SystemColors.ControlLight
+        pnlResidents.Controls.Add(Label5)
+        pnlResidents.Controls.Add(txtSearch)
+        pnlResidents.Controls.Add(btnEditResident)
+        pnlResidents.Controls.Add(btnDeleteResident)
+        pnlResidents.Controls.Add(btnAddResident)
+        pnlResidents.Controls.Add(dgvResidents)
+        pnlResidents.Controls.Add(Label4)
+        pnlResidents.Dock = DockStyle.Fill
+        pnlResidents.Location = New Point(0, 0)
+        pnlResidents.Name = "pnlResidents"
+        pnlResidents.Size = New Size(1086, 562)
+        pnlResidents.TabIndex = 0
+        ' 
+        ' Label5
+        ' 
+        Label5.AutoSize = True
+        Label5.Location = New Point(745, 98)
+        Label5.Name = "Label5"
+        Label5.Size = New Size(93, 15)
+        Label5.TabIndex = 14
+        Label5.Text = "Search Resident:"
+        ' 
+        ' txtSearch
+        ' 
+        txtSearch.Location = New Point(849, 94)
+        txtSearch.Name = "txtSearch"
+        txtSearch.Size = New Size(214, 23)
+        txtSearch.TabIndex = 13
+        ' 
+        ' btnEditResident
+        ' 
+        btnEditResident.BackColor = Color.FromArgb(CByte(115), CByte(148), CByte(107))
+        btnEditResident.FlatAppearance.BorderSize = 0
+        btnEditResident.FlatStyle = FlatStyle.Flat
+        btnEditResident.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        btnEditResident.ForeColor = Color.White
+        btnEditResident.Location = New Point(842, 57)
+        btnEditResident.Name = "btnEditResident"
+        btnEditResident.Size = New Size(103, 23)
+        btnEditResident.TabIndex = 12
+        btnEditResident.Text = "Edit Resident"
+        btnEditResident.UseVisualStyleBackColor = False
+        ' 
+        ' btnDeleteResident
+        ' 
+        btnDeleteResident.BackColor = Color.IndianRed
+        btnDeleteResident.FlatAppearance.BorderSize = 0
+        btnDeleteResident.FlatStyle = FlatStyle.Flat
+        btnDeleteResident.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        btnDeleteResident.ForeColor = Color.White
+        btnDeleteResident.Location = New Point(958, 56)
+        btnDeleteResident.Name = "btnDeleteResident"
+        btnDeleteResident.Size = New Size(106, 23)
+        btnDeleteResident.TabIndex = 11
+        btnDeleteResident.Text = "Delete Resident"
+        btnDeleteResident.UseVisualStyleBackColor = False
+        ' 
+        ' btnAddResident
+        ' 
+        btnAddResident.BackColor = Color.FromArgb(CByte(115), CByte(148), CByte(107))
+        btnAddResident.FlatAppearance.BorderSize = 0
+        btnAddResident.FlatStyle = FlatStyle.Flat
+        btnAddResident.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        btnAddResident.ForeColor = Color.White
+        btnAddResident.Location = New Point(724, 57)
+        btnAddResident.Name = "btnAddResident"
+        btnAddResident.Size = New Size(103, 23)
+        btnAddResident.TabIndex = 10
+        btnAddResident.Text = "Add Resident"
+        btnAddResident.UseVisualStyleBackColor = False
+        ' 
+        ' dgvResidents
+        ' 
+        dgvResidents.AllowUserToAddRows = False
+        dgvResidents.AllowUserToDeleteRows = False
+        dgvResidents.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+        dgvResidents.BackgroundColor = Color.White
+        dgvResidents.BorderStyle = BorderStyle.None
+        dgvResidents.CellBorderStyle = DataGridViewCellBorderStyle.None
+        dgvResidents.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None
+        DataGridViewCellStyle12.Alignment = DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle12.BackColor = Color.FromArgb(CByte(62), CByte(95), CByte(68))
+        DataGridViewCellStyle12.Font = New Font("Segoe UI Light", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        DataGridViewCellStyle12.ForeColor = SystemColors.Window
+        DataGridViewCellStyle12.SelectionBackColor = Color.FromArgb(CByte(128), CByte(175), CByte(129))
+        DataGridViewCellStyle12.SelectionForeColor = SystemColors.HighlightText
+        DataGridViewCellStyle12.WrapMode = DataGridViewTriState.True
+        dgvResidents.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle12
+        dgvResidents.ColumnHeadersHeight = 30
+        DataGridViewCellStyle13.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle13.BackColor = SystemColors.ButtonFace
+        DataGridViewCellStyle13.Font = New Font("Segoe UI", 9F)
+        DataGridViewCellStyle13.ForeColor = SystemColors.ControlText
+        DataGridViewCellStyle13.SelectionBackColor = Color.FromArgb(CByte(128), CByte(175), CByte(129))
+        DataGridViewCellStyle13.SelectionForeColor = SystemColors.ButtonFace
+        DataGridViewCellStyle13.WrapMode = DataGridViewTriState.False
+        dgvResidents.DefaultCellStyle = DataGridViewCellStyle13
+        dgvResidents.EnableHeadersVisualStyles = False
+        dgvResidents.GridColor = Color.DimGray
+        dgvResidents.Location = New Point(23, 124)
+        dgvResidents.MultiSelect = False
+        dgvResidents.Name = "dgvResidents"
+        dgvResidents.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None
+        DataGridViewCellStyle14.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle14.BackColor = SystemColors.Control
+        DataGridViewCellStyle14.Font = New Font("Segoe UI", 9F)
+        DataGridViewCellStyle14.ForeColor = SystemColors.ControlText
+        DataGridViewCellStyle14.SelectionBackColor = SystemColors.Highlight
+        DataGridViewCellStyle14.SelectionForeColor = SystemColors.HighlightText
+        DataGridViewCellStyle14.WrapMode = DataGridViewTriState.True
+        dgvResidents.RowHeadersDefaultCellStyle = DataGridViewCellStyle14
+        dgvResidents.RowHeadersVisible = False
+        dgvResidents.RowHeadersWidth = 23
+        dgvResidents.SelectionMode = DataGridViewSelectionMode.FullRowSelect
+        dgvResidents.Size = New Size(1041, 353)
+        dgvResidents.TabIndex = 9
+        ' 
+        ' Label4
+        ' 
+        Label4.AutoSize = True
+        Label4.Font = New Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label4.Location = New Point(23, 56)
+        Label4.Name = "Label4"
+        Label4.Size = New Size(131, 25)
+        Label4.TabIndex = 0
+        Label4.Text = "Residents List"
         ' 
         ' pnlSchedule
         ' 
@@ -430,23 +761,23 @@ Partial Class FormMain
         dgvReservations.BorderStyle = BorderStyle.None
         dgvReservations.CellBorderStyle = DataGridViewCellBorderStyle.None
         dgvReservations.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None
-        DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter
-        DataGridViewCellStyle1.BackColor = Color.FromArgb(CByte(62), CByte(95), CByte(68))
-        DataGridViewCellStyle1.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        DataGridViewCellStyle1.ForeColor = SystemColors.Window
-        DataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(CByte(128), CByte(175), CByte(129))
-        DataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText
-        DataGridViewCellStyle1.WrapMode = DataGridViewTriState.True
-        dgvReservations.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle15.Alignment = DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle15.BackColor = Color.FromArgb(CByte(62), CByte(95), CByte(68))
+        DataGridViewCellStyle15.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        DataGridViewCellStyle15.ForeColor = SystemColors.Window
+        DataGridViewCellStyle15.SelectionBackColor = Color.FromArgb(CByte(128), CByte(175), CByte(129))
+        DataGridViewCellStyle15.SelectionForeColor = SystemColors.HighlightText
+        DataGridViewCellStyle15.WrapMode = DataGridViewTriState.True
+        dgvReservations.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle15
         dgvReservations.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle2.BackColor = SystemColors.ButtonFace
-        DataGridViewCellStyle2.Font = New Font("Segoe UI", 9F)
-        DataGridViewCellStyle2.ForeColor = SystemColors.ControlText
-        DataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(CByte(128), CByte(175), CByte(129))
-        DataGridViewCellStyle2.SelectionForeColor = SystemColors.ButtonFace
-        DataGridViewCellStyle2.WrapMode = DataGridViewTriState.False
-        dgvReservations.DefaultCellStyle = DataGridViewCellStyle2
+        DataGridViewCellStyle16.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle16.BackColor = SystemColors.ButtonFace
+        DataGridViewCellStyle16.Font = New Font("Segoe UI", 9F)
+        DataGridViewCellStyle16.ForeColor = SystemColors.ControlText
+        DataGridViewCellStyle16.SelectionBackColor = Color.FromArgb(CByte(128), CByte(175), CByte(129))
+        DataGridViewCellStyle16.SelectionForeColor = SystemColors.ButtonFace
+        DataGridViewCellStyle16.WrapMode = DataGridViewTriState.False
+        dgvReservations.DefaultCellStyle = DataGridViewCellStyle16
         dgvReservations.EnableHeadersVisualStyles = False
         dgvReservations.Location = New Point(34, 343)
         dgvReservations.Name = "dgvReservations"
@@ -520,23 +851,23 @@ Partial Class FormMain
         ' 
         dgvBlotter.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
         dgvBlotter.BackgroundColor = SystemColors.ControlLight
-        DataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter
-        DataGridViewCellStyle3.BackColor = Color.FromArgb(CByte(62), CByte(95), CByte(68))
-        DataGridViewCellStyle3.Font = New Font("Segoe UI Light", 9F)
-        DataGridViewCellStyle3.ForeColor = SystemColors.Window
-        DataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(CByte(128), CByte(175), CByte(129))
-        DataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText
-        DataGridViewCellStyle3.WrapMode = DataGridViewTriState.True
-        dgvBlotter.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle3
+        DataGridViewCellStyle17.Alignment = DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle17.BackColor = Color.FromArgb(CByte(62), CByte(95), CByte(68))
+        DataGridViewCellStyle17.Font = New Font("Segoe UI Light", 9F)
+        DataGridViewCellStyle17.ForeColor = SystemColors.Window
+        DataGridViewCellStyle17.SelectionBackColor = Color.FromArgb(CByte(128), CByte(175), CByte(129))
+        DataGridViewCellStyle17.SelectionForeColor = SystemColors.HighlightText
+        DataGridViewCellStyle17.WrapMode = DataGridViewTriState.True
+        dgvBlotter.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle17
         dgvBlotter.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle4.BackColor = SystemColors.ButtonFace
-        DataGridViewCellStyle4.Font = New Font("Segoe UI", 9F)
-        DataGridViewCellStyle4.ForeColor = SystemColors.ControlText
-        DataGridViewCellStyle4.SelectionBackColor = Color.FromArgb(CByte(128), CByte(175), CByte(129))
-        DataGridViewCellStyle4.SelectionForeColor = SystemColors.ButtonFace
-        DataGridViewCellStyle4.WrapMode = DataGridViewTriState.False
-        dgvBlotter.DefaultCellStyle = DataGridViewCellStyle4
+        DataGridViewCellStyle18.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle18.BackColor = SystemColors.ButtonFace
+        DataGridViewCellStyle18.Font = New Font("Segoe UI", 9F)
+        DataGridViewCellStyle18.ForeColor = SystemColors.ControlText
+        DataGridViewCellStyle18.SelectionBackColor = Color.FromArgb(CByte(128), CByte(175), CByte(129))
+        DataGridViewCellStyle18.SelectionForeColor = SystemColors.ButtonFace
+        DataGridViewCellStyle18.WrapMode = DataGridViewTriState.False
+        dgvBlotter.DefaultCellStyle = DataGridViewCellStyle18
         dgvBlotter.Location = New Point(34, 95)
         dgvBlotter.Name = "dgvBlotter"
         dgvBlotter.ReadOnly = True
@@ -595,28 +926,28 @@ Partial Class FormMain
         ' 
         dgvUsers.AllowUserToAddRows = False
         dgvUsers.AllowUserToDeleteRows = False
-        DataGridViewCellStyle5.BackColor = Color.WhiteSmoke
-        dgvUsers.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle5
+        DataGridViewCellStyle19.BackColor = Color.WhiteSmoke
+        dgvUsers.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle19
         dgvUsers.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
         dgvUsers.BackgroundColor = Color.FromArgb(CByte(233), CByte(245), CByte(219))
         dgvUsers.BorderStyle = BorderStyle.None
-        DataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleCenter
-        DataGridViewCellStyle6.BackColor = Color.FromArgb(CByte(62), CByte(95), CByte(68))
-        DataGridViewCellStyle6.Font = New Font("Segoe UI Light", 9F)
-        DataGridViewCellStyle6.ForeColor = SystemColors.Window
-        DataGridViewCellStyle6.SelectionBackColor = Color.FromArgb(CByte(128), CByte(175), CByte(129))
-        DataGridViewCellStyle6.SelectionForeColor = SystemColors.HighlightText
-        DataGridViewCellStyle6.WrapMode = DataGridViewTriState.True
-        dgvUsers.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle6
+        DataGridViewCellStyle20.Alignment = DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle20.BackColor = Color.FromArgb(CByte(62), CByte(95), CByte(68))
+        DataGridViewCellStyle20.Font = New Font("Segoe UI Light", 9F)
+        DataGridViewCellStyle20.ForeColor = SystemColors.Window
+        DataGridViewCellStyle20.SelectionBackColor = Color.FromArgb(CByte(128), CByte(175), CByte(129))
+        DataGridViewCellStyle20.SelectionForeColor = SystemColors.HighlightText
+        DataGridViewCellStyle20.WrapMode = DataGridViewTriState.True
+        dgvUsers.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle20
         dgvUsers.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle7.BackColor = SystemColors.ButtonFace
-        DataGridViewCellStyle7.Font = New Font("Segoe UI", 9F)
-        DataGridViewCellStyle7.ForeColor = SystemColors.ControlText
-        DataGridViewCellStyle7.SelectionBackColor = Color.FromArgb(CByte(128), CByte(175), CByte(129))
-        DataGridViewCellStyle7.SelectionForeColor = SystemColors.ButtonFace
-        DataGridViewCellStyle7.WrapMode = DataGridViewTriState.False
-        dgvUsers.DefaultCellStyle = DataGridViewCellStyle7
+        DataGridViewCellStyle21.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle21.BackColor = SystemColors.ButtonFace
+        DataGridViewCellStyle21.Font = New Font("Segoe UI", 9F)
+        DataGridViewCellStyle21.ForeColor = SystemColors.ControlText
+        DataGridViewCellStyle21.SelectionBackColor = Color.FromArgb(CByte(128), CByte(175), CByte(129))
+        DataGridViewCellStyle21.SelectionForeColor = SystemColors.ButtonFace
+        DataGridViewCellStyle21.WrapMode = DataGridViewTriState.False
+        dgvUsers.DefaultCellStyle = DataGridViewCellStyle21
         dgvUsers.Location = New Point(32, 140)
         dgvUsers.Name = "dgvUsers"
         dgvUsers.ReadOnly = True
@@ -745,16 +1076,10 @@ Partial Class FormMain
         ' 
         pnlOfficials.BackColor = Color.Transparent
         pnlOfficials.Controls.Add(Label29)
-        pnlOfficials.Controls.Add(Label10)
-        pnlOfficials.Controls.Add(Label9)
-        pnlOfficials.Controls.Add(Label8)
         pnlOfficials.Controls.Add(btnClearOfficial)
         pnlOfficials.Controls.Add(btnUpdateOfficial)
         pnlOfficials.Controls.Add(btnDeleteOfficial)
         pnlOfficials.Controls.Add(btnAddOfficial)
-        pnlOfficials.Controls.Add(txtOfficialContact)
-        pnlOfficials.Controls.Add(txtOfficialPosition)
-        pnlOfficials.Controls.Add(txtOfficialName)
         pnlOfficials.Controls.Add(dgvOfficialsList)
         pnlOfficials.Dock = DockStyle.Fill
         pnlOfficials.Location = New Point(0, 0)
@@ -772,39 +1097,12 @@ Partial Class FormMain
         Label29.TabIndex = 11
         Label29.Text = "Officials Management"
         ' 
-        ' Label10
-        ' 
-        Label10.AutoSize = True
-        Label10.Location = New Point(58, 411)
-        Label10.Name = "Label10"
-        Label10.Size = New Size(96, 15)
-        Label10.TabIndex = 10
-        Label10.Text = "Contact Number"
-        ' 
-        ' Label9
-        ' 
-        Label9.AutoSize = True
-        Label9.Location = New Point(59, 362)
-        Label9.Name = "Label9"
-        Label9.Size = New Size(91, 15)
-        Label9.TabIndex = 9
-        Label9.Text = "Official Position"
-        ' 
-        ' Label8
-        ' 
-        Label8.AutoSize = True
-        Label8.Location = New Point(59, 313)
-        Label8.Name = "Label8"
-        Label8.Size = New Size(80, 15)
-        Label8.TabIndex = 8
-        Label8.Text = "Official Name"
-        ' 
         ' btnClearOfficial
         ' 
         btnClearOfficial.Cursor = Cursors.Hand
         btnClearOfficial.FlatAppearance.BorderSize = 0
         btnClearOfficial.FlatStyle = FlatStyle.Flat
-        btnClearOfficial.Location = New Point(877, 302)
+        btnClearOfficial.Location = New Point(903, 73)
         btnClearOfficial.Name = "btnClearOfficial"
         btnClearOfficial.Size = New Size(111, 23)
         btnClearOfficial.TabIndex = 7
@@ -816,7 +1114,7 @@ Partial Class FormMain
         btnUpdateOfficial.Cursor = Cursors.Hand
         btnUpdateOfficial.FlatAppearance.BorderSize = 0
         btnUpdateOfficial.FlatStyle = FlatStyle.Flat
-        btnUpdateOfficial.Location = New Point(617, 302)
+        btnUpdateOfficial.Location = New Point(643, 73)
         btnUpdateOfficial.Name = "btnUpdateOfficial"
         btnUpdateOfficial.Size = New Size(111, 23)
         btnUpdateOfficial.TabIndex = 6
@@ -828,7 +1126,7 @@ Partial Class FormMain
         btnDeleteOfficial.Cursor = Cursors.Hand
         btnDeleteOfficial.FlatAppearance.BorderSize = 0
         btnDeleteOfficial.FlatStyle = FlatStyle.Flat
-        btnDeleteOfficial.Location = New Point(745, 302)
+        btnDeleteOfficial.Location = New Point(771, 73)
         btnDeleteOfficial.Name = "btnDeleteOfficial"
         btnDeleteOfficial.Size = New Size(111, 23)
         btnDeleteOfficial.TabIndex = 5
@@ -841,36 +1139,12 @@ Partial Class FormMain
         btnAddOfficial.Cursor = Cursors.Hand
         btnAddOfficial.FlatAppearance.BorderSize = 0
         btnAddOfficial.FlatStyle = FlatStyle.Flat
-        btnAddOfficial.Location = New Point(479, 302)
+        btnAddOfficial.Location = New Point(505, 73)
         btnAddOfficial.Name = "btnAddOfficial"
         btnAddOfficial.Size = New Size(111, 23)
         btnAddOfficial.TabIndex = 4
         btnAddOfficial.Text = "Add Official"
         btnAddOfficial.UseVisualStyleBackColor = False
-        ' 
-        ' txtOfficialContact
-        ' 
-        txtOfficialContact.BackColor = SystemColors.InactiveBorder
-        txtOfficialContact.Location = New Point(163, 408)
-        txtOfficialContact.Name = "txtOfficialContact"
-        txtOfficialContact.Size = New Size(131, 23)
-        txtOfficialContact.TabIndex = 3
-        ' 
-        ' txtOfficialPosition
-        ' 
-        txtOfficialPosition.BackColor = SystemColors.InactiveBorder
-        txtOfficialPosition.Location = New Point(163, 359)
-        txtOfficialPosition.Name = "txtOfficialPosition"
-        txtOfficialPosition.Size = New Size(131, 23)
-        txtOfficialPosition.TabIndex = 2
-        ' 
-        ' txtOfficialName
-        ' 
-        txtOfficialName.BackColor = SystemColors.InactiveBorder
-        txtOfficialName.Location = New Point(163, 310)
-        txtOfficialName.Name = "txtOfficialName"
-        txtOfficialName.Size = New Size(131, 23)
-        txtOfficialName.TabIndex = 1
         ' 
         ' dgvOfficialsList
         ' 
@@ -881,38 +1155,38 @@ Partial Class FormMain
         dgvOfficialsList.BorderStyle = BorderStyle.None
         dgvOfficialsList.CellBorderStyle = DataGridViewCellBorderStyle.None
         dgvOfficialsList.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None
-        DataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleCenter
-        DataGridViewCellStyle8.BackColor = Color.FromArgb(CByte(62), CByte(95), CByte(68))
-        DataGridViewCellStyle8.Font = New Font("Segoe UI Light", 9.75F)
-        DataGridViewCellStyle8.ForeColor = SystemColors.Window
-        DataGridViewCellStyle8.SelectionBackColor = Color.FromArgb(CByte(128), CByte(175), CByte(129))
-        DataGridViewCellStyle8.SelectionForeColor = SystemColors.HighlightText
-        DataGridViewCellStyle8.WrapMode = DataGridViewTriState.True
-        dgvOfficialsList.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle8
+        DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle1.BackColor = Color.FromArgb(CByte(62), CByte(95), CByte(68))
+        DataGridViewCellStyle1.Font = New Font("Segoe UI Light", 9.75F)
+        DataGridViewCellStyle1.ForeColor = SystemColors.Window
+        DataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(CByte(128), CByte(175), CByte(129))
+        DataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText
+        DataGridViewCellStyle1.WrapMode = DataGridViewTriState.True
+        dgvOfficialsList.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         dgvOfficialsList.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DataGridViewCellStyle9.Alignment = DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle9.BackColor = SystemColors.ButtonFace
-        DataGridViewCellStyle9.Font = New Font("Segoe UI", 9F)
-        DataGridViewCellStyle9.ForeColor = SystemColors.ControlText
-        DataGridViewCellStyle9.SelectionBackColor = Color.FromArgb(CByte(128), CByte(175), CByte(129))
-        DataGridViewCellStyle9.SelectionForeColor = SystemColors.ButtonFace
-        DataGridViewCellStyle9.WrapMode = DataGridViewTriState.False
-        dgvOfficialsList.DefaultCellStyle = DataGridViewCellStyle9
+        DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle2.BackColor = SystemColors.ButtonFace
+        DataGridViewCellStyle2.Font = New Font("Segoe UI", 9F)
+        DataGridViewCellStyle2.ForeColor = SystemColors.ControlText
+        DataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(CByte(128), CByte(175), CByte(129))
+        DataGridViewCellStyle2.SelectionForeColor = SystemColors.ButtonFace
+        DataGridViewCellStyle2.WrapMode = DataGridViewTriState.False
+        dgvOfficialsList.DefaultCellStyle = DataGridViewCellStyle2
         dgvOfficialsList.EnableHeadersVisualStyles = False
         dgvOfficialsList.Location = New Point(54, 116)
         dgvOfficialsList.Name = "dgvOfficialsList"
         dgvOfficialsList.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.Sunken
-        DataGridViewCellStyle10.Alignment = DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle10.BackColor = Color.FromArgb(CByte(62), CByte(95), CByte(68))
-        DataGridViewCellStyle10.Font = New Font("Segoe UI", 9F)
-        DataGridViewCellStyle10.ForeColor = SystemColors.WindowText
-        DataGridViewCellStyle10.SelectionBackColor = SystemColors.Highlight
-        DataGridViewCellStyle10.SelectionForeColor = SystemColors.HighlightText
-        DataGridViewCellStyle10.WrapMode = DataGridViewTriState.True
-        dgvOfficialsList.RowHeadersDefaultCellStyle = DataGridViewCellStyle10
+        DataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle3.BackColor = Color.FromArgb(CByte(62), CByte(95), CByte(68))
+        DataGridViewCellStyle3.Font = New Font("Segoe UI", 9F)
+        DataGridViewCellStyle3.ForeColor = SystemColors.WindowText
+        DataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight
+        DataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText
+        DataGridViewCellStyle3.WrapMode = DataGridViewTriState.True
+        dgvOfficialsList.RowHeadersDefaultCellStyle = DataGridViewCellStyle3
         dgvOfficialsList.RowHeadersVisible = False
         dgvOfficialsList.SelectionMode = DataGridViewSelectionMode.FullRowSelect
-        dgvOfficialsList.Size = New Size(974, 150)
+        dgvOfficialsList.Size = New Size(974, 324)
         dgvOfficialsList.TabIndex = 0
         ' 
         ' pnlLoginHistory
@@ -945,23 +1219,23 @@ Partial Class FormMain
         dgvLoginHistory.BorderStyle = BorderStyle.None
         dgvLoginHistory.CellBorderStyle = DataGridViewCellBorderStyle.None
         dgvLoginHistory.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None
-        DataGridViewCellStyle11.Alignment = DataGridViewContentAlignment.MiddleCenter
-        DataGridViewCellStyle11.BackColor = Color.FromArgb(CByte(62), CByte(95), CByte(68))
-        DataGridViewCellStyle11.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        DataGridViewCellStyle11.ForeColor = SystemColors.Window
-        DataGridViewCellStyle11.SelectionBackColor = Color.FromArgb(CByte(128), CByte(175), CByte(129))
-        DataGridViewCellStyle11.SelectionForeColor = SystemColors.HighlightText
-        DataGridViewCellStyle11.WrapMode = DataGridViewTriState.True
-        dgvLoginHistory.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle11
+        DataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle4.BackColor = Color.FromArgb(CByte(62), CByte(95), CByte(68))
+        DataGridViewCellStyle4.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        DataGridViewCellStyle4.ForeColor = SystemColors.Window
+        DataGridViewCellStyle4.SelectionBackColor = Color.FromArgb(CByte(128), CByte(175), CByte(129))
+        DataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText
+        DataGridViewCellStyle4.WrapMode = DataGridViewTriState.True
+        dgvLoginHistory.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle4
         dgvLoginHistory.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DataGridViewCellStyle12.Alignment = DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle12.BackColor = SystemColors.ButtonFace
-        DataGridViewCellStyle12.Font = New Font("Segoe UI", 9F)
-        DataGridViewCellStyle12.ForeColor = SystemColors.ControlText
-        DataGridViewCellStyle12.SelectionBackColor = Color.FromArgb(CByte(128), CByte(175), CByte(129))
-        DataGridViewCellStyle12.SelectionForeColor = SystemColors.HighlightText
-        DataGridViewCellStyle12.WrapMode = DataGridViewTriState.False
-        dgvLoginHistory.DefaultCellStyle = DataGridViewCellStyle12
+        DataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle5.BackColor = SystemColors.ButtonFace
+        DataGridViewCellStyle5.Font = New Font("Segoe UI", 9F)
+        DataGridViewCellStyle5.ForeColor = SystemColors.ControlText
+        DataGridViewCellStyle5.SelectionBackColor = Color.FromArgb(CByte(128), CByte(175), CByte(129))
+        DataGridViewCellStyle5.SelectionForeColor = SystemColors.HighlightText
+        DataGridViewCellStyle5.WrapMode = DataGridViewTriState.False
+        dgvLoginHistory.DefaultCellStyle = DataGridViewCellStyle5
         dgvLoginHistory.EnableHeadersVisualStyles = False
         dgvLoginHistory.GridColor = Color.Black
         dgvLoginHistory.Location = New Point(23, 102)
@@ -1158,23 +1432,23 @@ Partial Class FormMain
         dgvOfficials.BorderStyle = BorderStyle.None
         dgvOfficials.CellBorderStyle = DataGridViewCellBorderStyle.None
         dgvOfficials.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None
-        DataGridViewCellStyle13.Alignment = DataGridViewContentAlignment.MiddleCenter
-        DataGridViewCellStyle13.BackColor = Color.FromArgb(CByte(62), CByte(95), CByte(68))
-        DataGridViewCellStyle13.Font = New Font("Segoe UI Light", 9F)
-        DataGridViewCellStyle13.ForeColor = Color.White
-        DataGridViewCellStyle13.SelectionBackColor = Color.FromArgb(CByte(128), CByte(175), CByte(129))
-        DataGridViewCellStyle13.SelectionForeColor = SystemColors.HighlightText
-        DataGridViewCellStyle13.WrapMode = DataGridViewTriState.True
-        dgvOfficials.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle13
+        DataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle6.BackColor = Color.FromArgb(CByte(62), CByte(95), CByte(68))
+        DataGridViewCellStyle6.Font = New Font("Segoe UI Light", 9F)
+        DataGridViewCellStyle6.ForeColor = Color.White
+        DataGridViewCellStyle6.SelectionBackColor = Color.FromArgb(CByte(128), CByte(175), CByte(129))
+        DataGridViewCellStyle6.SelectionForeColor = SystemColors.HighlightText
+        DataGridViewCellStyle6.WrapMode = DataGridViewTriState.True
+        dgvOfficials.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle6
         dgvOfficials.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DataGridViewCellStyle14.Alignment = DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle14.BackColor = SystemColors.ButtonFace
-        DataGridViewCellStyle14.Font = New Font("Segoe UI", 9F)
-        DataGridViewCellStyle14.ForeColor = SystemColors.ControlText
-        DataGridViewCellStyle14.SelectionBackColor = Color.FromArgb(CByte(128), CByte(175), CByte(129))
-        DataGridViewCellStyle14.SelectionForeColor = SystemColors.ButtonFace
-        DataGridViewCellStyle14.WrapMode = DataGridViewTriState.False
-        dgvOfficials.DefaultCellStyle = DataGridViewCellStyle14
+        DataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle7.BackColor = SystemColors.ButtonFace
+        DataGridViewCellStyle7.Font = New Font("Segoe UI", 9F)
+        DataGridViewCellStyle7.ForeColor = SystemColors.ControlText
+        DataGridViewCellStyle7.SelectionBackColor = Color.FromArgb(CByte(128), CByte(175), CByte(129))
+        DataGridViewCellStyle7.SelectionForeColor = SystemColors.ButtonFace
+        DataGridViewCellStyle7.WrapMode = DataGridViewTriState.False
+        dgvOfficials.DefaultCellStyle = DataGridViewCellStyle7
         dgvOfficials.EnableHeadersVisualStyles = False
         dgvOfficials.Location = New Point(45, 251)
         dgvOfficials.Name = "dgvOfficials"
@@ -1183,343 +1457,6 @@ Partial Class FormMain
         dgvOfficials.SelectionMode = DataGridViewSelectionMode.FullRowSelect
         dgvOfficials.Size = New Size(1002, 285)
         dgvOfficials.TabIndex = 6
-        ' 
-        ' pnlDocuments
-        ' 
-        pnlDocuments.BackColor = SystemColors.ControlLight
-        pnlDocuments.Controls.Add(dgvDocumentHistory)
-        pnlDocuments.Controls.Add(btnPrintPreview)
-        pnlDocuments.Controls.Add(Label16)
-        pnlDocuments.Controls.Add(Label15)
-        pnlDocuments.Controls.Add(Label14)
-        pnlDocuments.Controls.Add(Label12)
-        pnlDocuments.Controls.Add(Label11)
-        pnlDocuments.Controls.Add(Label3)
-        pnlDocuments.Controls.Add(btnIssueSave)
-        pnlDocuments.Controls.Add(txtControlNumber)
-        pnlDocuments.Controls.Add(txtAmountPaid)
-        pnlDocuments.Controls.Add(txtPurpose)
-        pnlDocuments.Controls.Add(cmbCertificateType)
-        pnlDocuments.Controls.Add(lblSelectedResident)
-        pnlDocuments.Controls.Add(dgvResidentLookup)
-        pnlDocuments.Controls.Add(txtResidentSearch)
-        pnlDocuments.Dock = DockStyle.Fill
-        pnlDocuments.Location = New Point(0, 0)
-        pnlDocuments.Name = "pnlDocuments"
-        pnlDocuments.Size = New Size(1086, 562)
-        pnlDocuments.TabIndex = 8
-        ' 
-        ' dgvDocumentHistory
-        ' 
-        dgvDocumentHistory.AllowUserToAddRows = False
-        dgvDocumentHistory.AllowUserToDeleteRows = False
-        dgvDocumentHistory.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
-        dgvDocumentHistory.BackgroundColor = SystemColors.ControlLightLight
-        dgvDocumentHistory.BorderStyle = BorderStyle.None
-        DataGridViewCellStyle15.Alignment = DataGridViewContentAlignment.MiddleCenter
-        DataGridViewCellStyle15.BackColor = Color.FromArgb(CByte(62), CByte(95), CByte(68))
-        DataGridViewCellStyle15.Font = New Font("Segoe UI Light", 9F)
-        DataGridViewCellStyle15.ForeColor = SystemColors.Window
-        DataGridViewCellStyle15.SelectionBackColor = Color.FromArgb(CByte(128), CByte(175), CByte(129))
-        DataGridViewCellStyle15.SelectionForeColor = SystemColors.HighlightText
-        DataGridViewCellStyle15.WrapMode = DataGridViewTriState.True
-        dgvDocumentHistory.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle15
-        dgvDocumentHistory.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DataGridViewCellStyle16.Alignment = DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle16.BackColor = SystemColors.ButtonFace
-        DataGridViewCellStyle16.Font = New Font("Segoe UI", 9F)
-        DataGridViewCellStyle16.ForeColor = SystemColors.ControlText
-        DataGridViewCellStyle16.SelectionBackColor = Color.FromArgb(CByte(128), CByte(175), CByte(129))
-        DataGridViewCellStyle16.SelectionForeColor = SystemColors.ButtonFace
-        DataGridViewCellStyle16.WrapMode = DataGridViewTriState.False
-        dgvDocumentHistory.DefaultCellStyle = DataGridViewCellStyle16
-        dgvDocumentHistory.Location = New Point(564, 131)
-        dgvDocumentHistory.Name = "dgvDocumentHistory"
-        dgvDocumentHistory.ReadOnly = True
-        dgvDocumentHistory.RowHeadersVisible = False
-        dgvDocumentHistory.SelectionMode = DataGridViewSelectionMode.FullRowSelect
-        dgvDocumentHistory.Size = New Size(510, 150)
-        dgvDocumentHistory.TabIndex = 15
-        ' 
-        ' btnPrintPreview
-        ' 
-        btnPrintPreview.Location = New Point(897, 403)
-        btnPrintPreview.Name = "btnPrintPreview"
-        btnPrintPreview.Size = New Size(107, 37)
-        btnPrintPreview.TabIndex = 14
-        btnPrintPreview.Text = "Print Preview"
-        btnPrintPreview.UseVisualStyleBackColor = True
-        ' 
-        ' Label16
-        ' 
-        Label16.AutoSize = True
-        Label16.Location = New Point(681, 383)
-        Label16.Name = "Label16"
-        Label16.Size = New Size(97, 15)
-        Label16.TabIndex = 13
-        Label16.Text = "Control Number:"
-        ' 
-        ' Label15
-        ' 
-        Label15.AutoSize = True
-        Label15.Location = New Point(681, 314)
-        Label15.Name = "Label15"
-        Label15.Size = New Size(80, 15)
-        Label15.TabIndex = 12
-        Label15.Text = "Amount Paid:"
-        ' 
-        ' Label14
-        ' 
-        Label14.AutoSize = True
-        Label14.Location = New Point(235, 318)
-        Label14.Name = "Label14"
-        Label14.Size = New Size(53, 15)
-        Label14.TabIndex = 11
-        Label14.Text = "Purpose:"
-        ' 
-        ' Label12
-        ' 
-        Label12.AutoSize = True
-        Label12.Location = New Point(34, 321)
-        Label12.Name = "Label12"
-        Label12.Size = New Size(91, 15)
-        Label12.TabIndex = 10
-        Label12.Text = "Certificate Type:"
-        ' 
-        ' Label11
-        ' 
-        Label11.AutoSize = True
-        Label11.Location = New Point(52, 98)
-        Label11.Name = "Label11"
-        Label11.Size = New Size(45, 15)
-        Label11.TabIndex = 9
-        Label11.Text = "Search:"
-        ' 
-        ' Label3
-        ' 
-        Label3.AutoSize = True
-        Label3.Font = New Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        Label3.Location = New Point(23, 54)
-        Label3.Name = "Label3"
-        Label3.Size = New Size(162, 25)
-        Label3.TabIndex = 8
-        Label3.Text = "Issue Documents"
-        ' 
-        ' btnIssueSave
-        ' 
-        btnIssueSave.Location = New Point(897, 345)
-        btnIssueSave.Name = "btnIssueSave"
-        btnIssueSave.Size = New Size(107, 37)
-        btnIssueSave.TabIndex = 7
-        btnIssueSave.Text = "Issue Save"
-        btnIssueSave.UseVisualStyleBackColor = True
-        ' 
-        ' txtControlNumber
-        ' 
-        txtControlNumber.Location = New Point(681, 411)
-        txtControlNumber.Name = "txtControlNumber"
-        txtControlNumber.ReadOnly = True
-        txtControlNumber.Size = New Size(147, 23)
-        txtControlNumber.TabIndex = 6
-        ' 
-        ' txtAmountPaid
-        ' 
-        txtAmountPaid.Location = New Point(681, 344)
-        txtAmountPaid.Name = "txtAmountPaid"
-        txtAmountPaid.Size = New Size(147, 23)
-        txtAmountPaid.TabIndex = 5
-        ' 
-        ' txtPurpose
-        ' 
-        txtPurpose.Location = New Point(235, 347)
-        txtPurpose.Multiline = True
-        txtPurpose.Name = "txtPurpose"
-        txtPurpose.Size = New Size(313, 84)
-        txtPurpose.TabIndex = 4
-        ' 
-        ' cmbCertificateType
-        ' 
-        cmbCertificateType.FormattingEnabled = True
-        cmbCertificateType.Location = New Point(35, 347)
-        cmbCertificateType.Name = "cmbCertificateType"
-        cmbCertificateType.Size = New Size(145, 23)
-        cmbCertificateType.TabIndex = 3
-        ' 
-        ' lblSelectedResident
-        ' 
-        lblSelectedResident.AutoSize = True
-        lblSelectedResident.Location = New Point(280, 97)
-        lblSelectedResident.Name = "lblSelectedResident"
-        lblSelectedResident.Size = New Size(69, 15)
-        lblSelectedResident.TabIndex = 2
-        lblSelectedResident.Text = "Placeholder"
-        ' 
-        ' dgvResidentLookup
-        ' 
-        dgvResidentLookup.AllowUserToAddRows = False
-        dgvResidentLookup.AllowUserToDeleteRows = False
-        dgvResidentLookup.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
-        dgvResidentLookup.BackgroundColor = SystemColors.ControlLightLight
-        dgvResidentLookup.BorderStyle = BorderStyle.None
-        DataGridViewCellStyle17.Alignment = DataGridViewContentAlignment.MiddleCenter
-        DataGridViewCellStyle17.BackColor = Color.FromArgb(CByte(62), CByte(95), CByte(68))
-        DataGridViewCellStyle17.Font = New Font("Segoe UI Light", 9F)
-        DataGridViewCellStyle17.ForeColor = SystemColors.Window
-        DataGridViewCellStyle17.SelectionBackColor = Color.FromArgb(CByte(128), CByte(175), CByte(129))
-        DataGridViewCellStyle17.SelectionForeColor = SystemColors.HighlightText
-        DataGridViewCellStyle17.WrapMode = DataGridViewTriState.True
-        dgvResidentLookup.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle17
-        dgvResidentLookup.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DataGridViewCellStyle18.Alignment = DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle18.BackColor = SystemColors.ButtonFace
-        DataGridViewCellStyle18.Font = New Font("Segoe UI", 9F)
-        DataGridViewCellStyle18.ForeColor = SystemColors.ControlText
-        DataGridViewCellStyle18.SelectionBackColor = Color.FromArgb(CByte(128), CByte(175), CByte(129))
-        DataGridViewCellStyle18.SelectionForeColor = SystemColors.ButtonFace
-        DataGridViewCellStyle18.WrapMode = DataGridViewTriState.False
-        dgvResidentLookup.DefaultCellStyle = DataGridViewCellStyle18
-        dgvResidentLookup.Location = New Point(23, 131)
-        dgvResidentLookup.Name = "dgvResidentLookup"
-        dgvResidentLookup.RowHeadersVisible = False
-        dgvResidentLookup.Size = New Size(525, 150)
-        dgvResidentLookup.TabIndex = 1
-        ' 
-        ' txtResidentSearch
-        ' 
-        txtResidentSearch.Location = New Point(117, 95)
-        txtResidentSearch.Name = "txtResidentSearch"
-        txtResidentSearch.Size = New Size(111, 23)
-        txtResidentSearch.TabIndex = 0
-        ' 
-        ' pnlResidents
-        ' 
-        pnlResidents.BackColor = SystemColors.ControlLight
-        pnlResidents.Controls.Add(Label5)
-        pnlResidents.Controls.Add(txtSearch)
-        pnlResidents.Controls.Add(btnEditResident)
-        pnlResidents.Controls.Add(btnDeleteResident)
-        pnlResidents.Controls.Add(btnAddResident)
-        pnlResidents.Controls.Add(dgvResidents)
-        pnlResidents.Controls.Add(Label4)
-        pnlResidents.Dock = DockStyle.Fill
-        pnlResidents.Location = New Point(0, 0)
-        pnlResidents.Name = "pnlResidents"
-        pnlResidents.Size = New Size(1086, 562)
-        pnlResidents.TabIndex = 0
-        ' 
-        ' Label5
-        ' 
-        Label5.AutoSize = True
-        Label5.Location = New Point(745, 98)
-        Label5.Name = "Label5"
-        Label5.Size = New Size(93, 15)
-        Label5.TabIndex = 14
-        Label5.Text = "Search Resident:"
-        ' 
-        ' txtSearch
-        ' 
-        txtSearch.Location = New Point(849, 94)
-        txtSearch.Name = "txtSearch"
-        txtSearch.Size = New Size(214, 23)
-        txtSearch.TabIndex = 13
-        ' 
-        ' btnEditResident
-        ' 
-        btnEditResident.BackColor = Color.FromArgb(CByte(115), CByte(148), CByte(107))
-        btnEditResident.FlatAppearance.BorderSize = 0
-        btnEditResident.FlatStyle = FlatStyle.Flat
-        btnEditResident.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        btnEditResident.ForeColor = Color.White
-        btnEditResident.Location = New Point(842, 57)
-        btnEditResident.Name = "btnEditResident"
-        btnEditResident.Size = New Size(103, 23)
-        btnEditResident.TabIndex = 12
-        btnEditResident.Text = "Edit Resident"
-        btnEditResident.UseVisualStyleBackColor = False
-        ' 
-        ' btnDeleteResident
-        ' 
-        btnDeleteResident.BackColor = Color.IndianRed
-        btnDeleteResident.FlatAppearance.BorderSize = 0
-        btnDeleteResident.FlatStyle = FlatStyle.Flat
-        btnDeleteResident.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        btnDeleteResident.ForeColor = Color.White
-        btnDeleteResident.Location = New Point(958, 56)
-        btnDeleteResident.Name = "btnDeleteResident"
-        btnDeleteResident.Size = New Size(106, 23)
-        btnDeleteResident.TabIndex = 11
-        btnDeleteResident.Text = "Delete Resident"
-        btnDeleteResident.UseVisualStyleBackColor = False
-        ' 
-        ' btnAddResident
-        ' 
-        btnAddResident.BackColor = Color.FromArgb(CByte(115), CByte(148), CByte(107))
-        btnAddResident.FlatAppearance.BorderSize = 0
-        btnAddResident.FlatStyle = FlatStyle.Flat
-        btnAddResident.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        btnAddResident.ForeColor = Color.White
-        btnAddResident.Location = New Point(724, 57)
-        btnAddResident.Name = "btnAddResident"
-        btnAddResident.Size = New Size(103, 23)
-        btnAddResident.TabIndex = 10
-        btnAddResident.Text = "Add Resident"
-        btnAddResident.UseVisualStyleBackColor = False
-        ' 
-        ' dgvResidents
-        ' 
-        dgvResidents.AllowUserToAddRows = False
-        dgvResidents.AllowUserToDeleteRows = False
-        dgvResidents.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
-        dgvResidents.BackgroundColor = Color.White
-        dgvResidents.BorderStyle = BorderStyle.None
-        dgvResidents.CellBorderStyle = DataGridViewCellBorderStyle.None
-        dgvResidents.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None
-        DataGridViewCellStyle19.Alignment = DataGridViewContentAlignment.MiddleCenter
-        DataGridViewCellStyle19.BackColor = Color.FromArgb(CByte(62), CByte(95), CByte(68))
-        DataGridViewCellStyle19.Font = New Font("Segoe UI Light", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        DataGridViewCellStyle19.ForeColor = SystemColors.Window
-        DataGridViewCellStyle19.SelectionBackColor = Color.FromArgb(CByte(128), CByte(175), CByte(129))
-        DataGridViewCellStyle19.SelectionForeColor = SystemColors.HighlightText
-        DataGridViewCellStyle19.WrapMode = DataGridViewTriState.True
-        dgvResidents.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle19
-        dgvResidents.ColumnHeadersHeight = 30
-        DataGridViewCellStyle20.Alignment = DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle20.BackColor = SystemColors.ButtonFace
-        DataGridViewCellStyle20.Font = New Font("Segoe UI", 9F)
-        DataGridViewCellStyle20.ForeColor = SystemColors.ControlText
-        DataGridViewCellStyle20.SelectionBackColor = Color.FromArgb(CByte(128), CByte(175), CByte(129))
-        DataGridViewCellStyle20.SelectionForeColor = SystemColors.ButtonFace
-        DataGridViewCellStyle20.WrapMode = DataGridViewTriState.False
-        dgvResidents.DefaultCellStyle = DataGridViewCellStyle20
-        dgvResidents.EnableHeadersVisualStyles = False
-        dgvResidents.GridColor = Color.DimGray
-        dgvResidents.Location = New Point(23, 124)
-        dgvResidents.MultiSelect = False
-        dgvResidents.Name = "dgvResidents"
-        dgvResidents.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None
-        DataGridViewCellStyle21.Alignment = DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle21.BackColor = SystemColors.Control
-        DataGridViewCellStyle21.Font = New Font("Segoe UI", 9F)
-        DataGridViewCellStyle21.ForeColor = SystemColors.ControlText
-        DataGridViewCellStyle21.SelectionBackColor = SystemColors.Highlight
-        DataGridViewCellStyle21.SelectionForeColor = SystemColors.HighlightText
-        DataGridViewCellStyle21.WrapMode = DataGridViewTriState.True
-        dgvResidents.RowHeadersDefaultCellStyle = DataGridViewCellStyle21
-        dgvResidents.RowHeadersVisible = False
-        dgvResidents.RowHeadersWidth = 23
-        dgvResidents.SelectionMode = DataGridViewSelectionMode.FullRowSelect
-        dgvResidents.Size = New Size(1041, 353)
-        dgvResidents.TabIndex = 9
-        ' 
-        ' Label4
-        ' 
-        Label4.AutoSize = True
-        Label4.Font = New Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        Label4.Location = New Point(23, 56)
-        Label4.Name = "Label4"
-        Label4.Size = New Size(131, 25)
-        Label4.TabIndex = 0
-        Label4.Text = "Residents List"
         ' 
         ' Panel1
         ' 
@@ -1573,6 +1510,13 @@ Partial Class FormMain
         pnlMenu.ResumeLayout(False)
         CType(PictureBox1, ComponentModel.ISupportInitialize).EndInit()
         pnlContent.ResumeLayout(False)
+        pnlDocuments.ResumeLayout(False)
+        pnlDocuments.PerformLayout()
+        CType(dgvDocumentHistory, ComponentModel.ISupportInitialize).EndInit()
+        CType(dgvResidentLookup, ComponentModel.ISupportInitialize).EndInit()
+        pnlResidents.ResumeLayout(False)
+        pnlResidents.PerformLayout()
+        CType(dgvResidents, ComponentModel.ISupportInitialize).EndInit()
         pnlSchedule.ResumeLayout(False)
         pnlSchedule.PerformLayout()
         CType(dgvReservations, ComponentModel.ISupportInitialize).EndInit()
@@ -1603,13 +1547,6 @@ Partial Class FormMain
         pnlResidentStat.PerformLayout()
         CType(PictureBox2, ComponentModel.ISupportInitialize).EndInit()
         CType(dgvOfficials, ComponentModel.ISupportInitialize).EndInit()
-        pnlDocuments.ResumeLayout(False)
-        pnlDocuments.PerformLayout()
-        CType(dgvDocumentHistory, ComponentModel.ISupportInitialize).EndInit()
-        CType(dgvResidentLookup, ComponentModel.ISupportInitialize).EndInit()
-        pnlResidents.ResumeLayout(False)
-        pnlResidents.PerformLayout()
-        CType(dgvResidents, ComponentModel.ISupportInitialize).EndInit()
         Panel1.ResumeLayout(False)
         Panel1.PerformLayout()
         ResumeLayout(False)
@@ -1678,17 +1615,11 @@ Partial Class FormMain
     Friend WithEvents Label3 As Label
     Friend WithEvents btnOfficials As Button
     Friend WithEvents pnlOfficials As Panel
-    Friend WithEvents txtOfficialPosition As TextBox
-    Friend WithEvents txtOfficialName As TextBox
     Friend WithEvents dgvOfficialsList As DataGridView
     Friend WithEvents btnClearOfficial As Button
     Friend WithEvents btnUpdateOfficial As Button
     Friend WithEvents btnDeleteOfficial As Button
     Friend WithEvents btnAddOfficial As Button
-    Friend WithEvents txtOfficialContact As TextBox
-    Friend WithEvents Label9 As Label
-    Friend WithEvents Label8 As Label
-    Friend WithEvents Label10 As Label
     Friend WithEvents Label16 As Label
     Friend WithEvents Label15 As Label
     Friend WithEvents Label14 As Label

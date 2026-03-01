@@ -25,6 +25,8 @@ Partial Class FormAddBooking
         Dim DataGridViewCellStyle1 As DataGridViewCellStyle = New DataGridViewCellStyle()
         Dim DataGridViewCellStyle2 As DataGridViewCellStyle = New DataGridViewCellStyle()
         grpBooking = New GroupBox()
+        btnCancel = New Button()
+        btnSave = New Button()
         Label18 = New Label()
         dgvResidentSearch = New DataGridView()
         Label19 = New Label()
@@ -38,8 +40,6 @@ Partial Class FormAddBooking
         btnSaveBooking = New Button()
         dtpEndTime = New DateTimePicker()
         dtpStartTime = New DateTimePicker()
-        btnSave = New Button()
-        btnCancel = New Button()
         grpBooking.SuspendLayout()
         CType(dgvResidentSearch, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
@@ -70,6 +70,28 @@ Partial Class FormAddBooking
         grpBooking.TabIndex = 3
         grpBooking.TabStop = False
         grpBooking.Text = "New Booking"
+        ' 
+        ' btnCancel
+        ' 
+        btnCancel.Font = New Font("Segoe UI Light", 11.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnCancel.ForeColor = Color.Black
+        btnCancel.Location = New Point(483, 296)
+        btnCancel.Name = "btnCancel"
+        btnCancel.Size = New Size(86, 34)
+        btnCancel.TabIndex = 19
+        btnCancel.Text = "Cancel"
+        btnCancel.UseVisualStyleBackColor = True
+        ' 
+        ' btnSave
+        ' 
+        btnSave.Font = New Font("Segoe UI Light", 11.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnSave.ForeColor = Color.Black
+        btnSave.Location = New Point(586, 296)
+        btnSave.Name = "btnSave"
+        btnSave.Size = New Size(86, 34)
+        btnSave.TabIndex = 18
+        btnSave.Text = "Save"
+        btnSave.UseVisualStyleBackColor = True
         ' 
         ' Label18
         ' 
@@ -109,6 +131,7 @@ Partial Class FormAddBooking
         DataGridViewCellStyle2.WrapMode = DataGridViewTriState.False
         dgvResidentSearch.DefaultCellStyle = DataGridViewCellStyle2
         dgvResidentSearch.EnableHeadersVisualStyles = False
+        dgvResidentSearch.GridColor = SystemColors.Info
         dgvResidentSearch.Location = New Point(25, 228)
         dgvResidentSearch.Name = "dgvResidentSearch"
         dgvResidentSearch.SelectionMode = DataGridViewSelectionMode.FullRowSelect
@@ -154,6 +177,7 @@ Partial Class FormAddBooking
         ' txtResidentSearch
         ' 
         txtResidentSearch.Font = New Font("Segoe UI Light", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        txtResidentSearch.ForeColor = SystemColors.WindowText
         txtResidentSearch.Location = New Point(25, 177)
         txtResidentSearch.Name = "txtResidentSearch"
         txtResidentSearch.Size = New Size(172, 25)
@@ -215,28 +239,6 @@ Partial Class FormAddBooking
         dtpStartTime.Name = "dtpStartTime"
         dtpStartTime.Size = New Size(200, 25)
         dtpStartTime.TabIndex = 7
-        ' 
-        ' btnSave
-        ' 
-        btnSave.Font = New Font("Segoe UI Light", 11.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        btnSave.ForeColor = Color.Black
-        btnSave.Location = New Point(586, 296)
-        btnSave.Name = "btnSave"
-        btnSave.Size = New Size(86, 34)
-        btnSave.TabIndex = 18
-        btnSave.Text = "Save"
-        btnSave.UseVisualStyleBackColor = True
-        ' 
-        ' btnCancel
-        ' 
-        btnCancel.Font = New Font("Segoe UI Light", 11.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        btnCancel.ForeColor = Color.Black
-        btnCancel.Location = New Point(483, 296)
-        btnCancel.Name = "btnCancel"
-        btnCancel.Size = New Size(86, 34)
-        btnCancel.TabIndex = 19
-        btnCancel.Text = "Cancel"
-        btnCancel.UseVisualStyleBackColor = True
         ' 
         ' FormAddBooking
         ' 

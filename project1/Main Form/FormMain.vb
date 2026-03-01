@@ -13,10 +13,6 @@ Public Class FormMain
     Private _currentHistoryId As Integer = 0
     Private _currentUsername As String = ""
 
-    ' This is the Constructor. It runs BEFORE FormMain_Load.
-    ' It receives the role from Form1.
-
-    ' Add 'ByVal historyId As Integer' to the end
     Public Sub New(ByVal role As String, ByVal fullname As String, ByVal historyId As Integer, ByVal username As String)
         InitializeComponent()
 
@@ -1145,7 +1141,6 @@ Public Class FormMain
             End If
         End Using
     End Sub
-
     Private Sub btnOfficials_Click(sender As Object, e As EventArgs) Handles btnOfficials.Click
         HideAllPanels()
         pnlOfficials.Visible = True
@@ -1160,219 +1155,102 @@ Public Class FormMain
 
     Private Sub LoadOfficials()
         Try
-            Using conn As New MySqlConnection(connectionString) ' Using your barangay_db
-                conn.Open()
+            Dim repo As New OfficialRepository()
+            Dim dt As DataTable = repo.GetAllOfficials()
 
+            dgvOfficialsList.DataSource = dt
 
-                Dim query As String = "SELECT id, fullname, position, contactnumber FROM officials"
-                Using adapter As New MySqlDataAdapter(query, conn)
-                    Dim dtOfficials As New DataTable()
-                    adapter.Fill(dtOfficials)
-                    dgvOfficialsList.DataSource = dtOfficials
+            If dgvOfficialsList.Columns.Contains("id") Then dgvOfficialsList.Columns("id").Visible = False
+            If dgvOfficialsList.Columns.Contains("fullname") Then dgvOfficialsList.Columns("fullname").HeaderText = "Full Name"
+            If dgvOfficialsList.Columns.Contains("position") Then dgvOfficialsList.Columns("position").HeaderText = "Position"
+            If dgvOfficialsList.Columns.Contains("contactnumber") Then dgvOfficialsList.Columns("contactnumber").HeaderText = "Contact"
 
-                    ' Format the grid
-                    If dgvOfficialsList.Columns.Contains("id") Then dgvOfficialsList.Columns("id").Visible = False
-                    If dgvOfficialsList.Columns.Contains("fullname") Then dgvOfficialsList.Columns("fullname").HeaderText = "Full Name"
-                    If dgvOfficialsList.Columns.Contains("position") Then dgvOfficialsList.Columns("position").HeaderText = "Position"
-                    If dgvOfficialsList.Columns.Contains("contactnumber") Then dgvOfficialsList.Columns("contactnumber").HeaderText = "Contact"
-                End Using
-            End Using
+            ' Reset button states
+            btnUpdateOfficial.Enabled = True
+            btnDeleteOfficial.Enabled = True
         Catch ex As Exception
             MessageBox.Show("Error loading officials: " & ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
-    Private Sub dgvOfficialsList_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvOfficialsList.CellClick
-        If e.RowIndex >= 0 AndAlso dgvOfficialsList.CurrentRow IsNot Nothing Then
-            Dim selectedRow = dgvOfficialsList.CurrentRow
-
-            ' Populate the textboxes
-            txtOfficialName.Text = selectedRow.Cells("fullname").Value.ToString()
-            txtOfficialPosition.Text = selectedRow.Cells("position").Value.ToString()
-            txtOfficialContact.Text = selectedRow.Cells("contactnumber").Value.ToString()
-
-            btnAddOfficial.Enabled = False
-            btnUpdateOfficial.Enabled = True
-            btnDeleteOfficial.Enabled = True
-        End If
-    End Sub
-
-    Private Sub btnClearOfficial_Click(sender As Object, e As EventArgs) Handles btnClearOfficial.Click
-        txtOfficialName.Clear()
-        txtOfficialPosition.Clear()
-        txtOfficialContact.Clear()
-        dgvOfficialsList.ClearSelection() ' Deselect the grid
-
-        btnAddOfficial.Enabled = True
-        btnUpdateOfficial.Enabled = False
-        btnDeleteOfficial.Enabled = False
-    End Sub
-
     Private Sub btnAddOfficial_Click(sender As Object, e As EventArgs) Handles btnAddOfficial.Click
+        Using addForm As New FormAddOfficial()
+            If addForm.ShowDialog() = DialogResult.OK Then
+                Try
+                    Dim newOff As New Official()
+                    newOff.FullName = addForm.FullName
+                    newOff.Position = addForm.Position
+                    newOff.ContactNumber = addForm.ContactNumber
 
-        ' 1. VALIDATION
-        ' Check if the essential fields are filled
-        If String.IsNullOrWhiteSpace(txtOfficialName.Text) OrElse
-           String.IsNullOrWhiteSpace(txtOfficialPosition.Text) Then
+                    Dim repo As New OfficialRepository()
+                    repo.AddOfficial(newOff)
 
-            MessageBox.Show("Please fill in at least the Name and Position fields.", "Missing Data", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            Return
-        End If
-
-        ' Check if contact number is exactly 11 digits
-        If txtOfficialContact.Text.Length <> 11 Then
-            MessageBox.Show("Contact number must be exactly 11 digits (e.g., 09xxxxxxxxx).", "Invalid Contact", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            Return
-        End If
-
-        ' Check if it starts with "09" (Optional, but good for PH context)
-        If Not txtOfficialContact.Text.StartsWith("09") Then
-            MessageBox.Show("Contact number must start with '09'.", "Invalid Format", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            Return
-        End If
-
-        ' 2. PREPARE DATA
-        Dim fullname As String = txtOfficialName.Text.Trim()
-        Dim position As String = txtOfficialPosition.Text.Trim()
-        Dim contact As String = txtOfficialContact.Text.Trim()
-
-        ' 3. SAVE TO DATABASE
-        Try
-            Using conn As New MySqlConnection(connectionString) ' Using your barangay_db
-                conn.Open()
-
-                Dim query As String = "
-                INSERT INTO officials (fullname, position, contactnumber) 
-                VALUES (@Fullname, @Position, @Contact)
-            "
-
-                Using cmd As New MySqlCommand(query, conn)
-                    ' Add parameters to prevent SQL Injection
-                    cmd.Parameters.AddWithValue("@Fullname", fullname)
-                    cmd.Parameters.AddWithValue("@Position", position)
-                    cmd.Parameters.AddWithValue("@Contact", contact)
-
-                    cmd.ExecuteNonQuery()
-                End Using
-            End Using
-
-            ' 4. FEEDBACK AND CLEANUP
-            MessageBox.Show("Official added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
-
-            LoadOfficials() ' Refresh the grid to show the new data
-            btnClearOfficial_Click(Nothing, Nothing) ' Call your clear button's code to reset the textboxes
-
-        Catch ex As Exception
-            MessageBox.Show("Error adding official: " & ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End Try
+                    MessageBox.Show("Official added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    LoadOfficials()
+                    LoadDashboardData() ' Updates the counts on your dashboard!
+                Catch ex As Exception
+                    MessageBox.Show("Error adding official: " & ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End Try
+            End If
+        End Using
     End Sub
 
     Private Sub btnUpdateOfficial_Click(sender As Object, e As EventArgs) Handles btnUpdateOfficial.Click
-
-        ' 1. VALIDATION (Check for selection)
         If dgvOfficialsList.CurrentRow Is Nothing Then
             MessageBox.Show("Please select an official from the grid to update.", "No Official Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Return
         End If
 
-        ' 2. GET THE ID
-        ' Get the ID from the selected grid row
-        Dim selectedId As Integer = CInt(dgvOfficialsList.CurrentRow.Cells("id").Value)
+        Dim id As Integer = CInt(dgvOfficialsList.CurrentRow.Cells("id").Value)
 
-        ' 3. VALIDATION (Check for empty fields)
-        If String.IsNullOrWhiteSpace(txtOfficialName.Text) OrElse
-           String.IsNullOrWhiteSpace(txtOfficialPosition.Text) Then
+        Using editForm As New FormAddOfficial()
+            editForm.OfficialID = id
+            editForm.FullName = dgvOfficialsList.CurrentRow.Cells("fullname").Value.ToString()
+            editForm.Position = dgvOfficialsList.CurrentRow.Cells("position").Value.ToString()
+            editForm.ContactNumber = dgvOfficialsList.CurrentRow.Cells("contactnumber").Value.ToString()
 
-            MessageBox.Show("Please fill in at least the Name and Position fields.", "Missing Data", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            Return
-        End If
+            If editForm.ShowDialog() = DialogResult.OK Then
+                Try
+                    Dim upOff As New Official()
+                    upOff.Id = id
+                    upOff.FullName = editForm.FullName
+                    upOff.Position = editForm.Position
+                    upOff.ContactNumber = editForm.ContactNumber
 
-        ' 4. PREPARE DATA
-        Dim fullname As String = txtOfficialName.Text.Trim()
-        Dim position As String = txtOfficialPosition.Text.Trim()
-        Dim contact As String = txtOfficialContact.Text.Trim()
+                    Dim repo As New OfficialRepository()
+                    repo.UpdateOfficial(upOff)
 
-        ' 5. UPDATE DATABASE
-        Try
-            Using conn As New MySqlConnection(connectionString)
-                conn.Open()
-
-                Dim query As String = "
-                UPDATE officials SET 
-                    fullname = @Fullname, 
-                    position = @Position, 
-                    contactnumber = @Contact 
-                WHERE id = @id
-            "
-
-                Using cmd As New MySqlCommand(query, conn)
-                    ' Add parameters
-                    cmd.Parameters.AddWithValue("@Fullname", fullname)
-                    cmd.Parameters.AddWithValue("@Position", position)
-                    cmd.Parameters.AddWithValue("@Contact", contact)
-                    cmd.Parameters.AddWithValue("@id", selectedId) ' This is the most important one!
-
-                    cmd.ExecuteNonQuery()
-                End Using
-            End Using
-
-            ' 6. FEEDBACK AND CLEANUP
-            MessageBox.Show("Official updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
-
-            LoadOfficials() ' Refresh the grid
-            btnClearOfficial_Click(Nothing, Nothing) ' Clear the textboxes
-
-        Catch ex As Exception
-            MessageBox.Show("Error updating official: " & ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End Try
+                    MessageBox.Show("Official updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    LoadOfficials()
+                    LoadDashboardData()
+                Catch ex As Exception
+                    MessageBox.Show("Error updating official: " & ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End Try
+            End If
+        End Using
     End Sub
 
     Private Sub btnDeleteOfficial_Click(sender As Object, e As EventArgs) Handles btnDeleteOfficial.Click
-
-        ' 1. VALIDATION (Check for selection)
         If dgvOfficialsList.CurrentRow Is Nothing Then
-            MessageBox.Show("Please select an official from the grid to delete.", "No Official Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            MessageBox.Show("Please select an official to delete.", "No Official Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Return
         End If
 
-        ' 2. GET THE ID AND NAME
-        Dim selectedId As Integer = CInt(dgvOfficialsList.CurrentRow.Cells("id").Value)
-        Dim selectedName As String = dgvOfficialsList.CurrentRow.Cells("fullname").Value.ToString()
+        Dim id As Integer = CInt(dgvOfficialsList.CurrentRow.Cells("id").Value)
+        Dim name As String = dgvOfficialsList.CurrentRow.Cells("fullname").Value.ToString()
 
-        ' 3. CONFIRMATION DIALOG
-        Dim confirmResult As DialogResult
-        confirmResult = MessageBox.Show($"Are you sure you want to permanently delete this official?{vbCrLf}{vbCrLf}Name: {selectedName}",
-                                        "Confirm Delete",
-                                        MessageBoxButtons.YesNo,
-                                        MessageBoxIcon.Question)
+        If MessageBox.Show($"Are you sure you want to permanently delete {name}?", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
+            Try
+                Dim repo As New OfficialRepository()
+                repo.DeleteOfficial(id)
 
-        ' Stop if the user clicks "No"
-        If confirmResult = DialogResult.No Then
-            Return
+                MessageBox.Show("Official deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                LoadOfficials()
+                LoadDashboardData()
+            Catch ex As Exception
+                MessageBox.Show("Error deleting official: " & ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Try
         End If
-
-        ' 4. EXECUTE DELETE
-        Try
-            Using conn As New MySqlConnection(connectionString)
-                conn.Open()
-
-                Dim query As String = "DELETE FROM officials WHERE id = @id"
-
-                Using cmd As New MySqlCommand(query, conn)
-                    cmd.Parameters.AddWithValue("@id", selectedId)
-                    cmd.ExecuteNonQuery()
-                End Using
-            End Using
-
-            ' 5. FEEDBACK AND CLEANUP
-            MessageBox.Show("Official deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
-
-            LoadOfficials() ' Refresh the grid
-            btnClearOfficial_Click(Nothing, Nothing) ' Clear the textboxes
-
-        Catch ex As Exception
-            MessageBox.Show("Error deleting official: " & ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End Try
     End Sub
 
     Private Sub pnlResidentStat_Click(sender As Object, e As EventArgs) Handles pnlResidentStat.Click
@@ -1606,7 +1484,7 @@ Public Class FormMain
         End Using
     End Sub
 
-    Private Sub RestrictToNumbers(sender As Object, e As KeyPressEventArgs) Handles txtAmountPaid.KeyPress, txtOfficialContact.KeyPress
+    Private Sub RestrictToNumbers(sender As Object, e As KeyPressEventArgs) Handles txtAmountPaid.KeyPress
         ' Allow digits (0-9) and the Backspace key
         If Not Char.IsDigit(e.KeyChar) AndAlso Not e.KeyChar = ControlChars.Back Then
             ' If it's NOT a digit and NOT backspace, ignore the input
