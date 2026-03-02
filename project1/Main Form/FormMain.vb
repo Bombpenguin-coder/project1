@@ -432,224 +432,43 @@ Public Class FormMain
         HideAllPanels()
         pnlDocuments.Visible = True
         LoadDocumentHistory()
-
-
-        ' 1. Define the array of certificate types
-        Dim certificateTypes As String() = {
-        "Barangay Clearance",
-        "Certificate of Indigency",
-        "Certificate of Residency"
-    }
-
-        ' 2. Clear the ComboBox and add the array
-        cmbCertificateType.Items.Clear()
-        cmbCertificateType.Items.AddRange(certificateTypes)
-
-        ' 3. (Most Important) Set the style to prevent typing
-        ' This forces the user to pick from the list
-        cmbCertificateType.DropDownStyle = ComboBoxStyle.DropDownList
-
-        ' 4. Set a default selection so it's not blank
-        If cmbCertificateType.Items.Count > 0 Then
-            cmbCertificateType.SelectedIndex = 0 ' Selects "Barangay Clearance"
-        End If
-
-        ' Call the load function to populate the grid initially
-        LoadResidentsForLookup()
-
-        ' Reset selection when panel opens
-        _selectedResidentIdForIssuance = 0
-        lblSelectedResident.Text = "Selected Resident: (None)"
     End Sub
-
-    Private Sub txtAmountPaid_TextChanged(sender As Object, e As EventArgs) Handles txtAmountPaid.TextChanged
-
-    End Sub
-
-    Private Sub txtResidentSearch_TextChanged(sender As Object, e As EventArgs) Handles txtResidentSearch.TextChanged
-        ' Call a new function to load residents into our lookup grid, passing the search term
-        LoadResidentsForLookup(txtResidentSearch.Text.Trim())
-    End Sub
-
-    Private Sub LoadResidentsForLookup(Optional searchTerm As String = "")
-        Try
-            Using conn As New MySqlConnection(connectionString)
-                conn.Open()
-
-                ' 1. Select only essential columns for lookup
-                Dim query As String = "SELECT id, lastname, firstname, middlename, address, barangay FROM residents"
-
-                ' 2. Apply search filter
-                If Not String.IsNullOrWhiteSpace(searchTerm) Then
-                    query &= " WHERE CONCAT(lastname, ' ', firstname, ' ', middlename) LIKE @SearchTerm "
-                    query &= " OR address LIKE @SearchTerm "
-                End If
-
-                query &= " ORDER BY lastname, firstname LIMIT 50" ' Limit results for speed
-
-                Using cmd As New MySqlCommand(query, conn)
-                    If Not String.IsNullOrWhiteSpace(searchTerm) Then
-                        cmd.Parameters.AddWithValue("@SearchTerm", "%" & searchTerm & "%")
-                    End If
-
-                    Using adapter As New MySqlDataAdapter(cmd)
-                        Dim dtLookup As New DataTable()
-                        adapter.Fill(dtLookup)
-
-                        ' Bind to the NEW DataGridView in pnlDocuments
-                        dgvResidentLookup.DataSource = dtLookup
-
-                        ' Formatting the lookup grid
-                        If dgvResidentLookup.Columns.Contains("id") Then dgvResidentLookup.Columns("id").Visible = False
-                        If dgvResidentLookup.Columns.Contains("lastname") Then dgvResidentLookup.Columns("lastname").HeaderText = "Last Name"
-                        If dgvResidentLookup.Columns.Contains("firstname") Then dgvResidentLookup.Columns("firstname").HeaderText = "First Name"
-                        If dgvResidentLookup.Columns.Contains("middlename") Then dgvResidentLookup.Columns("middlename").Visible = False
-                        If dgvResidentLookup.Columns.Contains("address") Then dgvResidentLookup.Columns("address").Width = 200
-                    End Using
-                End Using
-            End Using
-        Catch ex As Exception
-            MessageBox.Show("Error loading resident lookup: " & ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End Try
-    End Sub
-
-    Private Sub dgvResidentLookup_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvResidentLookup.CellClick
-        If e.RowIndex >= 0 AndAlso dgvResidentLookup.CurrentRow IsNot Nothing Then
-            Dim selectedRow = dgvResidentLookup.CurrentRow
-
-            ' 1. Store the selected resident's ID
-            _selectedResidentIdForIssuance = CInt(selectedRow.Cells("id").Value)
-
-            ' 2. Update the label to confirm selection
-            Dim fullName As String = $"{selectedRow.Cells("lastname").Value}, {selectedRow.Cells("firstname").Value}"
-            lblSelectedResident.Text = $"Selected Resident: {fullName} (ID: {_selectedResidentIdForIssuance})"
-
-            ' 3. (Optional) Clear other fields to prepare for new issuance
-            ' txtPurpose.Clear()
-            ' txtAmountPaid.Text = "0.00"
-            ' cmbCertificateType.SelectedIndex = 0
-        End If
-    End Sub
-    Private Function GenerateControlNumber() As String
-        Try
-            Dim currentYear As Integer = Date.Now.Year
-            Dim nextId As Integer = 1 ' Default to 1
-
-            Using conn As New MySqlConnection(connectionString)
-                conn.Open()
-
-                ' Query to count how many certificates were issued THIS YEAR
-                ' We add 1 to get the next sequential number
-                Dim query As String = "SELECT COUNT(id) FROM certificates_issued WHERE YEAR(date_issued) = @Year"
-
-                Using cmd As New MySqlCommand(query, conn)
-                    cmd.Parameters.AddWithValue("@Year", currentYear)
-
-                    ' ExecuteScalar retrieves the single count value
-                    Dim result = cmd.ExecuteScalar()
-                    If result IsNot DBNull.Value AndAlso result IsNot Nothing Then
-                        ' Add 1 to the current count for the new ID
-                        nextId = Convert.ToInt32(result) + 1
-                    End If
-                End Using
-            End Using
-
-            ' Format: BRGY-YYYY-NNNN (e.g., BRGY-2025-0001)
-            ' .PadLeft(4, "0") ensures the number is 4 digits (0001, 0002, ... 0010, ... 0100)
-            Return $"BRGY-{currentYear}-{nextId.ToString().PadLeft(4, "0")}"
-
-        Catch ex As Exception
-            MessageBox.Show("Error generating control number: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            ' Return a basic timestamp as a fallback to avoid errors
-            Return $"BRGY-ERR-{Date.Now.Ticks}"
-        End Try
-    End Function
 
     Private Sub btnIssueSave_Click(sender As Object, e As EventArgs) Handles btnIssueSave.Click
+        Using issueForm As New FormIssueCertificate()
+            If issueForm.ShowDialog() = DialogResult.OK Then
+                Try
+                    Dim repo As New CertificateRepository()
 
-        ' --- 1. VALIDATION ---
-        If _selectedResidentIdForIssuance = 0 Then
-            MessageBox.Show("Please search and select a resident first.", "No Resident Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            Return
-        End If
+                    ' 1. Automatically generate the next control number
+                    Dim nextControlNum As String = repo.GenerateControlNumber()
 
-        If String.IsNullOrWhiteSpace(cmbCertificateType.Text) Then
-            MessageBox.Show("Please select a certificate type.", "Missing Data", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            cmbCertificateType.Focus()
-            Return
-        End If
+                    ' 2. Pack the data into the Class
+                    Dim newCert As New Certificate()
+                    newCert.ResidentId = issueForm.SelectedResidentId
+                    newCert.ControlNumber = nextControlNum
+                    newCert.CertificateType = issueForm.CertificateType
+                    newCert.Purpose = issueForm.Purpose
+                    newCert.AmountPaid = issueForm.AmountPaid
 
-        If String.IsNullOrWhiteSpace(txtPurpose.Text) Then
-            MessageBox.Show("Please enter the purpose for this document.", "Missing Data", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            txtPurpose.Focus()
-            Return
-        End If
+                    ' We automatically record who issued it based on who is logged in!
+                    newCert.IssuedBy = _currentUserFullname
 
-        ' Validate amount (must be a valid number)
-        Dim amount As Decimal = 0.0
-        If Not Decimal.TryParse(txtAmountPaid.Text, amount) Then
-            MessageBox.Show("Please enter a valid amount (e.g., 50.00 or 0).", "Invalid Amount", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            txtAmountPaid.Focus()
-            Return
-        End If
+                    ' 3. Save to database
+                    repo.IssueCertificate(newCert)
 
-        ' --- 2. GENERATE CONTROL NUMBER ---
-        Dim newControlNumber As String = GenerateControlNumber()
-        txtControlNumber.Text = newControlNumber ' Display it on the form
+                    ' 4. Success and Refresh
+                    MessageBox.Show($"Certificate issued successfully!{vbCrLf}Control Number: {nextControlNum}", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
-        ' --- 3. SAVE TO DATABASE ---
-        Try
-            Using conn As New MySqlConnection(connectionString)
-                conn.Open()
+                    LoadDocumentHistory()
+                    LoadDashboardData() ' Update the total reports generated on the dashboard!
 
-                ' Note: date_issued defaults to CURRENT_TIMESTAMP in the DB, so we don't need to specify it.
-                ' We assume 'issued_by' is the current logged-in user (we'll add this later)
-                Dim query As String = "
-                INSERT INTO certificates_issued 
-                (resident_id, control_number, certificate_type, purpose, amount_paid, issued_by) 
-                VALUES 
-                (@ResidentID, @ControlNumber, @CertificateType, @Purpose, @AmountPaid, @IssuedBy)
-            "
-
-                Using cmd As New MySqlCommand(query, conn)
-                    cmd.Parameters.AddWithValue("@ResidentID", _selectedResidentIdForIssuance)
-                    cmd.Parameters.AddWithValue("@ControlNumber", newControlNumber)
-                    cmd.Parameters.AddWithValue("@CertificateType", cmbCertificateType.Text)
-                    cmd.Parameters.AddWithValue("@Purpose", txtPurpose.Text.Trim())
-                    cmd.Parameters.AddWithValue("@AmountPaid", amount)
-
-                    ' TODO: Replace "admin" with the actual logged-in user's name
-                    cmd.Parameters.AddWithValue("@IssuedBy", "admin")
-
-                    cmd.ExecuteNonQuery()
-                End Using
-            End Using
-
-            MessageBox.Show($"Certificate issued successfully!{vbCrLf}Control Number: {newControlNumber}", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
-
-            ' Clear fields for the next issuance
-            ResetDocumentPanel()
-            LoadDocumentHistory()
-
-        Catch ex As Exception
-            MessageBox.Show("Error saving certificate: " & ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End Try
+                Catch ex As Exception
+                    MessageBox.Show("Error issuing certificate: " & ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End Try
+            End If
+        End Using
     End Sub
-
-    ' Helper function to clear the form
-    Private Sub ResetDocumentPanel()
-        _selectedResidentIdForIssuance = 0
-        lblSelectedResident.Text = "Selected Resident: (None)"
-        txtResidentSearch.Clear()
-        txtPurpose.Clear()
-        txtAmountPaid.Text = "0.00"
-        txtControlNumber.Clear()
-        cmbCertificateType.SelectedIndex = -1 ' Clear selection
-        LoadResidentsForLookup() ' Refresh the lookup grid
-    End Sub
-
-
-
     Private Sub LoadDashboardData()
         Dim residentCount As Integer = 0
         Dim officialCount As Integer = 0
@@ -1322,46 +1141,20 @@ Public Class FormMain
 
     Private Sub LoadDocumentHistory()
         Try
-            Using conn As New MySqlConnection(connectionString)
-                conn.Open()
+            Dim repo As New CertificateRepository()
+            Dim dt As DataTable = repo.GetDocumentHistory()
 
-                ' This query JOINS the certificates table with the residents table
-                ' to get the resident's name.
-                Dim query As String = "
-                SELECT 
-                    c.id, 
-                    c.control_number, 
-                    c.certificate_type, 
-                    c.purpose, 
-                    c.date_issued, 
-                    c.resident_id,
-                    CONCAT(r.lastname, ', ', r.firstname) AS resident_name
+            dgvDocumentHistory.DataSource = dt
 
-                FROM certificates_issued AS c
-                JOIN residents AS r ON c.resident_id = r.id
-                ORDER BY c.date_issued DESC
-            "
+            ' Format the columns
+            If dgvDocumentHistory.Columns.Contains("id") Then dgvDocumentHistory.Columns("id").Visible = False
+            If dgvDocumentHistory.Columns.Contains("resident_id") Then dgvDocumentHistory.Columns("resident_id").Visible = False
+            If dgvDocumentHistory.Columns.Contains("control_number") Then dgvDocumentHistory.Columns("control_number").HeaderText = "Control #"
+            If dgvDocumentHistory.Columns.Contains("certificate_type") Then dgvDocumentHistory.Columns("certificate_type").HeaderText = "Type"
+            If dgvDocumentHistory.Columns.Contains("purpose") Then dgvDocumentHistory.Columns("purpose").HeaderText = "Purpose"
+            If dgvDocumentHistory.Columns.Contains("date_issued") Then dgvDocumentHistory.Columns("date_issued").HeaderText = "Date Issued"
+            If dgvDocumentHistory.Columns.Contains("resident_name") Then dgvDocumentHistory.Columns("resident_name").HeaderText = "Resident"
 
-                Using adapter As New MySqlDataAdapter(query, conn)
-                    Dim dtHistory As New DataTable()
-                    adapter.Fill(dtHistory)
-
-                    ' Bind the data to our new grid
-                    dgvDocumentHistory.DataSource = dtHistory
-
-                    ' Format the columns
-                    If dgvDocumentHistory.Columns.Contains("id") Then dgvDocumentHistory.Columns("id").Visible = False
-                    If dgvDocumentHistory.Columns.Contains("control_number") Then dgvDocumentHistory.Columns("control_number").HeaderText = "Control #"
-                    If dgvDocumentHistory.Columns.Contains("certificate_type") Then dgvDocumentHistory.Columns("certificate_type").HeaderText = "Type"
-
-                    ' --- TYPO FIX ---
-                    If dgvDocumentHistory.Columns.Contains("purpose") Then dgvDocumentHistory.Columns("purpose").HeaderText = "Purpose"
-                    ' --- END OF FIX ---
-
-                    If dgvDocumentHistory.Columns.Contains("date_issued") Then dgvDocumentHistory.Columns("date_issued").HeaderText = "Date Issued"
-                    If dgvDocumentHistory.Columns.Contains("resident_name") Then dgvDocumentHistory.Columns("resident_name").HeaderText = "Resident"
-                End Using
-            End Using
         Catch ex As Exception
             MessageBox.Show("Error loading document history: " & ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
@@ -1482,18 +1275,6 @@ Public Class FormMain
                 End Try
             End If
         End Using
-    End Sub
-
-    Private Sub RestrictToNumbers(sender As Object, e As KeyPressEventArgs) Handles txtAmountPaid.KeyPress
-        ' Allow digits (0-9) and the Backspace key
-        If Not Char.IsDigit(e.KeyChar) AndAlso Not e.KeyChar = ControlChars.Back Then
-            ' If it's NOT a digit and NOT backspace, ignore the input
-            e.Handled = True
-        End If
-    End Sub
-
-    Private Sub Label37_Click(sender As Object, e As EventArgs) Handles Label37.Click
-
     End Sub
 End Class
 
