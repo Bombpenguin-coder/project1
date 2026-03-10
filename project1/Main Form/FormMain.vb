@@ -1180,6 +1180,10 @@ Public Class FormMain
             If dgvBlotter.Columns.Contains("respondent") Then dgvBlotter.Columns("respondent").HeaderText = "Respondent"
             If dgvBlotter.Columns.Contains("incident_type") Then dgvBlotter.Columns("incident_type").HeaderText = "Type"
             If dgvBlotter.Columns.Contains("status") Then dgvBlotter.Columns("status").HeaderText = "Status"
+            If dgvBlotter.Columns.Contains("complainant_cell") Then dgvBlotter.Columns("complainant_cell").Visible = False
+            If dgvBlotter.Columns.Contains("respondent_cell") Then dgvBlotter.Columns("respondent_cell").Visible = False
+            If dgvBlotter.Columns.Contains("street") Then dgvBlotter.Columns("street").Visible = False
+            If dgvBlotter.Columns.Contains("full_information") Then dgvBlotter.Columns("full_information").Visible = False
             ' Hide extra columns if needed
             If dgvBlotter.Columns.Contains("location") Then dgvBlotter.Columns("location").Visible = False
             If dgvBlotter.Columns.Contains("narrative") Then dgvBlotter.Columns("narrative").Visible = False
@@ -1197,12 +1201,16 @@ Public Class FormMain
                     ' 1. Pack data into the Class
                     Dim newCase As New BlotterCase()
                     newCase.Complainant = addForm.Complainant
+                    newCase.ComplainantCell = addForm.ComplainantCell ' NEW
                     newCase.Respondent = addForm.Respondent
+                    newCase.RespondentCell = addForm.RespondentCell   ' NEW
                     newCase.IncidentType = addForm.IncidentType
-                    newCase.Location = addForm.IncidentLocation ' Mapping the name change
+                    newCase.Location = addForm.IncidentLocation
+                    newCase.Street = addForm.Street                   ' NEW
                     newCase.IncidentDate = addForm.IncidentDate
                     newCase.Status = addForm.Status
                     newCase.Narrative = addForm.Narrative
+                    newCase.FullInformation = addForm.FullInformation ' NEW
 
                     ' 2. Send to Repository
                     Dim repo As New BlotterRepository()
@@ -1234,18 +1242,23 @@ Public Class FormMain
 
             ' Safely grab text from the grid cells
             editForm.Complainant = dgvBlotter.CurrentRow.Cells("complainant").Value.ToString()
+            editForm.ComplainantCell = dgvBlotter.CurrentRow.Cells("complainant_cell").Value.ToString() ' NEW
             editForm.Respondent = dgvBlotter.CurrentRow.Cells("respondent").Value.ToString()
+            editForm.RespondentCell = dgvBlotter.CurrentRow.Cells("respondent_cell").Value.ToString()   ' NEW
             editForm.IncidentType = dgvBlotter.CurrentRow.Cells("incident_type").Value.ToString()
             editForm.Status = dgvBlotter.CurrentRow.Cells("status").Value.ToString()
 
-            ' Note: If you hid the 'Location' or 'Narrative' columns in the grid, 
-            ' you might need to fetch them from the DB here. 
-            ' But for now, we assume they are in the grid (even if hidden).
             If dgvBlotter.Columns.Contains("location") Then
                 editForm.IncidentLocation = dgvBlotter.CurrentRow.Cells("location").Value.ToString()
             End If
+            If dgvBlotter.Columns.Contains("street") Then
+                editForm.Street = dgvBlotter.CurrentRow.Cells("street").Value.ToString() ' NEW
+            End If
             If dgvBlotter.Columns.Contains("narrative") Then
                 editForm.Narrative = dgvBlotter.CurrentRow.Cells("narrative").Value.ToString()
+            End If
+            If dgvBlotter.Columns.Contains("full_information") Then
+                editForm.FullInformation = dgvBlotter.CurrentRow.Cells("full_information").Value.ToString() ' NEW
             End If
 
             Dim dDate = dgvBlotter.CurrentRow.Cells("incident_date").Value
@@ -1257,12 +1270,16 @@ Public Class FormMain
                     Dim upCase As New BlotterCase()
                     upCase.Id = id
                     upCase.Complainant = editForm.Complainant
+                    upCase.ComplainantCell = editForm.ComplainantCell ' NEW
                     upCase.Respondent = editForm.Respondent
+                    upCase.RespondentCell = editForm.RespondentCell   ' NEW
                     upCase.IncidentType = editForm.IncidentType
                     upCase.Location = editForm.IncidentLocation
+                    upCase.Street = editForm.Street                   ' NEW
                     upCase.IncidentDate = editForm.IncidentDate
                     upCase.Status = editForm.Status
                     upCase.Narrative = editForm.Narrative
+                    upCase.FullInformation = editForm.FullInformation ' NEW
 
                     Dim repo As New BlotterRepository()
                     repo.UpdateCase(upCase)

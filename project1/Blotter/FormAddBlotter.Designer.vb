@@ -38,12 +38,16 @@ Partial Class FormAddBlotter
         txtComplainant = New TextBox()
         btnSave = New Button()
         btnCancel = New Button()
+        txtComplainantCell = New TextBox()
+        txtRespondentCell = New TextBox()
+        txtFullInformation = New RichTextBox()
+        txtStreet = New TextBox()
         SuspendLayout()
         ' 
         ' Label36
         ' 
         Label36.AutoSize = True
-        Label36.Location = New Point(12, 259)
+        Label36.Location = New Point(12, 324)
         Label36.Name = "Label36"
         Label36.Size = New Size(55, 15)
         Label36.TabIndex = 31
@@ -52,7 +56,7 @@ Partial Class FormAddBlotter
         ' Label35
         ' 
         Label35.AutoSize = True
-        Label35.Location = New Point(36, 199)
+        Label35.Location = New Point(36, 266)
         Label35.Name = "Label35"
         Label35.Size = New Size(39, 15)
         Label35.TabIndex = 30
@@ -61,7 +65,7 @@ Partial Class FormAddBlotter
         ' Label34
         ' 
         Label34.AutoSize = True
-        Label34.Location = New Point(234, 199)
+        Label34.Location = New Point(275, 266)
         Label34.Name = "Label34"
         Label34.Size = New Size(77, 15)
         Label34.TabIndex = 29
@@ -70,7 +74,7 @@ Partial Class FormAddBlotter
         ' Label33
         ' 
         Label33.AutoSize = True
-        Label33.Location = New Point(36, 116)
+        Label33.Location = New Point(36, 197)
         Label33.Name = "Label33"
         Label33.Size = New Size(53, 15)
         Label33.TabIndex = 28
@@ -79,7 +83,7 @@ Partial Class FormAddBlotter
         ' Label32
         ' 
         Label32.AutoSize = True
-        Label32.Location = New Point(234, 116)
+        Label32.Location = New Point(275, 197)
         Label32.Name = "Label32"
         Label32.Size = New Size(77, 15)
         Label32.TabIndex = 27
@@ -88,7 +92,7 @@ Partial Class FormAddBlotter
         ' Label31
         ' 
         Label31.AutoSize = True
-        Label31.Location = New Point(234, 48)
+        Label31.Location = New Point(275, 32)
         Label31.Name = "Label31"
         Label31.Size = New Size(70, 15)
         Label31.TabIndex = 26
@@ -97,7 +101,7 @@ Partial Class FormAddBlotter
         ' Label30
         ' 
         Label30.AutoSize = True
-        Label30.Location = New Point(36, 48)
+        Label30.Location = New Point(36, 32)
         Label30.Name = "Label30"
         Label30.Size = New Size(76, 15)
         Label30.TabIndex = 25
@@ -105,30 +109,30 @@ Partial Class FormAddBlotter
         ' 
         ' txtNarrative
         ' 
-        txtNarrative.Location = New Point(12, 277)
+        txtNarrative.Location = New Point(12, 342)
         txtNarrative.Multiline = True
         txtNarrative.Name = "txtNarrative"
-        txtNarrative.Size = New Size(488, 89)
+        txtNarrative.Size = New Size(222, 89)
         txtNarrative.TabIndex = 24
         ' 
         ' cmbStatus
         ' 
         cmbStatus.FormattingEnabled = True
-        cmbStatus.Location = New Point(36, 217)
+        cmbStatus.Location = New Point(36, 284)
         cmbStatus.Name = "cmbStatus"
         cmbStatus.Size = New Size(136, 23)
         cmbStatus.TabIndex = 23
         ' 
         ' txtLocation
         ' 
-        txtLocation.Location = New Point(36, 146)
+        txtLocation.Location = New Point(36, 227)
         txtLocation.Name = "txtLocation"
         txtLocation.Size = New Size(136, 23)
         txtLocation.TabIndex = 22
         ' 
         ' txtRespondent
         ' 
-        txtRespondent.Location = New Point(234, 78)
+        txtRespondent.Location = New Point(275, 62)
         txtRespondent.Name = "txtRespondent"
         txtRespondent.Size = New Size(147, 23)
         txtRespondent.TabIndex = 21
@@ -136,7 +140,7 @@ Partial Class FormAddBlotter
         ' dtpIncidentDate
         ' 
         dtpIncidentDate.CustomFormat = "MMMM dd, yyyy - hh:mm tt"
-        dtpIncidentDate.Location = New Point(234, 217)
+        dtpIncidentDate.Location = New Point(275, 284)
         dtpIncidentDate.Name = "dtpIncidentDate"
         dtpIncidentDate.Size = New Size(147, 23)
         dtpIncidentDate.TabIndex = 20
@@ -144,21 +148,21 @@ Partial Class FormAddBlotter
         ' cmbIncidentType
         ' 
         cmbIncidentType.FormattingEnabled = True
-        cmbIncidentType.Location = New Point(234, 146)
+        cmbIncidentType.Location = New Point(275, 227)
         cmbIncidentType.Name = "cmbIncidentType"
         cmbIncidentType.Size = New Size(147, 23)
         cmbIncidentType.TabIndex = 19
         ' 
         ' txtComplainant
         ' 
-        txtComplainant.Location = New Point(36, 78)
+        txtComplainant.Location = New Point(36, 62)
         txtComplainant.Name = "txtComplainant"
         txtComplainant.Size = New Size(136, 23)
         txtComplainant.TabIndex = 18
         ' 
         ' btnSave
         ' 
-        btnSave.Location = New Point(258, 399)
+        btnSave.Location = New Point(258, 464)
         btnSave.Name = "btnSave"
         btnSave.Size = New Size(75, 23)
         btnSave.TabIndex = 32
@@ -167,18 +171,51 @@ Partial Class FormAddBlotter
         ' 
         ' btnCancel
         ' 
-        btnCancel.Location = New Point(362, 399)
+        btnCancel.Location = New Point(362, 464)
         btnCancel.Name = "btnCancel"
         btnCancel.Size = New Size(75, 23)
         btnCancel.TabIndex = 33
         btnCancel.Text = "Cancel"
         btnCancel.UseVisualStyleBackColor = True
         ' 
+        ' txtComplainantCell
+        ' 
+        txtComplainantCell.Location = New Point(36, 119)
+        txtComplainantCell.Name = "txtComplainantCell"
+        txtComplainantCell.Size = New Size(136, 23)
+        txtComplainantCell.TabIndex = 34
+        ' 
+        ' txtRespondentCell
+        ' 
+        txtRespondentCell.Location = New Point(275, 119)
+        txtRespondentCell.Name = "txtRespondentCell"
+        txtRespondentCell.Size = New Size(147, 23)
+        txtRespondentCell.TabIndex = 35
+        ' 
+        ' txtFullInformation
+        ' 
+        txtFullInformation.Location = New Point(258, 342)
+        txtFullInformation.Name = "txtFullInformation"
+        txtFullInformation.Size = New Size(254, 96)
+        txtFullInformation.TabIndex = 36
+        txtFullInformation.Text = ""
+        ' 
+        ' txtStreet
+        ' 
+        txtStreet.Location = New Point(36, 171)
+        txtStreet.Name = "txtStreet"
+        txtStreet.Size = New Size(136, 23)
+        txtStreet.TabIndex = 37
+        ' 
         ' FormAddBlotter
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(524, 450)
+        ClientSize = New Size(524, 492)
+        Controls.Add(txtStreet)
+        Controls.Add(txtFullInformation)
+        Controls.Add(txtRespondentCell)
+        Controls.Add(txtComplainantCell)
         Controls.Add(btnCancel)
         Controls.Add(btnSave)
         Controls.Add(Label36)
@@ -217,4 +254,8 @@ Partial Class FormAddBlotter
     Friend WithEvents txtComplainant As TextBox
     Friend WithEvents btnSave As Button
     Friend WithEvents btnCancel As Button
+    Friend WithEvents txtComplainantCell As TextBox
+    Friend WithEvents txtRespondentCell As TextBox
+    Friend WithEvents txtFullInformation As RichTextBox
+    Friend WithEvents txtStreet As TextBox
 End Class

@@ -67,6 +67,42 @@
         End Set
     End Property
 
+    Public Property ComplainantCell As String
+        Get
+            Return txtComplainantCell.Text.Trim()
+        End Get
+        Set(value As String)
+            txtComplainantCell.Text = value
+        End Set
+    End Property
+
+    Public Property RespondentCell As String
+        Get
+            Return txtRespondentCell.Text.Trim()
+        End Get
+        Set(value As String)
+            txtRespondentCell.Text = value
+        End Set
+    End Property
+
+    Public Property Street As String
+        Get
+            Return txtStreet.Text.Trim()
+        End Get
+        Set(value As String)
+            txtStreet.Text = value
+        End Set
+    End Property
+
+    Public Property FullInformation As String
+        Get
+            Return txtFullInformation.Text.Trim()
+        End Get
+        Set(value As String)
+            txtFullInformation.Text = value
+        End Set
+    End Property
+
     ' --- FORM EVENTS ---
     Private Sub FormAddBlotter_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ' Initialize Dropdowns
