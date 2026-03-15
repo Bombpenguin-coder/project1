@@ -87,10 +87,10 @@
 
     Public Property Street As String
         Get
-            Return txtStreet.Text.Trim()
+            Return cmbStreet.Text
         End Get
         Set(value As String)
-            txtStreet.Text = value
+            cmbStreet.Text = value
         End Set
     End Property
 
@@ -105,17 +105,30 @@
 
     ' --- FORM EVENTS ---
     Private Sub FormAddBlotter_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        ' Initialize Dropdowns
-        If cmbIncidentType.Items.Count = 0 Then
-            cmbIncidentType.Items.AddRange(New String() {"Amicable Settlement", "Theft", "Physical Injury", "Noise Complaint", "Property Damage", "Threats", "Others"})
-        End If
+        ' --- 1. LOAD DYNAMIC LISTS FROM DATABASE ---
+        Try
+            Dim repo As New LookupRepository()
+
+            ' Load Incident Types
+            cmbIncidentType.DataSource = repo.GetItemsByCategory("Incident Type")
+            cmbIncidentType.DisplayMember = "item_value"
+
+            ' Load Streets
+            cmbStreet.DataSource = repo.GetItemsByCategory("Street")
+            cmbStreet.DisplayMember = "item_value"
+
+        Catch ex As Exception
+            MessageBox.Show("Error loading dropdowns: " & ex.Message, "DB Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+
+        ' --- 2. LOAD STATIC LIST (Status usually doesn't change) ---
         If cmbStatus.Items.Count = 0 Then
             cmbStatus.Items.AddRange(New String() {"Active", "Settled", "Referred to Police", "Dismissed"})
         End If
 
         dtpIncidentDate.MaxDate = DateTime.Now
 
-        ' Set Title based on Mode
+        ' --- 3. SET TITLE BASED ON MODE ---
         If CaseID > 0 Then
             Me.Text = "Edit Blotter Case (ID: " & CaseID & ")"
             btnSave.Text = "Update Case"
@@ -145,5 +158,9 @@
     Private Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click
         Me.DialogResult = DialogResult.Cancel
         Me.Close()
+    End Sub
+
+    Private Sub cmbStreet_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbStreet.SelectedIndexChanged
+
     End Sub
 End Class

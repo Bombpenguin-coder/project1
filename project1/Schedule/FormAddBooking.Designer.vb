@@ -22,13 +22,19 @@ Partial Class FormAddBooking
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle1 As DataGridViewCellStyle = New DataGridViewCellStyle()
-        Dim DataGridViewCellStyle2 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle3 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle4 As DataGridViewCellStyle = New DataGridViewCellStyle()
         grpBooking = New GroupBox()
+        Label2 = New Label()
+        Label1 = New Label()
+        txtInCharge = New TextBox()
+        txtReserverName = New TextBox()
+        rdoNonResident = New RadioButton()
+        rdoResident = New RadioButton()
         btnCancel = New Button()
         btnSave = New Button()
         Label18 = New Label()
-        dgvResidentSearch = New DataGridView()
+        dgvResidentLookup = New DataGridView()
         Label19 = New Label()
         cmbFacility = New ComboBox()
         Label20 = New Label()
@@ -41,16 +47,22 @@ Partial Class FormAddBooking
         dtpEndTime = New DateTimePicker()
         dtpStartTime = New DateTimePicker()
         grpBooking.SuspendLayout()
-        CType(dgvResidentSearch, ComponentModel.ISupportInitialize).BeginInit()
+        CType(dgvResidentLookup, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
         ' grpBooking
         ' 
         grpBooking.BackColor = Color.FromArgb(CByte(92), CByte(118), CByte(80))
+        grpBooking.Controls.Add(Label2)
+        grpBooking.Controls.Add(Label1)
+        grpBooking.Controls.Add(txtInCharge)
+        grpBooking.Controls.Add(txtReserverName)
+        grpBooking.Controls.Add(rdoNonResident)
+        grpBooking.Controls.Add(rdoResident)
         grpBooking.Controls.Add(btnCancel)
         grpBooking.Controls.Add(btnSave)
         grpBooking.Controls.Add(Label18)
-        grpBooking.Controls.Add(dgvResidentSearch)
+        grpBooking.Controls.Add(dgvResidentLookup)
         grpBooking.Controls.Add(Label19)
         grpBooking.Controls.Add(cmbFacility)
         grpBooking.Controls.Add(Label20)
@@ -66,16 +78,70 @@ Partial Class FormAddBooking
         grpBooking.ForeColor = Color.White
         grpBooking.Location = New Point(19, 12)
         grpBooking.Name = "grpBooking"
-        grpBooking.Size = New Size(704, 389)
+        grpBooking.Size = New Size(782, 448)
         grpBooking.TabIndex = 3
         grpBooking.TabStop = False
         grpBooking.Text = "New Booking"
+        ' 
+        ' Label2
+        ' 
+        Label2.AutoSize = True
+        Label2.Location = New Point(23, 187)
+        Label2.Name = "Label2"
+        Label2.Size = New Size(124, 20)
+        Label2.TabIndex = 25
+        Label2.Text = "In-Charge Name"
+        ' 
+        ' Label1
+        ' 
+        Label1.AutoSize = True
+        Label1.Location = New Point(23, 134)
+        Label1.Name = "Label1"
+        Label1.Size = New Size(117, 20)
+        Label1.TabIndex = 24
+        Label1.Text = "Reserver Name"
+        ' 
+        ' txtInCharge
+        ' 
+        txtInCharge.Location = New Point(23, 205)
+        txtInCharge.Name = "txtInCharge"
+        txtInCharge.Size = New Size(178, 27)
+        txtInCharge.TabIndex = 23
+        ' 
+        ' txtReserverName
+        ' 
+        txtReserverName.Location = New Point(23, 157)
+        txtReserverName.Name = "txtReserverName"
+        txtReserverName.Size = New Size(178, 27)
+        txtReserverName.TabIndex = 22
+        ' 
+        ' rdoNonResident
+        ' 
+        rdoNonResident.AutoSize = True
+        rdoNonResident.Location = New Point(372, 158)
+        rdoNonResident.Name = "rdoNonResident"
+        rdoNonResident.Size = New Size(241, 24)
+        rdoNonResident.TabIndex = 21
+        rdoNonResident.TabStop = True
+        rdoNonResident.Text = "Non-Resident/Other Barangay"
+        rdoNonResident.UseVisualStyleBackColor = True
+        ' 
+        ' rdoResident
+        ' 
+        rdoResident.AutoSize = True
+        rdoResident.Location = New Point(237, 158)
+        rdoResident.Name = "rdoResident"
+        rdoResident.Size = New Size(88, 24)
+        rdoResident.TabIndex = 20
+        rdoResident.TabStop = True
+        rdoResident.Text = "Resident"
+        rdoResident.UseVisualStyleBackColor = True
         ' 
         ' btnCancel
         ' 
         btnCancel.Font = New Font("Segoe UI Light", 11.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnCancel.ForeColor = Color.Black
-        btnCancel.Location = New Point(483, 296)
+        btnCancel.Location = New Point(553, 374)
         btnCancel.Name = "btnCancel"
         btnCancel.Size = New Size(86, 34)
         btnCancel.TabIndex = 19
@@ -86,7 +152,7 @@ Partial Class FormAddBooking
         ' 
         btnSave.Font = New Font("Segoe UI Light", 11.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnSave.ForeColor = Color.Black
-        btnSave.Location = New Point(586, 296)
+        btnSave.Location = New Point(656, 374)
         btnSave.Name = "btnSave"
         btnSave.Size = New Size(86, 34)
         btnSave.TabIndex = 18
@@ -96,52 +162,52 @@ Partial Class FormAddBooking
         ' Label18
         ' 
         Label18.AutoSize = True
-        Label18.Location = New Point(23, 97)
+        Label18.Location = New Point(19, 84)
         Label18.Name = "Label18"
         Label18.Size = New Size(73, 20)
         Label18.TabIndex = 13
         Label18.Text = "Facilities:"
         ' 
-        ' dgvResidentSearch
+        ' dgvResidentLookup
         ' 
-        dgvResidentSearch.AllowUserToAddRows = False
-        dgvResidentSearch.AllowUserToDeleteRows = False
-        dgvResidentSearch.AllowUserToResizeColumns = False
-        dgvResidentSearch.AllowUserToResizeRows = False
-        dgvResidentSearch.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
-        dgvResidentSearch.BackgroundColor = SystemColors.Window
-        dgvResidentSearch.BorderStyle = BorderStyle.None
-        dgvResidentSearch.CellBorderStyle = DataGridViewCellBorderStyle.None
-        dgvResidentSearch.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None
-        DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter
-        DataGridViewCellStyle1.BackColor = Color.FromArgb(CByte(62), CByte(95), CByte(68))
-        DataGridViewCellStyle1.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        DataGridViewCellStyle1.ForeColor = SystemColors.Window
-        DataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(CByte(128), CByte(175), CByte(129))
-        DataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText
-        DataGridViewCellStyle1.WrapMode = DataGridViewTriState.True
-        dgvResidentSearch.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
-        dgvResidentSearch.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle2.BackColor = SystemColors.ControlDarkDark
-        DataGridViewCellStyle2.Font = New Font("Segoe UI Light", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        DataGridViewCellStyle2.ForeColor = Color.White
-        DataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight
-        DataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText
-        DataGridViewCellStyle2.WrapMode = DataGridViewTriState.False
-        dgvResidentSearch.DefaultCellStyle = DataGridViewCellStyle2
-        dgvResidentSearch.EnableHeadersVisualStyles = False
-        dgvResidentSearch.GridColor = SystemColors.Info
-        dgvResidentSearch.Location = New Point(25, 228)
-        dgvResidentSearch.Name = "dgvResidentSearch"
-        dgvResidentSearch.SelectionMode = DataGridViewSelectionMode.FullRowSelect
-        dgvResidentSearch.Size = New Size(393, 83)
-        dgvResidentSearch.TabIndex = 10
+        dgvResidentLookup.AllowUserToAddRows = False
+        dgvResidentLookup.AllowUserToDeleteRows = False
+        dgvResidentLookup.AllowUserToResizeColumns = False
+        dgvResidentLookup.AllowUserToResizeRows = False
+        dgvResidentLookup.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+        dgvResidentLookup.BackgroundColor = SystemColors.Window
+        dgvResidentLookup.BorderStyle = BorderStyle.None
+        dgvResidentLookup.CellBorderStyle = DataGridViewCellBorderStyle.None
+        dgvResidentLookup.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None
+        DataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle3.BackColor = Color.FromArgb(CByte(62), CByte(95), CByte(68))
+        DataGridViewCellStyle3.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        DataGridViewCellStyle3.ForeColor = SystemColors.Window
+        DataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(CByte(128), CByte(175), CByte(129))
+        DataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText
+        DataGridViewCellStyle3.WrapMode = DataGridViewTriState.True
+        dgvResidentLookup.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle3
+        dgvResidentLookup.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        DataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle4.BackColor = SystemColors.ControlDarkDark
+        DataGridViewCellStyle4.Font = New Font("Segoe UI Light", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        DataGridViewCellStyle4.ForeColor = Color.White
+        DataGridViewCellStyle4.SelectionBackColor = SystemColors.Highlight
+        DataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText
+        DataGridViewCellStyle4.WrapMode = DataGridViewTriState.False
+        dgvResidentLookup.DefaultCellStyle = DataGridViewCellStyle4
+        dgvResidentLookup.EnableHeadersVisualStyles = False
+        dgvResidentLookup.GridColor = SystemColors.Info
+        dgvResidentLookup.Location = New Point(23, 325)
+        dgvResidentLookup.Name = "dgvResidentLookup"
+        dgvResidentLookup.SelectionMode = DataGridViewSelectionMode.FullRowSelect
+        dgvResidentLookup.Size = New Size(393, 83)
+        dgvResidentLookup.TabIndex = 10
         ' 
         ' Label19
         ' 
         Label19.AutoSize = True
-        Label19.Location = New Point(23, 154)
+        Label19.Location = New Point(19, 251)
         Label19.Name = "Label19"
         Label19.Size = New Size(124, 20)
         Label19.TabIndex = 14
@@ -151,7 +217,7 @@ Partial Class FormAddBooking
         ' 
         cmbFacility.Font = New Font("Segoe UI Light", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         cmbFacility.FormattingEnabled = True
-        cmbFacility.Location = New Point(25, 119)
+        cmbFacility.Location = New Point(21, 106)
         cmbFacility.Name = "cmbFacility"
         cmbFacility.Size = New Size(254, 25)
         cmbFacility.TabIndex = 3
@@ -159,7 +225,7 @@ Partial Class FormAddBooking
         ' Label20
         ' 
         Label20.AutoSize = True
-        Label20.Location = New Point(25, 47)
+        Label20.Location = New Point(21, 34)
         Label20.Name = "Label20"
         Label20.Size = New Size(98, 20)
         Label20.TabIndex = 15
@@ -168,7 +234,7 @@ Partial Class FormAddBooking
         ' Label21
         ' 
         Label21.AutoSize = True
-        Label21.Location = New Point(469, 44)
+        Label21.Location = New Point(539, 32)
         Label21.Name = "Label21"
         Label21.Size = New Size(84, 20)
         Label21.TabIndex = 16
@@ -178,7 +244,7 @@ Partial Class FormAddBooking
         ' 
         txtResidentSearch.Font = New Font("Segoe UI Light", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         txtResidentSearch.ForeColor = SystemColors.WindowText
-        txtResidentSearch.Location = New Point(25, 177)
+        txtResidentSearch.Location = New Point(21, 274)
         txtResidentSearch.Name = "txtResidentSearch"
         txtResidentSearch.Size = New Size(172, 25)
         txtResidentSearch.TabIndex = 4
@@ -186,7 +252,7 @@ Partial Class FormAddBooking
         ' Label22
         ' 
         Label22.AutoSize = True
-        Label22.Location = New Point(469, 97)
+        Label22.Location = New Point(539, 85)
         Label22.Name = "Label22"
         Label22.Size = New Size(76, 20)
         Label22.TabIndex = 17
@@ -195,7 +261,7 @@ Partial Class FormAddBooking
         ' lblSelectedResident
         ' 
         lblSelectedResident.AutoSize = True
-        lblSelectedResident.Location = New Point(23, 205)
+        lblSelectedResident.Location = New Point(21, 302)
         lblSelectedResident.Name = "lblSelectedResident"
         lblSelectedResident.Size = New Size(136, 20)
         lblSelectedResident.TabIndex = 5
@@ -204,7 +270,7 @@ Partial Class FormAddBooking
         ' txtEventName
         ' 
         txtEventName.Font = New Font("Segoe UI Light", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        txtEventName.Location = New Point(25, 69)
+        txtEventName.Location = New Point(21, 56)
         txtEventName.Name = "txtEventName"
         txtEventName.Size = New Size(254, 25)
         txtEventName.TabIndex = 6
@@ -225,7 +291,7 @@ Partial Class FormAddBooking
         dtpEndTime.CustomFormat = "MMMM dd, yyyy - hh:mm tt"
         dtpEndTime.Font = New Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         dtpEndTime.Format = DateTimePickerFormat.Custom
-        dtpEndTime.Location = New Point(472, 120)
+        dtpEndTime.Location = New Point(542, 108)
         dtpEndTime.Name = "dtpEndTime"
         dtpEndTime.Size = New Size(200, 25)
         dtpEndTime.TabIndex = 8
@@ -235,7 +301,7 @@ Partial Class FormAddBooking
         dtpStartTime.CustomFormat = "MMMM dd, yyyy - hh:mm tt"
         dtpStartTime.Font = New Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         dtpStartTime.Format = DateTimePickerFormat.Custom
-        dtpStartTime.Location = New Point(472, 69)
+        dtpStartTime.Location = New Point(542, 57)
         dtpStartTime.Name = "dtpStartTime"
         dtpStartTime.Size = New Size(200, 25)
         dtpStartTime.TabIndex = 7
@@ -244,19 +310,19 @@ Partial Class FormAddBooking
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(743, 426)
+        ClientSize = New Size(825, 484)
         Controls.Add(grpBooking)
         Name = "FormAddBooking"
         Text = "FormAddBooking"
         grpBooking.ResumeLayout(False)
         grpBooking.PerformLayout()
-        CType(dgvResidentSearch, ComponentModel.ISupportInitialize).EndInit()
+        CType(dgvResidentLookup, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
     End Sub
 
     Friend WithEvents grpBooking As GroupBox
     Friend WithEvents Label18 As Label
-    Friend WithEvents dgvResidentSearch As DataGridView
+    Friend WithEvents dgvResidentLookup As DataGridView
     Friend WithEvents Label19 As Label
     Friend WithEvents cmbFacility As ComboBox
     Friend WithEvents Label20 As Label
@@ -270,4 +336,10 @@ Partial Class FormAddBooking
     Friend WithEvents dtpStartTime As DateTimePicker
     Friend WithEvents btnSave As Button
     Friend WithEvents btnCancel As Button
+    Friend WithEvents rdoNonResident As RadioButton
+    Friend WithEvents rdoResident As RadioButton
+    Friend WithEvents txtReserverName As TextBox
+    Friend WithEvents txtInCharge As TextBox
+    Friend WithEvents Label2 As Label
+    Friend WithEvents Label1 As Label
 End Class

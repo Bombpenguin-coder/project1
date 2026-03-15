@@ -1,74 +1,108 @@
 ﻿Imports MySql.Data.MySqlClient
 
 Public Class FormAddBooking
-    ' Tracker for the resident making the booking
-    Public Property SelectedResidentId As Integer = 0
     Private connectionString As String = "server=localhost;port=3306;user id=root;password=;database=barangay_db;"
 
-    ' --- PROPERTIES (Bridges for Main Form) ---
-    Public Property FacilityName As String
+    Public Property SelectedResidentId As Integer = 0
+
+    ' --- NEW PROPERTIES ---
+    Public ReadOnly Property IsResident As Boolean
+        Get
+            Return rdoResident.Checked
+        End Get
+    End Property
+
+    Public ReadOnly Property ReserverName As String
+        Get
+            Return txtReserverName.Text.Trim()
+        End Get
+    End Property
+
+    Public ReadOnly Property InCharge As String
+        Get
+            Return txtInCharge.Text.Trim()
+        End Get
+    End Property
+
+    ' --- EXISTING PROPERTIES ---
+    Public ReadOnly Property FacilityName As String
         Get
             Return cmbFacility.Text
         End Get
-        Set(value As String)
-            cmbFacility.Text = value
-        End Set
     End Property
 
-    Public Property EventName As String
+    Public ReadOnly Property EventName As String
         Get
             Return txtEventName.Text.Trim()
         End Get
-        Set(value As String)
-            txtEventName.Text = value
-        End Set
     End Property
 
-    Public Property StartTime As DateTime
+    Public ReadOnly Property StartTime As DateTime
         Get
             Return dtpStartTime.Value
         End Get
-        Set(value As DateTime)
-            dtpStartTime.Value = value
-        End Set
     End Property
 
-    Public Property EndTime As DateTime
+    Public ReadOnly Property EndTime As DateTime
         Get
             Return dtpEndTime.Value
         End Get
-        Set(value As DateTime)
-            dtpEndTime.Value = value
-        End Set
     End Property
 
     ' --- FORM EVENTS ---
     Private Sub FormAddBooking_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        If cmbFacility.Items.Count = 0 Then
-            cmbFacility.Items.AddRange(New String() {"Barangay Basketball Court", "Multi-Purpose Hall", "Daycare Center", "Barangay Conference Room"})
-        End If
+        ' --- LOAD DYNAMIC FACILITIES FROM DATABASE ---
+        Try
+            Dim repo As New LookupRepository()
+            cmbFacility.DataSource = repo.GetItemsByCategory("Facility")
+            cmbFacility.DisplayMember = "item_value"
+            cmbFacility.DropDownStyle = ComboBoxStyle.DropDownList
+        Catch ex As Exception
+            MessageBox.Show("Error loading facilities: " & ex.Message, "DB Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
 
-        ' This disables past dates on the calendar picker visually!
-        dtpStartTime.MinDate = DateTime.Now
-        dtpEndTime.MinDate = DateTime.Now
+        ' Set up Date Time Pickers
+        dtpStartTime.Format = DateTimePickerFormat.Custom
+        dtpStartTime.CustomFormat = "MM/dd/yyyy hh:mm tt"
+        dtpEndTime.Format = DateTimePickerFormat.Custom
+        dtpEndTime.CustomFormat = "MM/dd/yyyy hh:mm tt"
 
-        ' Set default times
-        dtpStartTime.Value = DateTime.Now
-        dtpEndTime.Value = DateTime.Now.AddHours(1)
-        lblSelectedResident.Text = "Selected: (None)"
+        rdoResident.Checked = True ' Default to Resident
+        LoadResidentsForLookup()
     End Sub
 
-    ' --- RESIDENT SEARCH LOGIC (Moved here from Main Form) ---
-    Private Sub txtResidentSearch_TextChanged(sender As Object, e As EventArgs) Handles txtResidentSearch.TextChanged
-        Dim searchTerm As String = txtResidentSearch.Text.Trim()
+    ' --- SMART RADIO BUTTON LOGIC ---
+    Private Sub rdoResident_CheckedChanged(sender As Object, e As EventArgs) Handles rdoResident.CheckedChanged, rdoNonResident.CheckedChanged
+        If rdoResident.Checked Then
+            ' Resident Mode: Enable search, disable manual name typing
+            txtResidentSearch.Enabled = True
+            dgvResidentLookup.Enabled = True
+            txtReserverName.ReadOnly = True
+            lblSelectedResident.Text = "Selected Resident: (None)"
+        Else
+            ' Non-Resident Mode: Disable search, enable manual name typing
+            txtResidentSearch.Enabled = False
+            dgvResidentLookup.Enabled = False
+            txtReserverName.ReadOnly = False
+
+            ' Reset resident info
+            SelectedResidentId = 0
+            txtResidentSearch.Clear()
+            txtReserverName.Clear()
+            lblSelectedResident.Text = "Selected Resident: N/A (Non-Resident)"
+        End If
+    End Sub
+
+    ' --- RESIDENT SEARCH LOGIC ---
+    Private Sub LoadResidentsForLookup(Optional searchTerm As String = "")
         Try
             Using conn As New MySqlConnection(connectionString)
                 conn.Open()
-                Dim query As String = "SELECT id, lastname, firstname FROM residents"
+                Dim query As String = "SELECT id, lastname, firstname, middlename FROM residents"
                 If Not String.IsNullOrWhiteSpace(searchTerm) Then
-                    query &= " WHERE CONCAT(lastname, ' ', firstname) LIKE @SearchTerm "
+                    query &= " WHERE CONCAT(lastname, ' ', firstname, ' ', middlename) LIKE @SearchTerm"
                 End If
-                query &= " ORDER BY lastname LIMIT 20"
+                query &= " ORDER BY lastname, firstname LIMIT 50"
 
                 Using cmd As New MySqlCommand(query, conn)
                     If Not String.IsNullOrWhiteSpace(searchTerm) Then
@@ -77,8 +111,9 @@ Public Class FormAddBooking
                     Using adapter As New MySqlDataAdapter(cmd)
                         Dim dtLookup As New DataTable()
                         adapter.Fill(dtLookup)
-                        dgvResidentSearch.DataSource = dtLookup
-                        If dgvResidentSearch.Columns.Contains("id") Then dgvResidentSearch.Columns("id").Visible = False
+                        dgvResidentLookup.DataSource = dtLookup
+
+                        If dgvResidentLookup.Columns.Contains("id") Then dgvResidentLookup.Columns("id").Visible = False
                     End Using
                 End Using
             End Using
@@ -87,36 +122,44 @@ Public Class FormAddBooking
         End Try
     End Sub
 
-    Private Sub dgvResidentSearch_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvResidentSearch.CellClick
-        If e.RowIndex >= 0 AndAlso dgvResidentSearch.CurrentRow IsNot Nothing Then
-            SelectedResidentId = CInt(dgvResidentSearch.CurrentRow.Cells("id").Value)
-            Dim fullName As String = $"{dgvResidentSearch.CurrentRow.Cells("lastname").Value}, {dgvResidentSearch.CurrentRow.Cells("firstname").Value}"
-            lblSelectedResident.Text = $"Selected: {fullName}"
+    Private Sub txtResidentSearch_TextChanged(sender As Object, e As EventArgs) Handles txtResidentSearch.TextChanged
+        LoadResidentsForLookup(txtResidentSearch.Text.Trim())
+    End Sub
+
+    Private Sub dgvResidentLookup_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvResidentLookup.CellClick
+        If rdoResident.Checked AndAlso e.RowIndex >= 0 AndAlso dgvResidentLookup.CurrentRow IsNot Nothing Then
+            Dim row = dgvResidentLookup.CurrentRow
+            SelectedResidentId = CInt(row.Cells("id").Value)
+
+            ' Format the name and AUTOFILL IT!
+            Dim fullName As String = $"{row.Cells("firstname").Value} {row.Cells("lastname").Value}"
+            txtReserverName.Text = fullName
+
+            lblSelectedResident.Text = $"Selected Resident: {fullName} (ID: {SelectedResidentId})"
         End If
     End Sub
 
-    ' --- SAVE BUTTON ---
+    ' --- BUTTONS & VALIDATION ---
     Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
-        ' Basic Validation
-        If SelectedResidentId = 0 Then
-            MessageBox.Show("Please select a resident.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+        ' New Validations!
+        If IsResident AndAlso SelectedResidentId = 0 Then
+            MessageBox.Show("Please search and select a resident from the grid.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Return
         End If
-        If cmbFacility.SelectedIndex = -1 OrElse String.IsNullOrWhiteSpace(EventName) Then
-            MessageBox.Show("Please fill in facility and event name.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+        If Not IsResident AndAlso String.IsNullOrWhiteSpace(ReserverName) Then
+            MessageBox.Show("Please manually enter the name of the Non-Resident reserver.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Return
         End If
-        If EndTime <= StartTime Then
-            MessageBox.Show("End Time must be after Start Time.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+        If String.IsNullOrWhiteSpace(InCharge) Then
+            MessageBox.Show("Please indicate who is In-Charge of this reservation.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Return
         End If
-        If StartTime < DateTime.Now Then
-            MessageBox.Show("You cannot book a facility in the past.", "Invalid Time", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+        If String.IsNullOrWhiteSpace(FacilityName) OrElse String.IsNullOrWhiteSpace(EventName) Then
+            MessageBox.Show("Please fill in the Facility and Event Name.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Return
         End If
-
-        If EndTime <= StartTime Then
-            MessageBox.Show("End Time must be after Start Time.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+        If StartTime >= EndTime Then
+            MessageBox.Show("End time must be after the start time.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Return
         End If
 

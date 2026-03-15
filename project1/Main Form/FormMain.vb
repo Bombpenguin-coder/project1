@@ -65,10 +65,10 @@ Public Class FormMain
         HideAllPanels()
         pnlAddUsers.Visible = True
 
-        ' Populate the Role ComboBox
+        ' Populate the Role ComboBox (UPDATED ROLES)
         cmbUserRole.Items.Clear()
-        cmbUserRole.Items.AddRange(New String() {"Admin", "Technician", "Staff"})
-        cmbUserRole.SelectedIndex = 0 ' Default to "Admin"
+        cmbUserRole.Items.AddRange(New String() {"Superadmin", "Admin", "Staff"})
+        cmbUserRole.SelectedIndex = 0 ' Default to Superadmin
 
         ' Load all users into the grid
         LoadUsers()
@@ -358,17 +358,15 @@ Public Class FormMain
 
                     ' 2. Apply Role-Based Filtering
                     Select Case _currentUserRole
-                        Case "Admin", "Technician"
-                        ' These roles see everyone. No filter needed.
-                        ' The query is complete as is.
-                        Case "Staff", "Users"
+                        Case "Superadmin", "Admin"
+                            ' These roles see everyone. No filter needed.
+                        Case "Staff"
                             ' These roles only see themselves.
-                            ' We add a WHERE clause to filter by their username.
                             query &= " WHERE lh.username = @Username"
                             cmd.Parameters.AddWithValue("@Username", _currentUsername)
                         Case Else
                             ' Unknown role sees nothing
-                            query &= " WHERE 1 = 0" ' (This is a trick to return no rows)
+                            query &= " WHERE 1 = 0"
                     End Select
 
                     ' 3. Add ordering
@@ -542,22 +540,18 @@ Public Class FormMain
         ' -----------------------------------------------------------------
         Select Case _currentUserRole
 
-            Case "Admin", "Technician"
-                ' --- ADMIN / TECHNICIAN ---
-                ' They can do everything. No restrictions needed.
-                ' We'll just rename the User Management button for clarity
-                btnAddUsers.Text = "User Maintenance" ' (If you're still using btnReports)
+                Case "Superadmin", "Admin"
+                    ' --- SUPERADMIN / ADMIN ---
+                    ' They can do everything. No restrictions needed.
+                    btnAddUsers.Text = "User Maintenance"
 
-            Case "Staff"
-                ' --- STAFF ---
-                ' Can do daily work, but no admin tasks.
-
-                ' 1. Hide Admin-Only Panels:
-                btnOfficials.Visible = False  ' Cannot manage officials
-                pnlAddUsers.Visible = False ' Cannot manage users
-
-                ' 2. (Optional) Disable delete buttons (safer for staff)
-                btnDeleteResident.Enabled = False
+                Case "Staff"
+                    ' --- STAFF ---
+                    ' Can do daily work, but no admin tasks.
+                    btnOfficials.Visible = False  ' Cannot manage officials
+                    pnlAddUsers.Visible = False   ' Cannot manage users
+                btnDeleteResident.Enabled = False ' Safer for staff
+                btnSystemMaintenance.Visible = False
 
             Case Else
                 ' --- UNKNOWN ROLE ---
@@ -830,10 +824,14 @@ Public Class FormMain
         End If
 
         ' --- NEW SAFEGUARD #2 (Protect High-Level Accounts) ---
-        ' If the user being deleted is an Admin or Technician, BLOCK IT.
-        If selectedRole = "Admin" OrElse selectedRole = "Technician" Then
-            MessageBox.Show($"For security reasons, you cannot delete {selectedRole} accounts.",
-                        "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Stop)
+        If selectedRole = "Superadmin" Then
+            MessageBox.Show("For security reasons, you cannot delete Superadmin accounts.", "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Stop)
+            Return
+        End If
+
+        ' Prevent normal Admins from deleting other Admins
+        If _currentUserRole = "Admin" AndAlso selectedRole = "Admin" Then
+            MessageBox.Show("Admins cannot delete other Admin accounts. Only a Superadmin can do this.", "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Stop)
             Return
         End If
         ' --------------------------------------------------------
@@ -907,6 +905,9 @@ Public Class FormMain
             ' Formatting
             If dgvReservations.Columns.Contains("facility_name") Then dgvReservations.Columns("facility_name").HeaderText = "Facility"
             If dgvReservations.Columns.Contains("event_name") Then dgvReservations.Columns("event_name").HeaderText = "Event"
+            If dgvReservations.Columns.Contains("reserver_name") Then dgvReservations.Columns("reserver_name").HeaderText = "Reserved By"
+            If dgvReservations.Columns.Contains("is_resident") Then dgvReservations.Columns("is_resident").Visible = False
+            If dgvReservations.Columns.Contains("in_charge") Then dgvReservations.Columns("in_charge").HeaderText = "In-Charge"
 
             If dgvReservations.Columns.Contains("start_datetime") Then
                 dgvReservations.Columns("start_datetime").HeaderText = "Start Time"
@@ -941,6 +942,13 @@ Public Class FormMain
                     ' 2. Pack Data
                     Dim newRes As New Reservation()
                     newRes.ResidentId = addForm.SelectedResidentId
+
+                    ' --- NEW FIELDS ---
+                    newRes.IsResident = addForm.IsResident
+                    newRes.ReserverName = addForm.ReserverName
+                    newRes.InCharge = addForm.InCharge
+                    ' ------------------
+
                     newRes.FacilityName = addForm.FacilityName
                     newRes.EventName = addForm.EventName
                     newRes.StartDateTime = addForm.StartTime
@@ -1291,6 +1299,11 @@ Public Class FormMain
                     MessageBox.Show("Error: " & ex.Message)
                 End Try
             End If
+        End Using
+    End Sub
+    Private Sub btnSystemMaintenance_Click(sender As Object, e As EventArgs) Handles btnSystemMaintenance.Click
+        Using maintForm As New FormSystemMaintenance()
+            maintForm.ShowDialog()
         End Using
     End Sub
 End Class

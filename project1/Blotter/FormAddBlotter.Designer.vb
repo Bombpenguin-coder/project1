@@ -41,7 +41,7 @@ Partial Class FormAddBlotter
         txtComplainantCell = New TextBox()
         txtRespondentCell = New TextBox()
         txtFullInformation = New RichTextBox()
-        txtStreet = New TextBox()
+        cmbStreet = New ComboBox()
         SuspendLayout()
         ' 
         ' Label36
@@ -200,19 +200,20 @@ Partial Class FormAddBlotter
         txtFullInformation.TabIndex = 36
         txtFullInformation.Text = ""
         ' 
-        ' txtStreet
+        ' cmbStreet
         ' 
-        txtStreet.Location = New Point(36, 171)
-        txtStreet.Name = "txtStreet"
-        txtStreet.Size = New Size(136, 23)
-        txtStreet.TabIndex = 37
+        cmbStreet.FormattingEnabled = True
+        cmbStreet.Location = New Point(36, 171)
+        cmbStreet.Name = "cmbStreet"
+        cmbStreet.Size = New Size(136, 23)
+        cmbStreet.TabIndex = 37
         ' 
         ' FormAddBlotter
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(524, 492)
-        Controls.Add(txtStreet)
+        Controls.Add(cmbStreet)
         Controls.Add(txtFullInformation)
         Controls.Add(txtRespondentCell)
         Controls.Add(txtComplainantCell)
@@ -257,5 +258,5 @@ Partial Class FormAddBlotter
     Friend WithEvents txtComplainantCell As TextBox
     Friend WithEvents txtRespondentCell As TextBox
     Friend WithEvents txtFullInformation As RichTextBox
-    Friend WithEvents txtStreet As TextBox
+    Friend WithEvents cmbStreet As ComboBox
 End Class
