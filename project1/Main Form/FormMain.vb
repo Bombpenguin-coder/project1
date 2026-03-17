@@ -35,11 +35,12 @@ Public Class FormMain
         pnlDashboard.Visible = False
         pnlResidents.Visible = False
         pnlLoginHistory.Visible = False
-        pnlAddUsers.Visible = False
+        pnlUserMaintenance.Visible = False
         pnlDocuments.Visible = False
         pnlSchedule.Visible = False
         pnlOfficials.Visible = False
         pnlBlotter.Visible = False
+        pnlAuditTrail.Visible = False
     End Sub
     Private Sub btnDashboard_Click(sender As Object, e As EventArgs) Handles btnDashboard.Click
         HideAllPanels()
@@ -153,6 +154,9 @@ Public Class FormMain
                 LoadResidentsFromDatabase()
                 MessageBox.Show("Resident added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
+                Dim audit As New AuditRepository()
+                audit.LogAction(_currentUsername, _currentUserRole, "ADD", "Residents", $"Added new resident: {newResident.FirstName} {newResident.LastName}")
+
             Catch ex As Exception
                 MessageBox.Show("Error adding resident: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
@@ -177,6 +181,9 @@ Public Class FormMain
                 ' 2. Refresh UI
                 MessageBox.Show("Resident deleted successfully.", "Deleted", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 LoadResidentsFromDatabase()
+
+                Dim audit As New AuditRepository()
+                audit.LogAction(_currentUsername, _currentUserRole, "DELETE", "Residents", $"Deleted resident ID: {selectedId}")
 
             Catch ex As Exception
                 MessageBox.Show("Error deleting: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -256,6 +263,9 @@ Public Class FormMain
                 ' 3. Refresh UI
                 MessageBox.Show("Resident updated successfully!", "Updated", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 LoadResidentsFromDatabase()
+
+                Dim audit As New AuditRepository()
+                audit.LogAction(_currentUsername, _currentUserRole, "UPDATE", "Residents", $"Updated resident ID: {selectedId}")
 
             Catch ex As Exception
                 MessageBox.Show("Error updating: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -461,6 +471,9 @@ Public Class FormMain
                     LoadDocumentHistory()
                     LoadDashboardData() ' Update the total reports generated on the dashboard!
 
+                    Dim audit As New AuditRepository()
+                    audit.LogAction(_currentUsername, _currentUserRole, "ISSUE", "Documents", $"Issued {issueForm.CertificateType} (Control #: {nextControlNum}) to Resident ID: {issueForm.SelectedResidentId}")
+
                 Catch ex As Exception
                     MessageBox.Show("Error issuing certificate: " & ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 End Try
@@ -540,16 +553,16 @@ Public Class FormMain
         ' -----------------------------------------------------------------
         Select Case _currentUserRole
 
-                Case "Superadmin", "Admin"
-                    ' --- SUPERADMIN / ADMIN ---
-                    ' They can do everything. No restrictions needed.
-                    btnAddUsers.Text = "User Maintenance"
+            Case "Superadmin", "Admin"
+                ' --- SUPERADMIN / ADMIN ---
+                ' They can do everything. No restrictions needed.
+                btnAddUsers.Text = "User Maintenance"
 
-                Case "Staff"
-                    ' --- STAFF ---
-                    ' Can do daily work, but no admin tasks.
-                    btnOfficials.Visible = False  ' Cannot manage officials
-                    pnlAddUsers.Visible = False   ' Cannot manage users
+            Case "Staff"
+                ' --- STAFF ---
+                ' Can do daily work, but no admin tasks.
+                btnOfficials.Visible = False  ' Cannot manage officials
+                pnlAddUsers.Visible = False   ' Cannot manage users
                 btnDeleteResident.Enabled = False ' Safer for staff
                 btnSystemMaintenance.Visible = False
 
@@ -614,9 +627,9 @@ Public Class FormMain
             Dim selectedRow = dgvUsers.CurrentRow
 
             ' Populate the textboxes
-            txtUserFullname.Text = selectedRow.Cells("fullname").Value.ToString()
-            txtUserUsername.Text = selectedRow.Cells("username").Value.ToString()
-            cmbUserRole.Text = selectedRow.Cells("role").Value.ToString()
+            txtUserFullname.Text = selectedRow.Cells("fullname").Value.ToString
+            txtUserUsername.Text = selectedRow.Cells("username").Value.ToString
+            cmbUserRole.Text = selectedRow.Cells("role").Value.ToString
 
             ' We don't load the password from the DB for security. 
             ' Set it to blank, implying "leave unchanged" or "set new password".
@@ -655,12 +668,12 @@ Public Class FormMain
         End If
 
         ' 2. PREPARE DATA
-        Dim fullname = txtUserFullname.Text.Trim()
-        Dim username = txtUserUsername.Text.Trim()
+        Dim fullname = txtUserFullname.Text.Trim
+        Dim username = txtUserUsername.Text.Trim
         Dim role = cmbUserRole.Text
 
         ' 3. HASH THE PASSWORD
-        Dim hashedPassword As String = HashPassword(txtUserPassword.Text)
+        Dim hashedPassword = HashPassword(txtUserPassword.Text)
 
         ' 4. SAVE TO DATABASE
         Try
@@ -668,10 +681,10 @@ Public Class FormMain
                 conn.Open()
 
                 ' A. Check for duplicate username first
-                Dim queryCheck As String = "SELECT COUNT(*) FROM users WHERE username = @Username"
+                Dim queryCheck = "SELECT COUNT(*) FROM users WHERE username = @Username"
                 Using cmdCheck As New MySqlCommand(queryCheck, conn)
                     cmdCheck.Parameters.AddWithValue("@Username", username)
-                    Dim userCount As Integer = Convert.ToInt32(cmdCheck.ExecuteScalar())
+                    Dim userCount = Convert.ToInt32(cmdCheck.ExecuteScalar)
 
                     If userCount > 0 Then
                         MessageBox.Show("This username already exists. Please choose another one.", "Duplicate User", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -680,7 +693,7 @@ Public Class FormMain
                 End Using
 
                 ' B. Insert the new user
-                Dim queryInsert As String = "
+                Dim queryInsert = "
                 INSERT INTO users (fullname, username, password, role) 
                 VALUES (@Fullname, @Username, @Password, @Role)
             "
@@ -699,6 +712,9 @@ Public Class FormMain
 
             LoadUsers()     ' Refresh the grid
             ClearUserForm() ' Clear the textboxes
+
+            Dim audit As New AuditRepository()
+            audit.LogAction(_currentUsername, _currentUserRole, "ADD", "Users", $"Added new user account: {username}")
 
         Catch ex As Exception
             MessageBox.Show("Error adding user: " & ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -725,7 +741,7 @@ Public Class FormMain
         End If
 
         ' Get the ID of the selected user
-        Dim selectedId As Integer = CInt(dgvUsers.CurrentRow.Cells("id").Value)
+        Dim selectedId As Integer = dgvUsers.CurrentRow.Cells("id").Value
 
         ' 2. VALIDATION (Check for empty fields)
         If String.IsNullOrWhiteSpace(txtUserFullname.Text) OrElse
@@ -737,8 +753,8 @@ Public Class FormMain
         End If
 
         ' 3. PREPARE DATA
-        Dim fullname = txtUserFullname.Text.Trim()
-        Dim username = txtUserUsername.Text.Trim()
+        Dim fullname = txtUserFullname.Text.Trim
+        Dim username = txtUserUsername.Text.Trim
         Dim role = cmbUserRole.Text
 
         ' 4. PREPARE DATABASE COMMAND
@@ -746,8 +762,8 @@ Public Class FormMain
             Using conn As New MySqlConnection(usersConnectionString)
                 conn.Open()
 
-                Dim query As String = ""
-                Dim passwordWasUpdated As Boolean = False
+                Dim query = ""
+                Dim passwordWasUpdated = False
 
 
                 If String.IsNullOrWhiteSpace(txtUserPassword.Text) Then
@@ -783,7 +799,7 @@ Public Class FormMain
 
                     ' Add the password parameter ONLY if it was updated
                     If passwordWasUpdated Then
-                        Dim hashedPassword As String = HashPassword(txtUserPassword.Text)
+                        Dim hashedPassword = HashPassword(txtUserPassword.Text)
                         cmd.Parameters.AddWithValue("@Password", hashedPassword)
                     End If
 
@@ -796,6 +812,9 @@ Public Class FormMain
 
             LoadUsers()     ' Refresh the grid
             ClearUserForm() ' Clear the textboxes
+
+            Dim audit As New AuditRepository()
+            audit.LogAction(_currentUsername, _currentUserRole, "UPDATE", "Users", $"Updated user account: {username} (ID: {selectedId})")
 
         Catch ex As Exception
             MessageBox.Show("Error updating user: " & ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -811,14 +830,14 @@ Public Class FormMain
         End If
 
         ' Get the data from the selected row
-        Dim selectedId As Integer = CInt(dgvUsers.CurrentRow.Cells("id").Value)
-        Dim selectedUsername As String = dgvUsers.CurrentRow.Cells("username").Value.ToString()
+        Dim selectedId As Integer = dgvUsers.CurrentRow.Cells("id").Value
+        Dim selectedUsername = dgvUsers.CurrentRow.Cells("username").Value.ToString
 
         ' --- NEW: Get the role of the user we are trying to delete ---
-        Dim selectedRole As String = dgvUsers.CurrentRow.Cells("role").Value.ToString()
+        Dim selectedRole = dgvUsers.CurrentRow.Cells("role").Value.ToString
 
         ' 2. SAFEGUARD #1 (Prevent deleting the main 'admin' account)
-        If selectedUsername.ToLower() = "admin" Then
+        If selectedUsername.ToLower = "admin" Then
             MessageBox.Show("You cannot delete the primary 'admin' account.", "Action Prohibited", MessageBoxButtons.OK, MessageBoxIcon.Stop)
             Return
         End If
@@ -851,7 +870,7 @@ Public Class FormMain
         Try
             Using conn As New MySqlConnection(usersConnectionString)
                 conn.Open()
-                Dim query As String = "DELETE FROM users WHERE id = @id"
+                Dim query = "DELETE FROM users WHERE id = @id"
                 Using cmd As New MySqlCommand(query, conn)
                     cmd.Parameters.AddWithValue("@id", selectedId)
                     cmd.ExecuteNonQuery()
@@ -861,6 +880,9 @@ Public Class FormMain
             MessageBox.Show("User deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
             LoadUsers()
             ClearUserForm()
+
+            Dim audit As New AuditRepository()
+            audit.LogAction(_currentUsername, _currentUserRole, "DELETE", "Users", $"Deleted user account: {selectedUsername}")
 
         Catch ex As Exception
             MessageBox.Show("Error deleting user: " & ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -1305,6 +1327,47 @@ Public Class FormMain
         Using maintForm As New FormSystemMaintenance()
             maintForm.ShowDialog()
         End Using
+    End Sub
+
+    Private Sub LoadAuditTrail()
+        Try
+            Dim repo As New AuditRepository()
+            dgvAuditTrail.DataSource = repo.GetAuditHistory()
+
+            ' Formatting
+            If dgvAuditTrail.Columns.Contains("action_date") Then
+                dgvAuditTrail.Columns("action_date").HeaderText = "Date & Time"
+                dgvAuditTrail.Columns("action_date").DefaultCellStyle.Format = "MM/dd/yyyy hh:mm tt"
+            End If
+            If dgvAuditTrail.Columns.Contains("username") Then dgvAuditTrail.Columns("username").HeaderText = "User"
+            If dgvAuditTrail.Columns.Contains("role") Then dgvAuditTrail.Columns("role").HeaderText = "Role"
+            If dgvAuditTrail.Columns.Contains("action_type") Then dgvAuditTrail.Columns("action_type").HeaderText = "Action"
+            If dgvAuditTrail.Columns.Contains("module") Then dgvAuditTrail.Columns("module").HeaderText = "Module"
+            If dgvAuditTrail.Columns.Contains("description") Then dgvAuditTrail.Columns("description").HeaderText = "Description"
+
+            dgvAuditTrail.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+            dgvAuditTrail.ReadOnly = True
+            dgvAuditTrail.SelectionMode = DataGridViewSelectionMode.FullRowSelect
+
+        Catch ex As Exception
+            MessageBox.Show("Error loading audit trail: " & ex.Message)
+        End Try
+    End Sub
+    ' --- SUB-MENU 1: USER MAINTENANCE ---
+    Private Sub btnUserMaintenance_Click(sender As Object, e As EventArgs) Handles btnUserMaintenance.Click
+        HideAllPanels()
+        ' Turn OFF Audit, Turn ON User Maintenance
+        pnlAuditTrail.Visible = False
+        pnlUserMaintenance.Visible = True
+        LoadUsers()
+    End Sub
+    ' --- SUB-MENU 2: AUDIT TRAIL ---
+    Private Sub btnAuditTrail_Click(sender As Object, e As EventArgs) Handles btnAuditTrail.Click
+        HideAllPanels()
+        ' Turn OFF User Maintenance, Turn ON Audit
+        pnlUserMaintenance.Visible = False
+        pnlAuditTrail.Visible = True
+        LoadAuditTrail()
     End Sub
 End Class
 
