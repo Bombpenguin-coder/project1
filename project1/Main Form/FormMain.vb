@@ -35,11 +35,11 @@ Public Class FormMain
         pnlDashboard.Visible = False
         pnlResidents.Visible = False
         pnlLoginHistory.Visible = False
-        pnlUserMaintenance.Visible = False
         pnlDocuments.Visible = False
         pnlSchedule.Visible = False
         pnlOfficials.Visible = False
         pnlBlotter.Visible = False
+        pnlAddUsers.Visible = False
         pnlAuditTrail.Visible = False
     End Sub
     Private Sub btnDashboard_Click(sender As Object, e As EventArgs) Handles btnDashboard.Click
@@ -62,9 +62,9 @@ Public Class FormMain
         pnlLoginHistory.Visible = True
     End Sub
 
-    Private Sub btnAddUsers_Click(sender As Object, e As EventArgs) Handles btnAddUsers.Click
+    Private Sub btnAddUsers_Click(sender As Object, e As EventArgs) Handles btnUserMaintenance.Click
         HideAllPanels()
-        pnlAddUsers.Visible = True
+        pnlUserMaintenance.Visible = True
 
         ' Populate the Role ComboBox (UPDATED ROLES)
         cmbUserRole.Items.Clear()
@@ -546,7 +546,7 @@ Public Class FormMain
         btnDocuments.Visible = True
         btnSchedule.Visible = True
         btnOfficials.Visible = True ' (Your officials management button)
-        pnlAddUsers.Visible = True  ' (Your user management button)
+        pnlUserMaintenance.Visible = True  ' (Your user management button)
 
         ' -----------------------------------------------------------------
         ' Now, apply restrictions based on the logged-in user's role
@@ -556,13 +556,13 @@ Public Class FormMain
             Case "Superadmin", "Admin"
                 ' --- SUPERADMIN / ADMIN ---
                 ' They can do everything. No restrictions needed.
-                btnAddUsers.Text = "User Maintenance"
+                btnUserMaintenance.Text = "User Maintenance"
 
             Case "Staff"
                 ' --- STAFF ---
                 ' Can do daily work, but no admin tasks.
                 btnOfficials.Visible = False  ' Cannot manage officials
-                pnlAddUsers.Visible = False   ' Cannot manage users
+                pnlUserMaintenance.Visible = False   ' Cannot manage users
                 btnDeleteResident.Enabled = False ' Safer for staff
                 btnSystemMaintenance.Visible = False
 
@@ -577,7 +577,7 @@ Public Class FormMain
                 btnSaveBooking.Enabled = False
 
                 btnOfficials.Visible = False
-                pnlAddUsers.Visible = False
+                pnlUserMaintenance.Visible = False
 
                 btnResidents.Visible = False
                 btnDocuments.Visible = False
@@ -588,11 +588,11 @@ Public Class FormMain
 
         ' This renames your user panel button if it's still named btnReports
         ' This line should be *after* the Select Case
-        If pnlAddUsers.Visible = True Then
-            btnAddUsers.Text = "User Maintenance"
+        If pnlUserMaintenance.Visible = True Then
+            btnUserMaintenance.Text = "User Maintenance"
         Else
             ' If the panel is hidden, we might as well hide the button too
-            btnAddUsers.Visible = False
+            btnUserMaintenance.Visible = False
         End If
 
     End Sub
@@ -1354,18 +1354,18 @@ Public Class FormMain
         End Try
     End Sub
     ' --- SUB-MENU 1: USER MAINTENANCE ---
-    Private Sub btnUserMaintenance_Click(sender As Object, e As EventArgs) Handles btnUserMaintenance.Click
+    Private Sub btnUserMaintenance_Click(sender As Object, e As EventArgs) Handles btnAddUsers.Click
         HideAllPanels()
         ' Turn OFF Audit, Turn ON User Maintenance
         pnlAuditTrail.Visible = False
-        pnlUserMaintenance.Visible = True
+        pnlAddUsers.Visible = True
         LoadUsers()
     End Sub
     ' --- SUB-MENU 2: AUDIT TRAIL ---
     Private Sub btnAuditTrail_Click(sender As Object, e As EventArgs) Handles btnAuditTrail.Click
         HideAllPanels()
         ' Turn OFF User Maintenance, Turn ON Audit
-        pnlUserMaintenance.Visible = False
+        pnlAddUsers.Visible = False
         pnlAuditTrail.Visible = True
         LoadAuditTrail()
     End Sub
