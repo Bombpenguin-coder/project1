@@ -35,14 +35,23 @@ Partial Class Form1
         Cancelbtn = New Button()
         Label1 = New Label()
         Panel1 = New Panel()
+        lblForgotPassword = New Label()
         Label3 = New Label()
         PictureBox4 = New PictureBox()
         Label2 = New Label()
+        pnlSetup = New Panel()
+        btnCreateAdmin = New Button()
+        cmbSetupQuestion = New ComboBox()
+        txtSetupAnswer = New TextBox()
+        txtSetupPassword = New TextBox()
+        txtSetupUsername = New TextBox()
+        txtSetupFullname = New TextBox()
         CType(PictureBox2, ComponentModel.ISupportInitialize).BeginInit()
         CType(PictureBox3, ComponentModel.ISupportInitialize).BeginInit()
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
         Panel1.SuspendLayout()
         CType(PictureBox4, ComponentModel.ISupportInitialize).BeginInit()
+        pnlSetup.SuspendLayout()
         SuspendLayout()
         ' 
         ' PasswordVisible
@@ -181,7 +190,7 @@ Partial Class Form1
         ' Panel1
         ' 
         Panel1.BackColor = Color.FromArgb(CByte(62), CByte(95), CByte(68))
-        Panel1.Controls.Add(Label3)
+        Panel1.Controls.Add(lblForgotPassword)
         Panel1.Controls.Add(Cancelbtn)
         Panel1.Controls.Add(TextBox2)
         Panel1.Controls.Add(Loginbtn)
@@ -192,18 +201,29 @@ Partial Class Form1
         Panel1.Controls.Add(PictureBox2)
         Panel1.Controls.Add(PasswordVisible)
         Panel1.Controls.Add(PictureBox1)
+        Panel1.Controls.Add(Label3)
         Panel1.Dock = DockStyle.Right
         Panel1.Location = New Point(442, 0)
         Panel1.Name = "Panel1"
         Panel1.Size = New Size(387, 526)
         Panel1.TabIndex = 5
         ' 
+        ' lblForgotPassword
+        ' 
+        lblForgotPassword.AutoSize = True
+        lblForgotPassword.ForeColor = SystemColors.ActiveCaption
+        lblForgotPassword.Location = New Point(9, 502)
+        lblForgotPassword.Name = "lblForgotPassword"
+        lblForgotPassword.Size = New Size(100, 15)
+        lblForgotPassword.TabIndex = 14
+        lblForgotPassword.Text = "Forgot Password?"
+        ' 
         ' Label3
         ' 
         Label3.AutoSize = True
         Label3.Font = New Font("Microsoft Tai Le", 20F, FontStyle.Bold)
         Label3.ForeColor = SystemColors.Window
-        Label3.Location = New Point(142, 155)
+        Label3.Location = New Point(141, 172)
         Label3.Name = "Label3"
         Label3.Size = New Size(98, 34)
         Label3.TabIndex = 13
@@ -237,6 +257,64 @@ Partial Class Form1
         Label2.Text = " New Lower Bicutan"
         Label2.TextAlign = ContentAlignment.TopCenter
         ' 
+        ' pnlSetup
+        ' 
+        pnlSetup.Controls.Add(btnCreateAdmin)
+        pnlSetup.Controls.Add(cmbSetupQuestion)
+        pnlSetup.Controls.Add(txtSetupAnswer)
+        pnlSetup.Controls.Add(txtSetupPassword)
+        pnlSetup.Controls.Add(txtSetupUsername)
+        pnlSetup.Controls.Add(txtSetupFullname)
+        pnlSetup.Location = New Point(433, 0)
+        pnlSetup.Name = "pnlSetup"
+        pnlSetup.Size = New Size(396, 526)
+        pnlSetup.TabIndex = 14
+        ' 
+        ' btnCreateAdmin
+        ' 
+        btnCreateAdmin.Location = New Point(111, 405)
+        btnCreateAdmin.Name = "btnCreateAdmin"
+        btnCreateAdmin.Size = New Size(168, 44)
+        btnCreateAdmin.TabIndex = 5
+        btnCreateAdmin.Text = "Create Super-Admin"
+        btnCreateAdmin.UseVisualStyleBackColor = True
+        ' 
+        ' cmbSetupQuestion
+        ' 
+        cmbSetupQuestion.FormattingEnabled = True
+        cmbSetupQuestion.Location = New Point(48, 260)
+        cmbSetupQuestion.Name = "cmbSetupQuestion"
+        cmbSetupQuestion.Size = New Size(158, 23)
+        cmbSetupQuestion.TabIndex = 4
+        ' 
+        ' txtSetupAnswer
+        ' 
+        txtSetupAnswer.Location = New Point(48, 317)
+        txtSetupAnswer.Name = "txtSetupAnswer"
+        txtSetupAnswer.Size = New Size(137, 23)
+        txtSetupAnswer.TabIndex = 3
+        ' 
+        ' txtSetupPassword
+        ' 
+        txtSetupPassword.Location = New Point(48, 209)
+        txtSetupPassword.Name = "txtSetupPassword"
+        txtSetupPassword.Size = New Size(137, 23)
+        txtSetupPassword.TabIndex = 2
+        ' 
+        ' txtSetupUsername
+        ' 
+        txtSetupUsername.Location = New Point(48, 155)
+        txtSetupUsername.Name = "txtSetupUsername"
+        txtSetupUsername.Size = New Size(137, 23)
+        txtSetupUsername.TabIndex = 1
+        ' 
+        ' txtSetupFullname
+        ' 
+        txtSetupFullname.Location = New Point(48, 98)
+        txtSetupFullname.Name = "txtSetupFullname"
+        txtSetupFullname.Size = New Size(137, 23)
+        txtSetupFullname.TabIndex = 0
+        ' 
         ' Form1
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
@@ -247,6 +325,7 @@ Partial Class Form1
         Controls.Add(Panel1)
         Controls.Add(Label1)
         Controls.Add(PictureBox4)
+        Controls.Add(pnlSetup)
         FormBorderStyle = FormBorderStyle.None
         Name = "Form1"
         StartPosition = FormStartPosition.CenterScreen
@@ -257,6 +336,8 @@ Partial Class Form1
         Panel1.ResumeLayout(False)
         Panel1.PerformLayout()
         CType(PictureBox4, ComponentModel.ISupportInitialize).EndInit()
+        pnlSetup.ResumeLayout(False)
+        pnlSetup.PerformLayout()
         ResumeLayout(False)
         PerformLayout()
     End Sub
@@ -275,5 +356,13 @@ Partial Class Form1
     Friend WithEvents Label3 As Label
     Friend WithEvents PictureBox4 As PictureBox
     Friend WithEvents Label2 As Label
+    Friend WithEvents pnlSetup As Panel
+    Friend WithEvents txtSetupAnswer As TextBox
+    Friend WithEvents txtSetupPassword As TextBox
+    Friend WithEvents txtSetupUsername As TextBox
+    Friend WithEvents txtSetupFullname As TextBox
+    Friend WithEvents btnCreateAdmin As Button
+    Friend WithEvents cmbSetupQuestion As ComboBox
+    Friend WithEvents lblForgotPassword As Label
 
 End Class

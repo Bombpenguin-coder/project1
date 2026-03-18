@@ -39,7 +39,11 @@ Public Class FormMain
         pnlSchedule.Visible = False
         pnlOfficials.Visible = False
         pnlBlotter.Visible = False
+
+        ' Add BOTH possible names to ensure it always hides!
         pnlAddUsers.Visible = False
+        pnlUserMaintenance.Visible = False
+
         pnlAuditTrail.Visible = False
     End Sub
     Private Sub btnDashboard_Click(sender As Object, e As EventArgs) Handles btnDashboard.Click
@@ -1137,7 +1141,22 @@ Public Class FormMain
         Dim certControlNum As String = selectedRow.Cells("control_number").Value.ToString()
         Dim certDate As String = CDate(selectedRow.Cells("date_issued").Value).ToString("MMMM dd, yyyy")
         Dim residentFullName As String = selectedRow.Cells("resident_name").Value.ToString()
-        Dim certCaptain As String = "Hon. Merry Jean Ariola"
+        ' --- NEW: Fetch Dynamic System Settings! ---
+        Dim certCaptain As String = ""
+        Dim brgyName As String = ""
+        Dim cityName As String = ""
+        Dim provName As String = ""
+        Try
+            Dim settingsRepo As New SettingsRepository()
+            Dim currentSettings = settingsRepo.GetSettings()
+            certCaptain = currentSettings.CaptainName
+            brgyName = currentSettings.BarangayName
+            cityName = currentSettings.CityName
+            provName = currentSettings.ProvinceName
+        Catch ex As Exception
+            certCaptain = "Error Loading Captain"
+        End Try
+        ' -------------------------------------------
 
         ' 3. GET MISSING DATA (ADDRESS)
         Dim residentAddress As String = ""
@@ -1354,20 +1373,23 @@ Public Class FormMain
         End Try
     End Sub
     ' --- SUB-MENU 1: USER MAINTENANCE ---
-    Private Sub btnUserMaintenance_Click(sender As Object, e As EventArgs) Handles btnAddUsers.Click
+    Private Sub btnUserMaintenance_Click(sender As Object, e As EventArgs) Handles btnUserMaintenance.Click
         HideAllPanels()
+
         ' Turn OFF Audit, Turn ON User Maintenance
         pnlAuditTrail.Visible = False
+
+        ' Turn on both possible panel names so it works no matter what you named it in the designer
         pnlAddUsers.Visible = True
+        pnlUserMaintenance.Visible = True
+
+        ' Populate the Role ComboBox
+        cmbUserRole.Items.Clear()
+        cmbUserRole.Items.AddRange(New String() {"Superadmin", "Admin", "Staff"})
+        cmbUserRole.SelectedIndex = 0 ' Default to Superadmin
+
+        ' Load all users into the grid
         LoadUsers()
-    End Sub
-    ' --- SUB-MENU 2: AUDIT TRAIL ---
-    Private Sub btnAuditTrail_Click(sender As Object, e As EventArgs) Handles btnAuditTrail.Click
-        HideAllPanels()
-        ' Turn OFF User Maintenance, Turn ON Audit
-        pnlAddUsers.Visible = False
-        pnlAuditTrail.Visible = True
-        LoadAuditTrail()
     End Sub
 End Class
 

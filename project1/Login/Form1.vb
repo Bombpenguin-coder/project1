@@ -7,30 +7,77 @@ Public Class Form1
     Private Passwordhider As Boolean = True
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        ' 1. Start with the password HIDDEN
-
-        ' 2. Set the button's starting icon to "Show"
-        PasswordVisible.Text = "👁" ' Make sure this is your "Show" icon
-
-        ' 3. Set focus to the first textbox
-        TextBox1.Select()
-        TextBox1.Focus()
-
-        ' 4. Set TabIndex for proper navigation
+        PasswordVisible.Text = "👁"
         TextBox1.TabIndex = 0
         TextBox2.TabIndex = 1
         Loginbtn.TabIndex = 2
-
-        ' 5. Style your button (optional)
         Loginbtn.TabStop = False
         Loginbtn.FlatStyle = FlatStyle.Flat
         Loginbtn.FlatAppearance.BorderSize = 0
 
-        ' Note: This line isn't needed if you set focus to TextBox1
-        ' Me.ActiveControl = Nothing 
+        ' --- NEW: FIRST-RUN DATABASE CHECK ---
+        CheckFirstRunSetup()
+    End Sub
 
-        ' Note: This is good for the KeyDown handlers
-        ' Me.AcceptButton = Nothing 
+    Private Sub CheckFirstRunSetup()
+        Try
+            If conn.State = ConnectionState.Closed Then conn.Open()
+            Dim cmd As New MySqlCommand("SELECT COUNT(*) FROM users", conn)
+            Dim userCount = Convert.ToInt32(cmd.ExecuteScalar())
+
+            If userCount = 0 Then
+                ' No users exist! Show the Setup Wizard and hide the login controls
+                pnlSetup.Visible = True
+                pnlSetup.BringToFront()
+            Else
+                ' Users exist! Hide the Setup Wizard
+                pnlSetup.Visible = False
+                TextBox1.Select()
+                TextBox1.Focus()
+            End If
+        Catch ex As Exception
+            MsgBox("Error checking database: " & ex.Message, MsgBoxStyle.Critical, "Error")
+        Finally
+            If conn.State = ConnectionState.Open Then conn.Close()
+        End Try
+    End Sub
+
+    ' --- NEW: CREATE THE FIRST SUPERADMIN ---
+    Private Sub btnCreateAdmin_Click(sender As Object, e As EventArgs) Handles btnCreateAdmin.Click
+        If String.IsNullOrWhiteSpace(txtSetupFullname.Text) OrElse String.IsNullOrWhiteSpace(txtSetupUsername.Text) OrElse String.IsNullOrWhiteSpace(txtSetupPassword.Text) OrElse String.IsNullOrWhiteSpace(cmbSetupQuestion.Text) OrElse String.IsNullOrWhiteSpace(txtSetupAnswer.Text) Then
+            MsgBox("Please fill in all setup fields.", MsgBoxStyle.Exclamation, "Missing Data")
+            Return
+        End If
+
+        Try
+            If conn.State = ConnectionState.Closed Then conn.Open()
+            Dim hashedPassword As String = HashPassword(txtSetupPassword.Text)
+
+            Dim query As String = "INSERT INTO users (fullname, username, password, role, security_question, security_answer) VALUES (@Fullname, @Username, @Password, 'Superadmin', @Question, @Answer)"
+            Using cmd As New MySqlCommand(query, conn)
+                cmd.Parameters.AddWithValue("@Fullname", txtSetupFullname.Text.Trim())
+                cmd.Parameters.AddWithValue("@Username", txtSetupUsername.Text.Trim())
+                cmd.Parameters.AddWithValue("@Password", hashedPassword)
+                cmd.Parameters.AddWithValue("@Question", cmbSetupQuestion.Text)
+                ' Convert the answer to lowercase so it's not case-sensitive later!
+                cmd.Parameters.AddWithValue("@Answer", txtSetupAnswer.Text.Trim().ToLower())
+
+                cmd.ExecuteNonQuery()
+            End Using
+
+            MsgBox("System Initialization Complete! You may now log in.", MsgBoxStyle.Information, "Success")
+
+            ' Hide the setup panel so they can log in normally
+            pnlSetup.Visible = False
+            TextBox1.Clear()
+            TextBox2.Clear()
+            TextBox1.Focus()
+
+        Catch ex As Exception
+            MsgBox("Error creating admin: " & ex.Message, MsgBoxStyle.Critical, "Database Error")
+        Finally
+            If conn.State = ConnectionState.Open Then conn.Close()
+        End Try
     End Sub
 
     Private Sub DoLogin()
@@ -147,31 +194,10 @@ Public Class Form1
         TextBox1.Focus()
     End Sub
 
-    Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs) Handles Panel1.Paint
-
+    Private Sub lblForgotPassword_Click(sender As Object, e As EventArgs) Handles lblForgotPassword.Click
+        Using recoveryForm As New FormForgotPassword()
+            recoveryForm.ShowDialog()
+        End Using
     End Sub
 
-    Private Sub PictureBox1_Click(sender As Object, e As EventArgs) Handles PictureBox1.Click
-
-    End Sub
-
-    Private Sub Label1_Click(sender As Object, e As EventArgs) Handles Label1.Click
-
-    End Sub
-
-    Private Sub Label2_Click(sender As Object, e As EventArgs)
-
-    End Sub
-
-    Private Sub PictureBox4_Click(sender As Object, e As EventArgs) Handles PictureBox4.Click
-
-    End Sub
-
-    Private Sub TextBox1_TextChanged(sender As Object, e As EventArgs) Handles TextBox1.TextChanged
-
-    End Sub
-
-    Private Sub Label2_Click_1(sender As Object, e As EventArgs) Handles Label2.Click
-
-    End Sub
 End Class
