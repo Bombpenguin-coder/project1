@@ -4,19 +4,41 @@
     ' This is the main function that receives the data
     Public Sub PopulateCertificate(ByVal certType As String, ByVal fullName As String, ByVal address As String, ByVal purpose As String, ByVal controlNumber As String, ByVal dateIssued As String, ByVal captainName As String)
 
-        ' 1. Set up the CSS to make it look like a formal document
+        ' 1. Steal the logo from our hidden PictureBox!
+        Dim logoHtml As String = GetBase64Logo(picLogo.Image)
+
+        ' 2. Set up the CSS optimized for A4 Paper Printing
         Dim css As String = "
             <style>
-                body { font-family: 'Arial', sans-serif; margin: 40px; background-color: white; color: black; }
-                .header { text-align: center; margin-bottom: 40px; }
-                .title { text-align: center; font-size: 24px; font-weight: bold; text-decoration: underline; margin-bottom: 30px; }
-                .content { text-align: justify; font-size: 16px; line-height: 1.8; }
-                .signature-block { margin-top: 80px; text-align: right; float: right; width: 300px; }
-                .signature-line { border-bottom: 1px solid black; text-align: center; font-weight: bold; font-size: 18px; }
-                .footer { margin-top: 100px; font-size: 12px; color: gray; clear: both; }
+                /* THIS MAGICAL LINE HIDES THE URL AND DATE HEADERS! */
+                @page { size: A4; margin: 0mm; } 
+                
+                /* Set up the margins exactly like a Microsoft Word document */
+                body { 
+                    font-family: 'Arial', sans-serif; 
+                    background-color: white; 
+                    color: black; 
+                    margin: 25mm 25mm 25mm 25mm; /* Top, Right, Bottom, Left */
+                }
+                
+                /* Make the text larger and spaced out to fill the paper */
+                .header { text-align: center; margin-bottom: 50px; }
+                .header h3 { font-size: 22px; margin: 5px; }
+                .header h4 { font-size: 18px; margin: 5px; font-weight: normal; }
+                
+                .title { text-align: center; font-size: 32px; font-weight: bold; text-decoration: underline; margin-top: 60px; margin-bottom: 60px; }
+                
+                .content { text-align: justify; font-size: 20px; line-height: 2.2; }
+                
+                /* Push the signature block down and make it bigger */
+                .signature-block { margin-top: 150px; text-align: center; float: right; width: 350px; }
+                .signature-line { border-bottom: 1px solid black; font-weight: bold; font-size: 22px; padding-bottom: 5px; }
+                
+                /* Push the control number to the absolute bottom */
+                .footer { margin-top: 250px; font-size: 14px; color: dimgray; clear: both; }
             </style>"
 
-        ' 2. Generate the dynamic paragraphs based on the Certificate Type
+        ' 3. Generate the dynamic paragraphs based on the Certificate Type
         Dim bodyParagraphs As String = ""
 
         Select Case certType
@@ -41,12 +63,14 @@
                     <p>This certification is issued upon his/her request for the purpose of: <strong>{purpose}</strong>.</p>"
         End Select
 
-        ' 3. Put it all together into one massive HTML String!
+        ' 4. Put it all together into one massive HTML String!
         Dim fullHtml As String = $"
             <html>
             <head>{css}</head>
             <body>
-                <div class='header'>
+                <div class='header' style='position: relative;'>
+                    <img src='{logoHtml}' style='width: 120px; height: 120px; position: absolute; left: 0px; top: 0px;' />
+                    
                     <h3>Republic of the Philippines</h3>
                     <h4>Office of the Punong Barangay</h4>
                 </div>
@@ -70,7 +94,7 @@
             </body>
             </html>"
 
-        ' 4. Tell WebView2 to display our HTML!
+        ' 5. Tell WebView2 to display our HTML!
         _pendingHtml = fullHtml
     End Sub
     ' 1. INITIALIZE WEBVIEW2
@@ -92,4 +116,12 @@
             wbPreview.CoreWebView2.ShowPrintUI()
         End If
     End Sub
+
+    ' Converts your saved image into a string that HTML can read!
+    Private Function GetBase64Logo(img As Image) As String
+        Using ms As New System.IO.MemoryStream()
+            img.Save(ms, System.Drawing.Imaging.ImageFormat.Png)
+            Return "data:image/png;base64," & Convert.ToBase64String(ms.ToArray())
+        End Using
+    End Function
 End Class

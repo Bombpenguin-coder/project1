@@ -696,16 +696,18 @@ Public Class FormMain
                     End If
                 End Using
 
-                ' B. Insert the new user
+                ' B. Insert the new user with Security Question
                 Dim queryInsert = "
-                INSERT INTO users (fullname, username, password, role) 
-                VALUES (@Fullname, @Username, @Password, @Role)
+                INSERT INTO users (fullname, username, password, role, security_question, security_answer) 
+                VALUES (@Fullname, @Username, @Password, @Role, @Question, @Answer)
             "
                 Using cmd As New MySqlCommand(queryInsert, conn)
                     cmd.Parameters.AddWithValue("@Fullname", fullname)
                     cmd.Parameters.AddWithValue("@Username", username)
-                    cmd.Parameters.AddWithValue("@Password", hashedPassword) ' Save the hashed password
+                    cmd.Parameters.AddWithValue("@Password", hashedPassword)
                     cmd.Parameters.AddWithValue("@Role", role)
+                    cmd.Parameters.AddWithValue("@Question", cmbUserQuestion.Text)
+                    cmd.Parameters.AddWithValue("@Answer", txtUserAnswer.Text.Trim().ToLower())
 
                     cmd.ExecuteNonQuery()
                 End Using
@@ -733,6 +735,8 @@ Public Class FormMain
         txtUserPassword.Clear()
         txtUserPassword.PlaceholderText = ""
         cmbUserRole.SelectedIndex = 0
+        cmbUserQuestion.SelectedIndex = -1
+        txtUserAnswer.Clear()
         dgvUsers.ClearSelection()
     End Sub
 
@@ -776,7 +780,9 @@ Public Class FormMain
                     UPDATE users SET 
                         fullname = @Fullname, 
                         username = @Username, 
-                        role = @Role 
+                        role = @Role,
+                        security_question = @Question,
+                        security_answer = @Answer
                     WHERE id = @id
                 "
                     passwordWasUpdated = False
@@ -787,21 +793,22 @@ Public Class FormMain
                         fullname = @Fullname, 
                         username = @Username, 
                         role = @Role, 
-                        password = @Password 
+                        password = @Password,
+                        security_question = @Question,
+                        security_answer = @Answer
                     WHERE id = @id
                 "
                     passwordWasUpdated = True
                 End If
 
-
                 Using cmd As New MySqlCommand(query, conn)
-                    ' Add the parameters that are common to both queries
                     cmd.Parameters.AddWithValue("@Fullname", fullname)
                     cmd.Parameters.AddWithValue("@Username", username)
                     cmd.Parameters.AddWithValue("@Role", role)
+                    cmd.Parameters.AddWithValue("@Question", cmbUserQuestion.Text)
+                    cmd.Parameters.AddWithValue("@Answer", txtUserAnswer.Text.Trim().ToLower())
                     cmd.Parameters.AddWithValue("@id", selectedId)
 
-                    ' Add the password parameter ONLY if it was updated
                     If passwordWasUpdated Then
                         Dim hashedPassword = HashPassword(txtUserPassword.Text)
                         cmd.Parameters.AddWithValue("@Password", hashedPassword)
@@ -1372,24 +1379,39 @@ Public Class FormMain
             MessageBox.Show("Error loading audit trail: " & ex.Message)
         End Try
     End Sub
+
     ' --- SUB-MENU 1: USER MAINTENANCE ---
     Private Sub btnUserMaintenance_Click(sender As Object, e As EventArgs) Handles btnUserMaintenance.Click
         HideAllPanels()
 
-        ' Turn OFF Audit, Turn ON User Maintenance
-        pnlAuditTrail.Visible = False
-
-        ' Turn on both possible panel names so it works no matter what you named it in the designer
-        pnlAddUsers.Visible = True
+        ' 1. Turn ON the Parent Panel first!
         pnlUserMaintenance.Visible = True
 
-        ' Populate the Role ComboBox
-        cmbUserRole.Items.Clear()
-        cmbUserRole.Items.AddRange(New String() {"Superadmin", "Admin", "Staff"})
-        cmbUserRole.SelectedIndex = 0 ' Default to Superadmin
+        ' 2. Turn OFF the Audit child, Turn ON the Add Users child
+        pnlAuditTrail.Visible = False
+        pnlAddUsers.Visible = True
 
-        ' Load all users into the grid
+        ' 3. Force it to the front so it isn't hidden behind anything
+        pnlAddUsers.BringToFront()
+
         LoadUsers()
+    End Sub
+
+    ' --- SUB-MENU 2: AUDIT TRAIL ---
+    Private Sub btnAuditTrail_Click(sender As Object, e As EventArgs) Handles btnAuditTrail.Click
+        HideAllPanels()
+
+        ' 1. Turn ON the Parent Panel first!
+        pnlUserMaintenance.Visible = True
+
+        ' 2. Turn OFF the Add Users child, Turn ON the Audit child
+        pnlAddUsers.Visible = False
+        pnlAuditTrail.Visible = True
+
+        ' 3. Force it to the front
+        pnlAuditTrail.BringToFront()
+
+        LoadAuditTrail()
     End Sub
 End Class
 

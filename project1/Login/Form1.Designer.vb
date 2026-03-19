@@ -322,10 +322,10 @@ Partial Class Form1
         BackColor = Color.White
         ClientSize = New Size(829, 526)
         Controls.Add(Label2)
-        Controls.Add(Panel1)
         Controls.Add(Label1)
         Controls.Add(PictureBox4)
         Controls.Add(pnlSetup)
+        Controls.Add(Panel1)
         FormBorderStyle = FormBorderStyle.None
         Name = "Form1"
         StartPosition = FormStartPosition.CenterScreen
