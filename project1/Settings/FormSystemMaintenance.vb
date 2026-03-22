@@ -3,7 +3,7 @@
     ' --- 1. FORM LOAD ---
     Private Sub FormSystemMaintenance_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         cmbCategory.Items.Clear()
-        cmbCategory.Items.AddRange(New String() {"Street", "Incident Type", "Facility", "Document Type"})
+        cmbCategory.Items.AddRange(New String() {"Street", "Incident Type", "Facility", "Document Type", "Security Question"})
         cmbCategory.DropDownStyle = ComboBoxStyle.DropDownList
 
         If cmbCategory.Items.Count > 0 Then cmbCategory.SelectedIndex = 0

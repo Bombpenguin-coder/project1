@@ -134,9 +134,9 @@ Partial Class FormMain
         btnSaveCase = New Button()
         dgvBlotter = New DataGridView()
         Panel1 = New Panel()
+        lblClock = New Label()
         lblUserInfo = New Label()
         Label13 = New Label()
-        lblClock = New Label()
         TimerClock = New Timer(components)
         pnlMenu.SuspendLayout()
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
@@ -1460,6 +1460,17 @@ Partial Class FormMain
         Panel1.Size = New Size(1086, 45)
         Panel1.TabIndex = 2
         ' 
+        ' lblClock
+        ' 
+        lblClock.Font = New Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lblClock.ForeColor = SystemColors.ButtonHighlight
+        lblClock.Location = New Point(419, 9)
+        lblClock.Name = "lblClock"
+        lblClock.Size = New Size(356, 28)
+        lblClock.TabIndex = 2
+        lblClock.Text = "Time"
+        lblClock.TextAlign = ContentAlignment.MiddleLeft
+        ' 
         ' lblUserInfo
         ' 
         lblUserInfo.Font = New Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
@@ -1482,19 +1493,9 @@ Partial Class FormMain
         Label13.TabIndex = 0
         Label13.Text = "BARANGAY NEW LOWER BICUTAN"
         ' 
-        ' lblClock
-        ' 
-        lblClock.Font = New Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        lblClock.ForeColor = SystemColors.ButtonHighlight
-        lblClock.Location = New Point(477, 8)
-        lblClock.Name = "lblClock"
-        lblClock.Size = New Size(246, 28)
-        lblClock.TabIndex = 2
-        lblClock.Text = "Time"
-        lblClock.TextAlign = ContentAlignment.MiddleLeft
-        ' 
         ' TimerClock
         ' 
+        TimerClock.Enabled = True
         TimerClock.Interval = 1000
         ' 
         ' FormMain

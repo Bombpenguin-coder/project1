@@ -25,6 +25,9 @@ Public Class FormMain
 
 
     Private Sub FormMain_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        ' WAKE UP THE CLOCK!
+        TimerClock.Start()
+
         ApplyRolePermissions()
         HideAllPanels()
         pnlDashboard.Visible = True
@@ -1372,6 +1375,7 @@ Public Class FormMain
     End Sub
 
     ' --- SUB-MENU 1: USER MAINTENANCE ---
+    ' --- SUB-MENU 1: USER MAINTENANCE ---
     Private Sub btnUserMaintenance_Click(sender As Object, e As EventArgs) Handles btnUserMaintenance.Click
         HideAllPanels()
 
@@ -1384,6 +1388,20 @@ Public Class FormMain
 
         ' 3. Force it to the front so it isn't hidden behind anything
         pnlAddUsers.BringToFront()
+
+        ' 4. DYNAMICALLY LOAD SECURITY QUESTIONS!
+        Try
+            Dim repo As New LookupRepository()
+            Dim dt As DataTable = repo.GetItemsByCategory("Security Question")
+
+            cmbUserQuestion.Items.Clear()
+            For Each row As DataRow In dt.Rows
+                ' Grab the question text and add it to the dropdown
+                cmbUserQuestion.Items.Add(row("item_value").ToString())
+            Next
+        Catch ex As Exception
+            ' If it fails, we just leave it blank for now
+        End Try
 
         LoadUsers()
     End Sub
@@ -1408,6 +1426,28 @@ Public Class FormMain
     Private Sub TimerClock_Tick(sender As Object, e As EventArgs) Handles TimerClock.Tick
         ' Grabs the exact current time from your computer and formats it beautifully!
         lblClock.Text = DateTime.Now.ToString("dddd, MMMM dd, yyyy   |   hh:mm:ss tt")
+    End Sub
+
+    ' --- VALIDATION 1: Full Name Shield ---
+    ' Allows ONLY Letters, Spaces, Backspace, and Dashes (e.g., "Mary-Jane")
+    Private Sub txtUserFullname_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtUserFullname.KeyPress
+        If Not Char.IsLetter(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) AndAlso Not Char.IsWhiteSpace(e.KeyChar) AndAlso e.KeyChar <> "-" Then
+            e.Handled = True ' Eats the keystroke so numbers/symbols never appear
+        End If
+    End Sub
+
+    ' --- VALIDATION 2: Username Shield ---
+    ' Allows ONLY Letters and Numbers (No spaces, no symbols, no dashes)
+    Private Sub txtUserUsername_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtUserUsername.KeyPress
+        If Not Char.IsLetterOrDigit(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) Then
+            e.Handled = True ' Eats the keystroke
+        End If
+    End Sub
+
+    Private Sub btnAddUsers_Click_Fix(sender As Object, e As EventArgs) Handles btnAddUsers.Click
+        ' When they click the "Add Users" sub-menu button, 
+        ' just mimic a click on the main Admin sidebar button!
+        btnUserMaintenance.PerformClick()
     End Sub
 End Class
 
