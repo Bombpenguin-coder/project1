@@ -29,21 +29,19 @@ Partial Class FormAddResidents
         Label6 = New Label()
         Label7 = New Label()
         Label8 = New Label()
-        Label9 = New Label()
-        Label10 = New Label()
         txtLastName = New TextBox()
         txtFirstName = New TextBox()
         txtMiddleName = New TextBox()
-        txtAddress = New TextBox()
         txtDistrict = New TextBox()
-        txtCity = New TextBox()
-        cmbGender = New ComboBox()
+        cmbSex = New ComboBox()
         btnSaveResident = New Button()
         btnCancel = New Button()
-        cmbBarangay = New ComboBox()
         Label5 = New Label()
         dtpBirthDate = New DateTimePicker()
         lblCalculatedAge = New Label()
+        cmbStreet = New ComboBox()
+        txtAddress = New TextBox()
+        Label9 = New Label()
         SuspendLayout()
         ' 
         ' Label1
@@ -91,51 +89,31 @@ Partial Class FormAddResidents
         ' 
         Label6.AutoSize = True
         Label6.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        Label6.Location = New Point(198, 400)
+        Label6.Location = New Point(198, 401)
         Label6.Name = "Label6"
-        Label6.Size = New Size(52, 17)
+        Label6.Size = New Size(29, 17)
         Label6.TabIndex = 5
-        Label6.Text = "Gender"
+        Label6.Text = "Sex"
         ' 
         ' Label7
         ' 
         Label7.AutoSize = True
         Label7.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        Label7.Location = New Point(43, 283)
+        Label7.Location = New Point(43, 344)
         Label7.Name = "Label7"
-        Label7.Size = New Size(57, 17)
+        Label7.Size = New Size(44, 17)
         Label7.TabIndex = 6
-        Label7.Text = "Address"
+        Label7.Text = "Street"
         ' 
         ' Label8
         ' 
         Label8.AutoSize = True
         Label8.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        Label8.Location = New Point(47, 340)
+        Label8.Location = New Point(47, 401)
         Label8.Name = "Label8"
         Label8.Size = New Size(53, 17)
         Label8.TabIndex = 7
         Label8.Text = "District"
-        ' 
-        ' Label9
-        ' 
-        Label9.AutoSize = True
-        Label9.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        Label9.Location = New Point(198, 340)
-        Label9.Name = "Label9"
-        Label9.Size = New Size(65, 17)
-        Label9.TabIndex = 8
-        Label9.Text = "Barangay"
-        ' 
-        ' Label10
-        ' 
-        Label10.AutoSize = True
-        Label10.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        Label10.Location = New Point(47, 400)
-        Label10.Name = "Label10"
-        Label10.Size = New Size(115, 17)
-        Label10.TabIndex = 9
-        Label10.Text = "City/Municipality"
         ' 
         ' txtLastName
         ' 
@@ -158,35 +136,21 @@ Partial Class FormAddResidents
         txtMiddleName.Size = New Size(263, 23)
         txtMiddleName.TabIndex = 12
         ' 
-        ' txtAddress
-        ' 
-        txtAddress.Location = New Point(62, 303)
-        txtAddress.Name = "txtAddress"
-        txtAddress.Size = New Size(263, 23)
-        txtAddress.TabIndex = 14
-        ' 
         ' txtDistrict
         ' 
-        txtDistrict.Location = New Point(62, 363)
+        txtDistrict.Location = New Point(62, 424)
         txtDistrict.Name = "txtDistrict"
         txtDistrict.Size = New Size(105, 23)
         txtDistrict.TabIndex = 15
         ' 
-        ' txtCity
+        ' cmbSex
         ' 
-        txtCity.Location = New Point(62, 423)
-        txtCity.Name = "txtCity"
-        txtCity.Size = New Size(105, 23)
-        txtCity.TabIndex = 17
-        ' 
-        ' cmbGender
-        ' 
-        cmbGender.FormattingEnabled = True
-        cmbGender.Items.AddRange(New Object() {"Male", "Female", "Other"})
-        cmbGender.Location = New Point(204, 423)
-        cmbGender.Name = "cmbGender"
-        cmbGender.Size = New Size(121, 23)
-        cmbGender.TabIndex = 18
+        cmbSex.FormattingEnabled = True
+        cmbSex.Items.AddRange(New Object() {"Male", "Female", "Other"})
+        cmbSex.Location = New Point(204, 424)
+        cmbSex.Name = "cmbSex"
+        cmbSex.Size = New Size(121, 23)
+        cmbSex.TabIndex = 18
         ' 
         ' btnSaveResident
         ' 
@@ -195,7 +159,7 @@ Partial Class FormAddResidents
         btnSaveResident.FlatStyle = FlatStyle.Flat
         btnSaveResident.Font = New Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         btnSaveResident.ForeColor = Color.White
-        btnSaveResident.Location = New Point(75, 462)
+        btnSaveResident.Location = New Point(78, 478)
         btnSaveResident.Name = "btnSaveResident"
         btnSaveResident.Size = New Size(227, 30)
         btnSaveResident.TabIndex = 19
@@ -209,21 +173,12 @@ Partial Class FormAddResidents
         btnCancel.FlatStyle = FlatStyle.Flat
         btnCancel.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         btnCancel.ForeColor = Color.White
-        btnCancel.Location = New Point(75, 499)
+        btnCancel.Location = New Point(78, 515)
         btnCancel.Name = "btnCancel"
         btnCancel.Size = New Size(227, 23)
         btnCancel.TabIndex = 20
         btnCancel.Text = "Cancel"
         btnCancel.UseVisualStyleBackColor = False
-        ' 
-        ' cmbBarangay
-        ' 
-        cmbBarangay.BackColor = Color.White
-        cmbBarangay.FormattingEnabled = True
-        cmbBarangay.Location = New Point(204, 363)
-        cmbBarangay.Name = "cmbBarangay"
-        cmbBarangay.Size = New Size(121, 23)
-        cmbBarangay.TabIndex = 21
         ' 
         ' Label5
         ' 
@@ -256,6 +211,32 @@ Partial Class FormAddResidents
         lblCalculatedAge.TabIndex = 23
         lblCalculatedAge.Text = "Age: 0"
         ' 
+        ' cmbStreet
+        ' 
+        cmbStreet.FormattingEnabled = True
+        cmbStreet.Items.AddRange(New Object() {"Male", "Female", "Other"})
+        cmbStreet.Location = New Point(62, 364)
+        cmbStreet.Name = "cmbStreet"
+        cmbStreet.Size = New Size(263, 23)
+        cmbStreet.TabIndex = 24
+        ' 
+        ' txtAddress
+        ' 
+        txtAddress.Location = New Point(62, 318)
+        txtAddress.Name = "txtAddress"
+        txtAddress.Size = New Size(263, 23)
+        txtAddress.TabIndex = 26
+        ' 
+        ' Label9
+        ' 
+        Label9.AutoSize = True
+        Label9.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label9.Location = New Point(43, 295)
+        Label9.Name = "Label9"
+        Label9.Size = New Size(57, 17)
+        Label9.TabIndex = 25
+        Label9.Text = "Address"
+        ' 
         ' FormAddResidents
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
@@ -264,20 +245,18 @@ Partial Class FormAddResidents
         BackgroundImageLayout = ImageLayout.None
         ClientSize = New Size(404, 561)
         ControlBox = False
+        Controls.Add(txtAddress)
+        Controls.Add(Label9)
+        Controls.Add(cmbStreet)
         Controls.Add(lblCalculatedAge)
         Controls.Add(dtpBirthDate)
-        Controls.Add(cmbBarangay)
         Controls.Add(btnCancel)
         Controls.Add(btnSaveResident)
-        Controls.Add(cmbGender)
-        Controls.Add(txtCity)
+        Controls.Add(cmbSex)
         Controls.Add(txtDistrict)
-        Controls.Add(txtAddress)
         Controls.Add(txtMiddleName)
         Controls.Add(txtFirstName)
         Controls.Add(txtLastName)
-        Controls.Add(Label10)
-        Controls.Add(Label9)
         Controls.Add(Label8)
         Controls.Add(Label7)
         Controls.Add(Label6)
@@ -306,14 +285,15 @@ Partial Class FormAddResidents
     Friend WithEvents txtLastName As TextBox
     Friend WithEvents txtFirstName As TextBox
     Friend WithEvents txtMiddleName As TextBox
-    Friend WithEvents txtAddress As TextBox
     Friend WithEvents txtDistrict As TextBox
     Friend WithEvents txtCity As TextBox
-    Friend WithEvents cmbGender As ComboBox
+    Friend WithEvents cmbSex As ComboBox
     Friend WithEvents btnSaveResident As Button
     Friend WithEvents btnCancel As Button
     Friend WithEvents cmbBarangay As ComboBox
     Friend WithEvents Label5 As Label
     Friend WithEvents dtpBirthDate As DateTimePicker
     Friend WithEvents lblCalculatedAge As Label
+    Friend WithEvents cmbStreet As ComboBox
+    Friend WithEvents txtAddress As TextBox
 End Class

@@ -1,9 +1,11 @@
-﻿Public Class FormAddResidents
+﻿Imports MySql.Data.MySqlClient
 
-    ' 1. ID Property (Stores the ID if we are editing)
+Public Class FormAddResidents
+
+    ' 1. ID Property 
     Public Property ResidentID As Integer = 0
 
-    ' 2. TEXT FIELDS (Read/Write Bridges)
+    ' 2. TEXT FIELDS
     Public Property LastName As String
         Get
             Return txtLastName.Text.Trim()
@@ -40,6 +42,7 @@
         End Set
     End Property
 
+    ' --- RESTORED DISTRICT TEXTBOX ---
     Public Property District As String
         Get
             Return txtDistrict.Text.Trim()
@@ -49,41 +52,32 @@
         End Set
     End Property
 
-    Public Property City As String
+    ' --- NEW STREET COMBOBOX ---
+    Public Property Street As String
         Get
-            Return txtCity.Text.Trim()
+            Return cmbStreet.Text
         End Get
         Set(value As String)
-            txtCity.Text = value
+            cmbStreet.Text = value
         End Set
     End Property
 
-    ' 3. DROPDOWNS
-    Public Property Gender As String
+    ' 3. DROPDOWNS 
+    Public Property Sex As String
         Get
-            Return cmbGender.Text
+            Return cmbSex.Text
         End Get
         Set(value As String)
-            cmbGender.Text = value
+            cmbSex.Text = value
         End Set
     End Property
 
-    Public Property Barangay As String
-        Get
-            Return cmbBarangay.Text
-        End Get
-        Set(value As String)
-            cmbBarangay.Text = value
-        End Set
-    End Property
-
-    ' 4. DATE & AGE (With Safety Checks)
+    ' 4. DATE & AGE
     Public Property BirthDate As Date
         Get
             Return dtpBirthDate.Value.Date
         End Get
         Set(value As Date)
-            ' Protect the DatePicker from crashing with invalid dates
             If value < dtpBirthDate.MinDate Then
                 dtpBirthDate.Value = dtpBirthDate.MinDate
             ElseIf value > dtpBirthDate.MaxDate Then
@@ -94,30 +88,29 @@
         End Set
     End Property
 
-    ' Age is calculated automatically, so we only need a Getter (ReadOnly)
     Public ReadOnly Property Age As Integer
         Get
             Dim bdate As Date = dtpBirthDate.Value.Date
             Dim calculatedAge As Integer = DateTime.Now.Year - bdate.Year
-
-            ' Subtract 1 if birthday hasn't happened yet this year
             If DateTime.Now < bdate.AddYears(calculatedAge) Then
                 calculatedAge -= 1
             End If
-
             Return If(calculatedAge < 0, 0, calculatedAge)
         End Get
     End Property
 
     ' ==========================================
-    ' FORM EVENTS
+    ' FORM EVENTS & VALIDATIONS
     ' ==========================================
 
     Private Sub FormAddResidents_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        ' Setup ComboBox defaults
-        If cmbBarangay.Items.Count = 0 Then
-            cmbBarangay.Items.AddRange(New String() {"Central", "South", "North"})
+        ' Setup ComboBox default for Sex
+        If cmbSex.Items.Count = 0 Then
+            cmbSex.Items.AddRange(New String() {"Male", "Female"})
         End If
+
+        ' Dynamically load streets from database
+        LoadStreetsFromDatabase()
 
         ' UI Tweak: Change title based on mode
         If ResidentID > 0 Then
@@ -128,21 +121,49 @@
             btnSaveResident.Text = "Save"
         End If
 
-        ' Trigger the age calculation display
         dtpBirthDate_ValueChanged(Nothing, Nothing)
     End Sub
 
+    Private Sub LoadStreetsFromDatabase()
+        cmbStreet.Items.Clear()
+        Dim connString As String = "server=localhost;user id=root;password=;database=barangay_db"
+
+        Try
+            Using conn As New MySqlConnection(connString)
+                conn.Open()
+                ' CHANGE THIS QUERY IF YOUR SYSTEM MANAGEMENT TABLE IS NAMED DIFFERENTLY
+                Dim cmd As New MySqlCommand("SELECT street_name FROM streets ORDER BY street_name ASC", conn)
+
+                Using reader As MySqlDataReader = cmd.ExecuteReader()
+                    While reader.Read()
+                        cmbStreet.Items.Add(reader("street_name").ToString())
+                    End While
+                End Using
+            End Using
+        Catch ex As Exception
+            MessageBox.Show("Could not load streets: " & ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+
     Private Sub dtpBirthDate_ValueChanged(sender As Object, e As EventArgs) Handles dtpBirthDate.ValueChanged
-        ' Update the Age label visually when date changes
         lblCalculatedAge.Text = "Age: " & Me.Age.ToString()
     End Sub
 
+    ' The "No Letters Allowed" Shield for Names
+    Private Sub NameFields_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtFirstName.KeyPress, txtLastName.KeyPress, txtMiddleName.KeyPress
+        If Not Char.IsLetter(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) AndAlso Not Char.IsWhiteSpace(e.KeyChar) AndAlso e.KeyChar <> "-" Then
+            e.Handled = True
+        End If
+    End Sub
+
     Private Sub btnSaveResident_Click(sender As Object, e As EventArgs) Handles btnSaveResident.Click
-        ' Validation
+        ' Validation Check: Now includes Street and District!
         If String.IsNullOrWhiteSpace(LastName) OrElse
            String.IsNullOrWhiteSpace(FirstName) OrElse
            String.IsNullOrWhiteSpace(Address) OrElse
-           String.IsNullOrWhiteSpace(Gender) Then
+           String.IsNullOrWhiteSpace(Street) OrElse
+           String.IsNullOrWhiteSpace(District) OrElse
+           String.IsNullOrWhiteSpace(Sex) Then
 
             MessageBox.Show("Please fill in all required fields.", "Missing Data", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Return
@@ -153,7 +174,7 @@
             Return
         End If
 
-        ' Success! The Main Form will retrieve the values from the Properties above.
+        ' Success! Pass data back to main form
         Me.DialogResult = DialogResult.OK
         Me.Close()
     End Sub

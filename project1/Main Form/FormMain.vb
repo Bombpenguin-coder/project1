@@ -144,11 +144,9 @@ Public Class FormMain
                 newResident.FirstName = addForm.FirstName
                 newResident.MiddleName = addForm.MiddleName
                 newResident.Age = addForm.Age
-                newResident.Gender = addForm.Gender
+                newResident.Sex = addForm.Sex
                 newResident.Address = addForm.Address
                 newResident.District = addForm.District
-                newResident.Barangay = addForm.Barangay
-                newResident.City = addForm.City
 
                 ' 2. Send it to the Repository
                 Dim repo As New ResidentRepository()
@@ -212,11 +210,9 @@ Public Class FormMain
         editForm.txtFirstName.Text = dgvResidents.CurrentRow.Cells("firstname").Value.ToString()
         editForm.txtMiddleName.Text = dgvResidents.CurrentRow.Cells("middlename").Value.ToString()
 
-        editForm.cmbGender.Text = dgvResidents.CurrentRow.Cells("gender").Value.ToString()
+        editForm.cmbSex.Text = dgvResidents.CurrentRow.Cells("gender").Value.ToString()
         editForm.txtAddress.Text = dgvResidents.CurrentRow.Cells("address").Value.ToString()
         editForm.txtDistrict.Text = dgvResidents.CurrentRow.Cells("district").Value.ToString()
-        editForm.cmbBarangay.Text = dgvResidents.CurrentRow.Cells("barangay").Value.ToString()
-        editForm.txtCity.Text = dgvResidents.CurrentRow.Cells("city").Value.ToString()
 
         ' 3. ROBUST DATE POPULATION (Fixes the ArgumentOutOfRangeException)
         Dim dgvCellValue = dgvResidents.CurrentRow.Cells("birthdate").Value
@@ -254,12 +250,9 @@ Public Class FormMain
                 updatedRes.MiddleName = editForm.MiddleName
                 updatedRes.BirthDate = editForm.BirthDate
                 updatedRes.Age = editForm.Age
-                updatedRes.Gender = editForm.Gender
+                updatedRes.Sex = editForm.Sex
                 updatedRes.Address = editForm.Address
                 updatedRes.District = editForm.District
-                updatedRes.Barangay = editForm.Barangay
-                updatedRes.City = editForm.City
-
                 ' 2. Call the Repository
                 Dim repo As New ResidentRepository()
                 repo.UpdateResident(updatedRes)
@@ -294,11 +287,9 @@ Public Class FormMain
             If dgvResidents.Columns.Contains("firstname") Then dgvResidents.Columns("firstname").HeaderText = "First Name"
             If dgvResidents.Columns.Contains("middlename") Then dgvResidents.Columns("middlename").HeaderText = "Middle Name"
             If dgvResidents.Columns.Contains("age") Then dgvResidents.Columns("age").HeaderText = "Age"
-            If dgvResidents.Columns.Contains("gender") Then dgvResidents.Columns("gender").HeaderText = "Gender"
+            If dgvResidents.Columns.Contains("sex") Then dgvResidents.Columns("sex").HeaderText = "Sex"
             If dgvResidents.Columns.Contains("address") Then dgvResidents.Columns("address").HeaderText = "Address"
             If dgvResidents.Columns.Contains("district") Then dgvResidents.Columns("district").HeaderText = "District"
-            If dgvResidents.Columns.Contains("barangay") Then dgvResidents.Columns("barangay").HeaderText = "Barangay"
-            If dgvResidents.Columns.Contains("city") Then dgvResidents.Columns("city").HeaderText = "City"
 
             UpdateResidentCount()
         Catch ex As Exception
