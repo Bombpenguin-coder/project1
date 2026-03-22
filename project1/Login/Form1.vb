@@ -1,11 +1,12 @@
-﻿Imports MySql.Data.MySqlClient
-Imports System.Security.Cryptography
+﻿Imports System.Security.Cryptography
 Imports System.Text
+Imports Microsoft.VisualBasic.ApplicationServices
+Imports MySql.Data.MySqlClient
 
 Public Class Form1
     Dim conn As New MySqlConnection("server=localhost;user id=root;password=;database=login_db")
     Private Passwordhider As Boolean = True
-
+    Private userRepo As New UserRepository()
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         PasswordVisible.Text = "👁"
         TextBox1.TabIndex = 0
@@ -81,54 +82,40 @@ Public Class Form1
     End Sub
 
     Private Sub DoLogin()
+
+        Dim username As String = TextBox1.Text.Trim()
+        Dim password As String = TextBox2.Text
+
+        If String.IsNullOrWhiteSpace(username) OrElse String.IsNullOrWhiteSpace(password) Then
+            MsgBox("Username and Password are required.", MsgBoxStyle.Exclamation)
+            Return
+        End If
+
         Try
-            conn.Open()
-            Dim cmd As New MySqlCommand("SELECT * FROM users WHERE username=@username AND password=@password", conn)
-            cmd.Parameters.AddWithValue("@username", TextBox1.Text.Trim())
+            Dim hashedPassword As String = HashPassword(password)
 
-            Dim inputPasswordHashed As String = HashPassword(TextBox2.Text)
-            cmd.Parameters.AddWithValue("@password", inputPasswordHashed)
+            Dim user = userRepo.Login(username, hashedPassword)
 
+            If user IsNot Nothing Then
 
-            Dim reader As MySqlDataReader = cmd.ExecuteReader()
-            If reader.HasRows Then
-                reader.Read()
-                Dim username As String = reader("username").ToString()
-                Dim role As String = reader("role").ToString()
-                Dim fullname As String = reader("fullname").ToString()
-                reader.Close()
+                ' ✅ NOW CORRECT
+                Dim historyId As Integer = userRepo.InsertLoginHistory(user.Username, user.Role)
 
-                ' 1. Insert the history record
-                Dim historyCmd As New MySqlCommand("INSERT INTO login_history (username, role, login_time) VALUES (@username, @role, NOW())", conn)
-                historyCmd.Parameters.AddWithValue("@username", username)
-                historyCmd.Parameters.AddWithValue("@role", role)
-                historyCmd.ExecuteNonQuery()
+                MsgBox("Login successful! Welcome " & user.Fullname & " (" & user.Role & ")")
 
-                ' 2. Get the ID of the record we just inserted
-                Dim historyId As Integer = 0
-                historyCmd.CommandText = "SELECT LAST_INSERT_ID()" ' MySQL function to get last ID
-                Dim result = historyCmd.ExecuteScalar()
-                If result IsNot Nothing AndAlso result IsNot DBNull.Value Then
-                    historyId = Convert.ToInt32(result)
-                End If
-
-                Microsoft.VisualBasic.Interaction.MsgBox("Login successful! Welcome " & fullname & " (" & role & ")", Microsoft.VisualBasic.MsgBoxStyle.Information, "Welcome")
-
-                ' 3. Pass the new historyId to FormMain
-                Dim Dashboard As New FormMain(role, fullname, historyId, username)
-                Dashboard.Show()
+                Dim dashboard As New FormMain(user.Role, user.Fullname, historyId, user.Username)
+                dashboard.Show()
                 Me.Hide()
-            Else
-                reader.Close()
-                MsgBox("Invalid username or password.", MsgBoxStyle.Critical, "Error")
-            End If
-        Catch ex As Exception
-            MsgBox("Error: " & ex.Message, MsgBoxStyle.Critical, "Error")
-        Finally
-            If conn IsNot Nothing AndAlso conn.State <> ConnectionState.Closed Then conn.Close()
-        End Try
-    End Sub
 
+            Else
+                MsgBox("Invalid username or password.", MsgBoxStyle.Critical)
+            End If
+
+        Catch ex As Exception
+            MsgBox("Error: " & ex.Message)
+        End Try
+
+    End Sub
     Private Function HashPassword(ByVal password As String) As String
         Using sha256 As SHA256 = SHA256.Create()
             ' Compute the hash from the password bytes

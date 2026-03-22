@@ -1,6 +1,6 @@
-﻿Imports MySql.Data.MySqlClient
-Imports System.Security.Cryptography
+﻿Imports System.Security.Cryptography
 Imports System.Text
+Imports MySql.Data.MySqlClient
 
 Public Class FormMain
 
@@ -522,76 +522,42 @@ Public Class FormMain
     End Sub
 
     Private Sub ApplyRolePermissions()
-        ' -----------------------------------------------------------------
-        ' First, set the "default" state:
-        ' Enable all buttons, then we will disable them based on role.
-        ' -----------------------------------------------------------------
 
-        ' Resident Panel buttons
-        btnAddResident.Enabled = True
-        btnEditResident.Enabled = True
-        btnDeleteResident.Enabled = True
+        Select Case _currentUserRole.ToLower()
 
-        ' Document Panel buttons
-        btnIssueSave.Enabled = True
-        btnPrintPreview.Enabled = True
+            Case "superadmin"
+                ' Full access (no restrictions)
+                btnResidents.Enabled = True
+                btnUserMaintenance.Enabled = True
+                btnOfficials.Enabled = True
+                btnBlotter.Enabled = True
+                btnSchedule.Enabled = True
 
-        ' Schedule Panel buttons
-        btnSaveBooking.Enabled = True
+            Case "admin"
+                ' Limited access (no user management)
+                btnResidents.Enabled = True
+                btnUserMaintenance.Enabled = False ' ❌ cannot manage users
+                btnOfficials.Enabled = True
+                btnBlotter.Enabled = True
+                btnSchedule.Enabled = True
 
-        ' Panel Menu buttons (we use .Visible for these)
-        btnResidents.Visible = True
-        btnDocuments.Visible = True
-        btnSchedule.Visible = True
-        btnOfficials.Visible = True ' (Your officials management button)
-        pnlUserMaintenance.Visible = True  ' (Your user management button)
-
-        ' -----------------------------------------------------------------
-        ' Now, apply restrictions based on the logged-in user's role
-        ' -----------------------------------------------------------------
-        Select Case _currentUserRole
-
-            Case "Superadmin", "Admin"
-                ' --- SUPERADMIN / ADMIN ---
-                ' They can do everything. No restrictions needed.
-                btnUserMaintenance.Text = "User Maintenance"
-
-            Case "Staff"
-                ' --- STAFF ---
-                ' Can do daily work, but no admin tasks.
-                btnOfficials.Visible = False  ' Cannot manage officials
-                pnlUserMaintenance.Visible = False   ' Cannot manage users
-                btnDeleteResident.Enabled = False ' Safer for staff
-                btnSystemMaintenance.Visible = False
+            Case "staff"
+                ' Very limited access
+                btnResidents.Enabled = True
+                btnUserMaintenance.Enabled = False
+                btnOfficials.Enabled = False
+                btnBlotter.Enabled = False
+                btnSchedule.Enabled = True
 
             Case Else
-                ' --- UNKNOWN ROLE ---
-                ' Default to "View Only" for security
-                btnAddResident.Enabled = False
-                btnEditResident.Enabled = False
-                btnDeleteResident.Enabled = False
-                btnIssueSave.Enabled = False
-                btnPrintPreview.Enabled = False
-                btnSaveBooking.Enabled = False
-
-                btnOfficials.Visible = False
-                pnlUserMaintenance.Visible = False
-
-                btnResidents.Visible = False
-                btnDocuments.Visible = False
-                btnSchedule.Visible = False
-                btnBlotter.Visible = False
+                ' Unknown role = no access
+                btnResidents.Enabled = False
+                btnUserMaintenance.Enabled = False
+                btnOfficials.Enabled = False
+                btnBlotter.Enabled = False
+                btnSchedule.Enabled = False
 
         End Select
-
-        ' This renames your user panel button if it's still named btnReports
-        ' This line should be *after* the Select Case
-        If pnlUserMaintenance.Visible = True Then
-            btnUserMaintenance.Text = "User Maintenance"
-        Else
-            ' If the panel is hidden, we might as well hide the button too
-            btnUserMaintenance.Visible = False
-        End If
 
     End Sub
 
