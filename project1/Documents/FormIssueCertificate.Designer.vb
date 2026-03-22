@@ -22,8 +22,8 @@ Partial Class FormIssueCertificate
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle3 As DataGridViewCellStyle = New DataGridViewCellStyle()
-        Dim DataGridViewCellStyle4 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As DataGridViewCellStyle = New DataGridViewCellStyle()
         Label14 = New Label()
         Label12 = New Label()
         Label11 = New Label()
@@ -100,23 +100,23 @@ Partial Class FormIssueCertificate
         dgvResidentLookup.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
         dgvResidentLookup.BackgroundColor = SystemColors.ControlLightLight
         dgvResidentLookup.BorderStyle = BorderStyle.None
-        DataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter
-        DataGridViewCellStyle3.BackColor = Color.FromArgb(CByte(62), CByte(95), CByte(68))
-        DataGridViewCellStyle3.Font = New Font("Segoe UI Light", 9F)
-        DataGridViewCellStyle3.ForeColor = SystemColors.Window
-        DataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(CByte(128), CByte(175), CByte(129))
-        DataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText
-        DataGridViewCellStyle3.WrapMode = DataGridViewTriState.True
-        dgvResidentLookup.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle3
+        DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle1.BackColor = Color.FromArgb(CByte(62), CByte(95), CByte(68))
+        DataGridViewCellStyle1.Font = New Font("Segoe UI Light", 9F)
+        DataGridViewCellStyle1.ForeColor = SystemColors.Window
+        DataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(CByte(128), CByte(175), CByte(129))
+        DataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText
+        DataGridViewCellStyle1.WrapMode = DataGridViewTriState.True
+        dgvResidentLookup.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         dgvResidentLookup.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle4.BackColor = SystemColors.ButtonFace
-        DataGridViewCellStyle4.Font = New Font("Segoe UI", 9F)
-        DataGridViewCellStyle4.ForeColor = SystemColors.ControlText
-        DataGridViewCellStyle4.SelectionBackColor = Color.FromArgb(CByte(128), CByte(175), CByte(129))
-        DataGridViewCellStyle4.SelectionForeColor = SystemColors.ButtonFace
-        DataGridViewCellStyle4.WrapMode = DataGridViewTriState.False
-        dgvResidentLookup.DefaultCellStyle = DataGridViewCellStyle4
+        DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle2.BackColor = SystemColors.ButtonFace
+        DataGridViewCellStyle2.Font = New Font("Segoe UI", 9F)
+        DataGridViewCellStyle2.ForeColor = SystemColors.ControlText
+        DataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(CByte(128), CByte(175), CByte(129))
+        DataGridViewCellStyle2.SelectionForeColor = SystemColors.ButtonFace
+        DataGridViewCellStyle2.WrapMode = DataGridViewTriState.False
+        dgvResidentLookup.DefaultCellStyle = DataGridViewCellStyle2
         dgvResidentLookup.Location = New Point(12, 91)
         dgvResidentLookup.Name = "dgvResidentLookup"
         dgvResidentLookup.RowHeadersVisible = False

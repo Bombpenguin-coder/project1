@@ -3,13 +3,31 @@
 Public Class BlotterRepository
     Private connectionString As String = "server=localhost;port=3306;user id=root;password=;database=barangay_db;"
 
+    ' --- NEW: THE DUPLICATE SHIELD ---
+    Public Function IsDuplicateCase(complainant As String, respondent As String, incidentDate As DateTime, currentId As Integer) As Boolean
+        Dim isDupe As Boolean = False
+        Using conn As New MySqlConnection(connectionString)
+            conn.Open()
+            Dim query As String = "SELECT COUNT(*) FROM blotter_cases WHERE complainant = @Comp AND respondent = @Resp AND incident_date = @IncDate AND id <> @CurrentId"
+            Using cmd As New MySqlCommand(query, conn)
+                cmd.Parameters.AddWithValue("@Comp", complainant)
+                cmd.Parameters.AddWithValue("@Resp", respondent)
+                cmd.Parameters.AddWithValue("@IncDate", incidentDate.ToString("yyyy-MM-dd"))
+                cmd.Parameters.AddWithValue("@CurrentId", currentId)
+                Dim count As Integer = Convert.ToInt32(cmd.ExecuteScalar())
+                If count > 0 Then isDupe = True
+            End Using
+        End Using
+        Return isDupe
+    End Function
+
     ' 1. LOAD CASES
     Public Function GetAllCases() As DataTable
         Dim dt As New DataTable()
         Using conn As New MySqlConnection(connectionString)
             conn.Open()
-            ' Added the new columns to the SELECT query
-            Dim query As String = "SELECT id, incident_date, complainant, complainant_cell, respondent, respondent_cell, incident_type, location, street, status, narrative, full_information FROM blotter_cases ORDER BY incident_date DESC"
+            ' Added incident_time
+            Dim query As String = "SELECT id, incident_date, incident_time, complainant, complainant_cell, respondent, respondent_cell, incident_type, location, street, status, narrative, full_information FROM blotter_cases ORDER BY incident_date DESC"
             Using adapter As New MySqlDataAdapter(query, conn)
                 adapter.Fill(dt)
             End Using
@@ -21,15 +39,16 @@ Public Class BlotterRepository
     Public Sub AddCase(bCase As BlotterCase)
         Using conn As New MySqlConnection(connectionString)
             conn.Open()
-            ' Added new columns to INSERT query
-            Dim query As String = "INSERT INTO blotter_cases (complainant, complainant_cell, respondent, respondent_cell, incident_type, location, street, incident_date, status, narrative, full_information) " &
-                                  "VALUES (@Comp, @CompCell, @Resp, @RespCell, @Type, @Loc, @Street, @IncDate, @Stat, @Narr, @FullInfo)"
+            ' Added incident_time to the insert query
+            Dim query As String = "INSERT INTO blotter_cases (complainant, complainant_cell, respondent, respondent_cell, incident_type, incident_time, location, street, incident_date, status, narrative, full_information) " &
+                                  "VALUES (@Comp, @CompCell, @Resp, @RespCell, @Type, @IncTime, @Loc, @Street, @IncDate, @Stat, @Narr, @FullInfo)"
             Using cmd As New MySqlCommand(query, conn)
                 cmd.Parameters.AddWithValue("@Comp", bCase.Complainant)
                 cmd.Parameters.AddWithValue("@CompCell", bCase.ComplainantCell)
                 cmd.Parameters.AddWithValue("@Resp", bCase.Respondent)
                 cmd.Parameters.AddWithValue("@RespCell", bCase.RespondentCell)
                 cmd.Parameters.AddWithValue("@Type", bCase.IncidentType)
+                cmd.Parameters.AddWithValue("@IncTime", bCase.IncidentTime) ' NEW
                 cmd.Parameters.AddWithValue("@Loc", bCase.Location)
                 cmd.Parameters.AddWithValue("@Street", bCase.Street)
                 cmd.Parameters.AddWithValue("@IncDate", bCase.IncidentDate)
@@ -45,15 +64,16 @@ Public Class BlotterRepository
     Public Sub UpdateCase(bCase As BlotterCase)
         Using conn As New MySqlConnection(connectionString)
             conn.Open()
-            ' Added new columns to UPDATE query
+            ' Added incident_time to update query
             Dim query As String = "UPDATE blotter_cases SET complainant=@Comp, complainant_cell=@CompCell, respondent=@Resp, respondent_cell=@RespCell, " &
-                                  "incident_type=@Type, location=@Loc, street=@Street, incident_date=@IncDate, status=@Stat, narrative=@Narr, full_information=@FullInfo WHERE id=@id"
+                                  "incident_type=@Type, incident_time=@IncTime, location=@Loc, street=@Street, incident_date=@IncDate, status=@Stat, narrative=@Narr, full_information=@FullInfo WHERE id=@id"
             Using cmd As New MySqlCommand(query, conn)
                 cmd.Parameters.AddWithValue("@Comp", bCase.Complainant)
                 cmd.Parameters.AddWithValue("@CompCell", bCase.ComplainantCell)
                 cmd.Parameters.AddWithValue("@Resp", bCase.Respondent)
                 cmd.Parameters.AddWithValue("@RespCell", bCase.RespondentCell)
                 cmd.Parameters.AddWithValue("@Type", bCase.IncidentType)
+                cmd.Parameters.AddWithValue("@IncTime", bCase.IncidentTime) ' NEW
                 cmd.Parameters.AddWithValue("@Loc", bCase.Location)
                 cmd.Parameters.AddWithValue("@Street", bCase.Street)
                 cmd.Parameters.AddWithValue("@IncDate", bCase.IncidentDate)

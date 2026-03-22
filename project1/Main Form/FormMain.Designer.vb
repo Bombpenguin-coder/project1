@@ -22,6 +22,7 @@ Partial Class FormMain
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        components = New ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormMain))
         Dim DataGridViewCellStyle1 As DataGridViewCellStyle = New DataGridViewCellStyle()
         Dim DataGridViewCellStyle2 As DataGridViewCellStyle = New DataGridViewCellStyle()
@@ -135,6 +136,8 @@ Partial Class FormMain
         Panel1 = New Panel()
         lblUserInfo = New Label()
         Label13 = New Label()
+        lblClock = New Label()
+        TimerClock = New Timer(components)
         pnlMenu.SuspendLayout()
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
         pnlContent.SuspendLayout()
@@ -456,6 +459,7 @@ Partial Class FormMain
         ' 
         ' cmbUserRole
         ' 
+        cmbUserRole.DropDownStyle = ComboBoxStyle.DropDownList
         cmbUserRole.FormattingEnabled = True
         cmbUserRole.Location = New Point(606, 83)
         cmbUserRole.Name = "cmbUserRole"
@@ -582,6 +586,7 @@ Partial Class FormMain
         ' 
         ' cmbUserQuestion
         ' 
+        cmbUserQuestion.DropDownStyle = ComboBoxStyle.DropDownList
         cmbUserQuestion.FormattingEnabled = True
         cmbUserQuestion.Location = New Point(15, 90)
         cmbUserQuestion.Name = "cmbUserQuestion"
@@ -1446,6 +1451,7 @@ Partial Class FormMain
         ' Panel1
         ' 
         Panel1.BackColor = Color.FromArgb(CByte(62), CByte(95), CByte(68))
+        Panel1.Controls.Add(lblClock)
         Panel1.Controls.Add(lblUserInfo)
         Panel1.Controls.Add(Label13)
         Panel1.Dock = DockStyle.Top
@@ -1475,6 +1481,21 @@ Partial Class FormMain
         Label13.Size = New Size(407, 32)
         Label13.TabIndex = 0
         Label13.Text = "BARANGAY NEW LOWER BICUTAN"
+        ' 
+        ' lblClock
+        ' 
+        lblClock.Font = New Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lblClock.ForeColor = SystemColors.ButtonHighlight
+        lblClock.Location = New Point(477, 8)
+        lblClock.Name = "lblClock"
+        lblClock.Size = New Size(246, 28)
+        lblClock.TabIndex = 2
+        lblClock.Text = "Time"
+        lblClock.TextAlign = ContentAlignment.MiddleLeft
+        ' 
+        ' TimerClock
+        ' 
+        TimerClock.Interval = 1000
         ' 
         ' FormMain
         ' 
@@ -1635,9 +1656,10 @@ Partial Class FormMain
     Friend WithEvents Button4 As Button
     Friend WithEvents TextBox3 As TextBox
     Friend WithEvents Panel5 As Panel
-    Friend WithEvents Label9 As Label
     Friend WithEvents Label10 As Label
     Friend WithEvents Label11 As Label
     Friend WithEvents Label12 As Label
     Friend WithEvents cmbUserQuestion As ComboBox
+    Friend WithEvents lblClock As Label
+    Friend WithEvents TimerClock As Timer
 End Class

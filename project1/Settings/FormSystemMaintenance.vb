@@ -2,15 +2,11 @@
 
     ' --- 1. FORM LOAD ---
     Private Sub FormSystemMaintenance_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        ' Setup the Category dropdown
         cmbCategory.Items.Clear()
-        cmbCategory.Items.AddRange(New String() {"Street", "Incident Type", "Facility"})
-        cmbCategory.DropDownStyle = ComboBoxStyle.DropDownList ' Forces them to pick from the list
+        cmbCategory.Items.AddRange(New String() {"Street", "Incident Type", "Facility", "Document Type"})
+        cmbCategory.DropDownStyle = ComboBoxStyle.DropDownList
 
-        ' Select the first item automatically (this triggers the grid to load)
-        If cmbCategory.Items.Count > 0 Then
-            cmbCategory.SelectedIndex = 0
-        End If
+        If cmbCategory.Items.Count > 0 Then cmbCategory.SelectedIndex = 0
     End Sub
 
     ' --- 2. DYNAMIC GRID LOADING ---
@@ -30,9 +26,21 @@
 
             dgvItems.DataSource = dt
 
-            ' Format the grid
+            ' Format the Grid
             If dgvItems.Columns.Contains("id") Then dgvItems.Columns("id").Visible = False
             If dgvItems.Columns.Contains("item_value") Then dgvItems.Columns("item_value").HeaderText = selectedCategory & " Name"
+
+            ' NEW: Only show the Price column and textbox if we are looking at Documents!
+            If selectedCategory = "Document Type" Then
+                If dgvItems.Columns.Contains("item_price") Then
+                    dgvItems.Columns("item_price").Visible = True
+                    dgvItems.Columns("item_price").HeaderText = "Price (₱)"
+                End If
+                txtPrice.Visible = True
+            Else
+                If dgvItems.Columns.Contains("item_price") Then dgvItems.Columns("item_price").Visible = False
+                txtPrice.Visible = False
+            End If
 
             dgvItems.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
             dgvItems.SelectionMode = DataGridViewSelectionMode.FullRowSelect
@@ -55,12 +63,19 @@
 
         Try
             Dim repo As New LookupRepository()
-            repo.AddItem(category, newItem)
+            Dim parsedPrice As Decimal = 0.00D
+
+            ' If it's a document, grab the price from the textbox safely
+            If category = "Document Type" Then
+                Decimal.TryParse(txtPrice.Text, parsedPrice)
+            End If
+
+            ' Save it!
+            repo.AddItem(category, newItem, parsedPrice)
 
             MessageBox.Show($"{category} added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
             txtNewItem.Clear()
-
-            ' Instantly refresh the grid to show the new item
+            txtPrice.Clear()
             LoadGridData()
 
         Catch ex As Exception

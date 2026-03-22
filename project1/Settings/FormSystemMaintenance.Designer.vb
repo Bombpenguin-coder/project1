@@ -28,6 +28,7 @@ Partial Class FormSystemMaintenance
         btnAdd = New Button()
         btnDelete = New Button()
         btnCancel = New Button()
+        txtPrice = New TextBox()
         CType(dgvItems, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
@@ -81,11 +82,19 @@ Partial Class FormSystemMaintenance
         btnCancel.Text = "Cancel"
         btnCancel.UseVisualStyleBackColor = True
         ' 
+        ' txtPrice
+        ' 
+        txtPrice.Location = New Point(230, 299)
+        txtPrice.Name = "txtPrice"
+        txtPrice.Size = New Size(135, 23)
+        txtPrice.TabIndex = 6
+        ' 
         ' FormSystemMaintenance
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(469, 450)
+        Controls.Add(txtPrice)
         Controls.Add(btnCancel)
         Controls.Add(btnDelete)
         Controls.Add(btnAdd)
@@ -105,4 +114,5 @@ Partial Class FormSystemMaintenance
     Friend WithEvents btnAdd As Button
     Friend WithEvents btnDelete As Button
     Friend WithEvents btnCancel As Button
+    Friend WithEvents txtPrice As TextBox
 End Class

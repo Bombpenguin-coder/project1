@@ -67,6 +67,18 @@
         End Set
     End Property
 
+    ' --- NEW TIME PROPERTY ---
+    Public Property IncidentTime As String
+        Get
+            Return dtpIncidentTime.Text
+        End Get
+        Set(value As String)
+            If Not String.IsNullOrEmpty(value) Then
+                dtpIncidentTime.Text = value
+            End If
+        End Set
+    End Property
+
     Public Property ComplainantCell As String
         Get
             Return txtComplainantCell.Text.Trim()
@@ -105,37 +117,39 @@
 
     ' --- FORM EVENTS ---
     Private Sub FormAddBlotter_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        ' --- 1. LOAD DYNAMIC LISTS FROM DATABASE ---
         Try
             Dim repo As New LookupRepository()
 
-            ' Load Incident Types
             cmbIncidentType.DataSource = repo.GetItemsByCategory("Incident Type")
             cmbIncidentType.DisplayMember = "item_value"
 
-            ' Load Streets
             cmbStreet.DataSource = repo.GetItemsByCategory("Street")
             cmbStreet.DisplayMember = "item_value"
-
         Catch ex As Exception
             MessageBox.Show("Error loading dropdowns: " & ex.Message, "DB Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
-        ' --- 2. LOAD STATIC LIST (Status usually doesn't change) ---
         If cmbStatus.Items.Count = 0 Then
             cmbStatus.Items.AddRange(New String() {"Active", "Settled", "Referred to Police", "Dismissed"})
         End If
 
         dtpIncidentDate.MaxDate = DateTime.Now
 
-        ' --- 3. SET TITLE BASED ON MODE ---
         If CaseID > 0 Then
             Me.Text = "Edit Blotter Case (ID: " & CaseID & ")"
             btnSave.Text = "Update Case"
         Else
             Me.Text = "Add New Blotter Case"
             btnSave.Text = "Save Case"
-            cmbStatus.SelectedIndex = 0 ' Default to Active
+            cmbStatus.SelectedIndex = 0
+            dtpIncidentTime.Value = DateTime.Now ' Sets default time to right now
+        End If
+    End Sub
+
+    ' VALIDATION: Stop numbers in Complainant and Respondent fields
+    Private Sub NameFields_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtComplainant.KeyPress, txtRespondent.KeyPress
+        If Not Char.IsLetter(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) AndAlso Not Char.IsWhiteSpace(e.KeyChar) AndAlso e.KeyChar <> "-" Then
+            e.Handled = True
         End If
     End Sub
 
@@ -151,6 +165,15 @@
             Return
         End If
 
+        ' --- NEW: DUPLICATE SHIELD ---
+        Dim repo As New BlotterRepository()
+        If repo.IsDuplicateCase(Complainant, Respondent, IncidentDate, CaseID) Then
+            MessageBox.Show("A case involving this Complainant and Respondent on this exact date already exists!" & vbCrLf & vbCrLf &
+                            "Please locate the existing case in the Blotter list and update it rather than creating a duplicate.",
+                            "Duplicate Case Detected", MessageBoxButtons.OK, MessageBoxIcon.Stop)
+            Return
+        End If
+
         Me.DialogResult = DialogResult.OK
         Me.Close()
     End Sub
@@ -161,6 +184,5 @@
     End Sub
 
     Private Sub cmbStreet_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbStreet.SelectedIndexChanged
-
     End Sub
 End Class

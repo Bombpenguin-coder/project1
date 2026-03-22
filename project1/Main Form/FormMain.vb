@@ -1404,6 +1404,11 @@ Public Class FormMain
 
         LoadAuditTrail()
     End Sub
+
+    Private Sub TimerClock_Tick(sender As Object, e As EventArgs) Handles TimerClock.Tick
+        ' Grabs the exact current time from your computer and formats it beautifully!
+        lblClock.Text = DateTime.Now.ToString("dddd, MMMM dd, yyyy   |   hh:mm:ss tt")
+    End Sub
 End Class
 
 

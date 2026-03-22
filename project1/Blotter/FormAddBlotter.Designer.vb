@@ -42,6 +42,12 @@ Partial Class FormAddBlotter
         txtRespondentCell = New TextBox()
         txtFullInformation = New RichTextBox()
         cmbStreet = New ComboBox()
+        Label1 = New Label()
+        dtpIncidentTime = New DateTimePicker()
+        Label2 = New Label()
+        Label3 = New Label()
+        Label4 = New Label()
+        Label5 = New Label()
         SuspendLayout()
         ' 
         ' Label36
@@ -65,7 +71,7 @@ Partial Class FormAddBlotter
         ' Label34
         ' 
         Label34.AutoSize = True
-        Label34.Location = New Point(275, 266)
+        Label34.Location = New Point(275, 209)
         Label34.Name = "Label34"
         Label34.Size = New Size(77, 15)
         Label34.TabIndex = 29
@@ -74,16 +80,16 @@ Partial Class FormAddBlotter
         ' Label33
         ' 
         Label33.AutoSize = True
-        Label33.Location = New Point(36, 197)
+        Label33.Location = New Point(36, 209)
         Label33.Name = "Label33"
-        Label33.Size = New Size(53, 15)
+        Label33.Size = New Size(49, 15)
         Label33.TabIndex = 28
-        Label33.Text = "Location"
+        Label33.Text = "Address"
         ' 
         ' Label32
         ' 
         Label32.AutoSize = True
-        Label32.Location = New Point(275, 197)
+        Label32.Location = New Point(275, 148)
         Label32.Name = "Label32"
         Label32.Size = New Size(77, 15)
         Label32.TabIndex = 27
@@ -92,7 +98,7 @@ Partial Class FormAddBlotter
         ' Label31
         ' 
         Label31.AutoSize = True
-        Label31.Location = New Point(275, 32)
+        Label31.Location = New Point(275, 44)
         Label31.Name = "Label31"
         Label31.Size = New Size(70, 15)
         Label31.TabIndex = 26
@@ -101,7 +107,7 @@ Partial Class FormAddBlotter
         ' Label30
         ' 
         Label30.AutoSize = True
-        Label30.Location = New Point(36, 32)
+        Label30.Location = New Point(36, 44)
         Label30.Name = "Label30"
         Label30.Size = New Size(76, 15)
         Label30.TabIndex = 25
@@ -139,8 +145,8 @@ Partial Class FormAddBlotter
         ' 
         ' dtpIncidentDate
         ' 
-        dtpIncidentDate.CustomFormat = "MMMM dd, yyyy - hh:mm tt"
-        dtpIncidentDate.Location = New Point(275, 284)
+        dtpIncidentDate.CustomFormat = "MMMM dd, yyyy"
+        dtpIncidentDate.Location = New Point(275, 227)
         dtpIncidentDate.Name = "dtpIncidentDate"
         dtpIncidentDate.Size = New Size(147, 23)
         dtpIncidentDate.TabIndex = 20
@@ -148,7 +154,7 @@ Partial Class FormAddBlotter
         ' cmbIncidentType
         ' 
         cmbIncidentType.FormattingEnabled = True
-        cmbIncidentType.Location = New Point(275, 227)
+        cmbIncidentType.Location = New Point(275, 170)
         cmbIncidentType.Name = "cmbIncidentType"
         cmbIncidentType.Size = New Size(147, 23)
         cmbIncidentType.TabIndex = 19
@@ -180,14 +186,14 @@ Partial Class FormAddBlotter
         ' 
         ' txtComplainantCell
         ' 
-        txtComplainantCell.Location = New Point(36, 119)
+        txtComplainantCell.Location = New Point(36, 112)
         txtComplainantCell.Name = "txtComplainantCell"
         txtComplainantCell.Size = New Size(136, 23)
         txtComplainantCell.TabIndex = 34
         ' 
         ' txtRespondentCell
         ' 
-        txtRespondentCell.Location = New Point(275, 119)
+        txtRespondentCell.Location = New Point(275, 112)
         txtRespondentCell.Name = "txtRespondentCell"
         txtRespondentCell.Size = New Size(147, 23)
         txtRespondentCell.TabIndex = 35
@@ -203,16 +209,76 @@ Partial Class FormAddBlotter
         ' cmbStreet
         ' 
         cmbStreet.FormattingEnabled = True
-        cmbStreet.Location = New Point(36, 171)
+        cmbStreet.Location = New Point(36, 170)
         cmbStreet.Name = "cmbStreet"
         cmbStreet.Size = New Size(136, 23)
         cmbStreet.TabIndex = 37
+        ' 
+        ' Label1
+        ' 
+        Label1.AutoSize = True
+        Label1.Location = New Point(275, 266)
+        Label1.Name = "Label1"
+        Label1.Size = New Size(79, 15)
+        Label1.TabIndex = 39
+        Label1.Text = "Incident Time"
+        ' 
+        ' dtpIncidentTime
+        ' 
+        dtpIncidentTime.CustomFormat = "hh:mm tt"
+        dtpIncidentTime.Location = New Point(275, 284)
+        dtpIncidentTime.Name = "dtpIncidentTime"
+        dtpIncidentTime.ShowUpDown = True
+        dtpIncidentTime.Size = New Size(147, 23)
+        dtpIncidentTime.TabIndex = 38
+        ' 
+        ' Label2
+        ' 
+        Label2.AutoSize = True
+        Label2.Location = New Point(36, 94)
+        Label2.Name = "Label2"
+        Label2.Size = New Size(143, 15)
+        Label2.TabIndex = 40
+        Label2.Text = "Complainant Contact No."
+        ' 
+        ' Label3
+        ' 
+        Label3.AutoSize = True
+        Label3.Location = New Point(275, 94)
+        Label3.Name = "Label3"
+        Label3.Size = New Size(137, 15)
+        Label3.TabIndex = 41
+        Label3.Text = "Respondent Contact No."
+        ' 
+        ' Label4
+        ' 
+        Label4.AutoSize = True
+        Label4.Location = New Point(36, 152)
+        Label4.Name = "Label4"
+        Label4.Size = New Size(83, 15)
+        Label4.TabIndex = 42
+        Label4.Text = "Incident Street"
+        ' 
+        ' Label5
+        ' 
+        Label5.AutoSize = True
+        Label5.Location = New Point(258, 324)
+        Label5.Name = "Label5"
+        Label5.Size = New Size(92, 15)
+        Label5.TabIndex = 43
+        Label5.Text = "Full Information"
         ' 
         ' FormAddBlotter
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(524, 492)
+        Controls.Add(Label5)
+        Controls.Add(Label4)
+        Controls.Add(Label3)
+        Controls.Add(Label2)
+        Controls.Add(Label1)
+        Controls.Add(dtpIncidentTime)
         Controls.Add(cmbStreet)
         Controls.Add(txtFullInformation)
         Controls.Add(txtRespondentCell)
@@ -259,4 +325,10 @@ Partial Class FormAddBlotter
     Friend WithEvents txtRespondentCell As TextBox
     Friend WithEvents txtFullInformation As RichTextBox
     Friend WithEvents cmbStreet As ComboBox
+    Friend WithEvents Label1 As Label
+    Friend WithEvents dtpIncidentTime As DateTimePicker
+    Friend WithEvents Label2 As Label
+    Friend WithEvents Label3 As Label
+    Friend WithEvents Label4 As Label
+    Friend WithEvents Label5 As Label
 End Class

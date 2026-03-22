@@ -133,4 +133,24 @@ Public Class FormIssueCertificate
             e.Handled = True
         End If
     End Sub
+
+    Private Sub cmbCertificateType_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbCertificateType.SelectedIndexChanged
+        If cmbCertificateType.SelectedItem Is Nothing Then Return
+
+        Dim selectedDoc As String = cmbCertificateType.Text
+        Dim repo As New LookupRepository()
+
+        ' Fetch all document types from the database
+        Dim dt As DataTable = repo.GetItemsByCategory("Document Type")
+
+        ' Search the results for the exact document they selected
+        For Each row As DataRow In dt.Rows
+            If row("item_value").ToString() = selectedDoc Then
+                ' Found it! Paste the price into the Amount Paid box!
+                ' (Change 'txtAmountPaid' to whatever you named your textbox)
+                txtAmountPaid.Text = Convert.ToDecimal(row("item_price")).ToString("0.00")
+                Exit For
+            End If
+        Next
+    End Sub
 End Class
