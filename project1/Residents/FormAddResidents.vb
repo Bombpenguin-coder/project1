@@ -131,17 +131,19 @@ Public Class FormAddResidents
         Try
             Using conn As New MySqlConnection(connString)
                 conn.Open()
-                ' CHANGE THIS QUERY IF YOUR SYSTEM MANAGEMENT TABLE IS NAMED DIFFERENTLY
-                Dim cmd As New MySqlCommand("SELECT street_name FROM streets ORDER BY street_name ASC", conn)
+                ' Now looking at your actual System Lookups table!
+                Dim query As String = "SELECT item_value FROM system_lookups WHERE category = 'Street' ORDER BY item_value ASC"
+                Dim cmd As New MySqlCommand(query, conn)
 
                 Using reader As MySqlDataReader = cmd.ExecuteReader()
                     While reader.Read()
-                        cmbStreet.Items.Add(reader("street_name").ToString())
+                        ' Grabbing the item_value column
+                        cmbStreet.Items.Add(reader("item_value").ToString())
                     End While
                 End Using
             End Using
         Catch ex As Exception
-            MessageBox.Show("Could not load streets: " & ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("Could not load streets: " & ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
         End Try
     End Sub
 

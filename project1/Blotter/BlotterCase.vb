@@ -5,6 +5,7 @@
     Public Property Respondent As String
     Public Property RespondentCell As String    ' NEW
     Public Property IncidentType As String
+    Public Property IncidentTime As String
     Public Property Location As String
     Public Property Street As String            ' NEW
     Public Property IncidentDate As DateTime
