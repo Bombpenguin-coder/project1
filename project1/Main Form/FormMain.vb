@@ -247,7 +247,7 @@ Public Class FormMain
             Try
                 ' 1. Pack the data
                 Dim updatedRes As New Resident()
-                updatedRes.Id = selectedId
+                updatedRes.ID = selectedId
                 updatedRes.LastName = editForm.LastName
                 updatedRes.FirstName = editForm.FirstName
                 updatedRes.MiddleName = editForm.MiddleName

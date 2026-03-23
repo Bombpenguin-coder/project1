@@ -37,27 +37,41 @@ Public Class FormIssueCertificate
         End Set
     End Property
 
-    ' --- FORM EVENTS ---
+    ' --- 1. DYNAMIC LOAD FIX ---
     Private Sub FormIssueCertificate_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        ' Setup ComboBox
-        If cmbCertificateType.Items.Count = 0 Then
+        ' Fetch the live document types from your System Settings!
+        Try
+            Dim repo As New LookupRepository()
+            Dim dt As DataTable = repo.GetItemsByCategory("Document Type")
+
+            cmbCertificateType.Items.Clear()
+            For Each row As DataRow In dt.Rows
+                cmbCertificateType.Items.Add(row("item_value").ToString())
+            Next
+        Catch ex As Exception
+            ' Fallback just in case the database is empty
             cmbCertificateType.Items.AddRange(New String() {"Barangay Clearance", "Certificate of Indigency", "Certificate of Residency"})
-        End If
+        End Try
+
         cmbCertificateType.DropDownStyle = ComboBoxStyle.DropDownList
         If cmbCertificateType.Items.Count > 0 Then cmbCertificateType.SelectedIndex = 0
 
         txtAmountPaid.Text = "0.00"
         lblSelectedResident.Text = "Selected Resident: (None)"
 
+        ' Load the grid!
         LoadResidentsForLookup()
     End Sub
 
-    ' --- RESIDENT SEARCH LOGIC ---
+    ' --- 2. THE DATABASE CRASH FIX ---
     Private Sub LoadResidentsForLookup(Optional searchTerm As String = "")
         Try
             Using conn As New MySqlConnection(connectionString)
                 conn.Open()
-                Dim query As String = "SELECT id, lastname, firstname, middlename, address, barangay FROM residents"
+
+                ' FIX: Changed 'barangay' to 'district' so MySQL doesn't crash!
+                Dim query As String = "SELECT id, lastname, firstname, middlename, address, district FROM residents"
+
                 If Not String.IsNullOrWhiteSpace(searchTerm) Then
                     query &= " WHERE CONCAT(lastname, ' ', firstname, ' ', middlename) LIKE @SearchTerm OR address LIKE @SearchTerm "
                 End If
