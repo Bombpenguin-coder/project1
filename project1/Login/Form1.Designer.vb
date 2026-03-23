@@ -23,7 +23,6 @@ Partial Class Form1
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form1))
-        PasswordVisible = New Button()
         PictureBox2 = New PictureBox()
         PictureBox3 = New PictureBox()
         PictureBox1 = New PictureBox()
@@ -32,9 +31,9 @@ Partial Class Form1
         TextBox1 = New TextBox()
         Loginbtn = New Button()
         TextBox2 = New TextBox()
-        Cancelbtn = New Button()
         Label1 = New Label()
         Panel1 = New Panel()
+        chkShowPassword = New CheckBox()
         lblForgotPassword = New Label()
         Label3 = New Label()
         PictureBox4 = New PictureBox()
@@ -53,20 +52,6 @@ Partial Class Form1
         CType(PictureBox4, ComponentModel.ISupportInitialize).BeginInit()
         pnlSetup.SuspendLayout()
         SuspendLayout()
-        ' 
-        ' PasswordVisible
-        ' 
-        PasswordVisible.BackColor = Color.Transparent
-        PasswordVisible.FlatAppearance.BorderSize = 0
-        PasswordVisible.FlatStyle = FlatStyle.Flat
-        PasswordVisible.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        PasswordVisible.ForeColor = Color.White
-        PasswordVisible.Location = New Point(299, 275)
-        PasswordVisible.Name = "PasswordVisible"
-        PasswordVisible.Size = New Size(23, 23)
-        PasswordVisible.TabIndex = 6
-        PasswordVisible.Text = "👁"
-        PasswordVisible.UseVisualStyleBackColor = False
         ' 
         ' PictureBox2
         ' 
@@ -102,7 +87,7 @@ Partial Class Form1
         ' Password
         ' 
         Password.AutoSize = True
-        Password.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Password.Font = New Font("Segoe UI", 9.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Password.ForeColor = Color.White
         Password.Location = New Point(84, 260)
         Password.Name = "Password"
@@ -114,7 +99,7 @@ Partial Class Form1
         ' 
         Username.AutoSize = True
         Username.BackColor = Color.Transparent
-        Username.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Username.Font = New Font("Segoe UI", 9.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Username.ForeColor = Color.White
         Username.Location = New Point(85, 209)
         Username.Name = "Username"
@@ -141,7 +126,7 @@ Partial Class Form1
         Loginbtn.FlatStyle = FlatStyle.Flat
         Loginbtn.Font = New Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Loginbtn.ForeColor = Color.White
-        Loginbtn.Location = New Point(90, 327)
+        Loginbtn.Location = New Point(82, 353)
         Loginbtn.Name = "Loginbtn"
         Loginbtn.Size = New Size(195, 35)
         Loginbtn.TabIndex = 0
@@ -160,19 +145,6 @@ Partial Class Form1
         TextBox2.Size = New Size(213, 23)
         TextBox2.TabIndex = 4
         ' 
-        ' Cancelbtn
-        ' 
-        Cancelbtn.BackColor = Color.White
-        Cancelbtn.FlatAppearance.BorderSize = 0
-        Cancelbtn.FlatStyle = FlatStyle.Flat
-        Cancelbtn.Font = New Font("Arial", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        Cancelbtn.Location = New Point(90, 376)
-        Cancelbtn.Name = "Cancelbtn"
-        Cancelbtn.Size = New Size(195, 23)
-        Cancelbtn.TabIndex = 7
-        Cancelbtn.Text = "Cancel"
-        Cancelbtn.UseVisualStyleBackColor = False
-        ' 
         ' Label1
         ' 
         Label1.AutoSize = True
@@ -190,8 +162,8 @@ Partial Class Form1
         ' Panel1
         ' 
         Panel1.BackColor = Color.FromArgb(CByte(62), CByte(95), CByte(68))
+        Panel1.Controls.Add(chkShowPassword)
         Panel1.Controls.Add(lblForgotPassword)
-        Panel1.Controls.Add(Cancelbtn)
         Panel1.Controls.Add(TextBox2)
         Panel1.Controls.Add(Loginbtn)
         Panel1.Controls.Add(TextBox1)
@@ -199,7 +171,6 @@ Partial Class Form1
         Panel1.Controls.Add(Password)
         Panel1.Controls.Add(PictureBox3)
         Panel1.Controls.Add(PictureBox2)
-        Panel1.Controls.Add(PasswordVisible)
         Panel1.Controls.Add(PictureBox1)
         Panel1.Controls.Add(Label3)
         Panel1.Dock = DockStyle.Right
@@ -208,11 +179,23 @@ Partial Class Form1
         Panel1.Size = New Size(387, 526)
         Panel1.TabIndex = 5
         ' 
+        ' chkShowPassword
+        ' 
+        chkShowPassword.AutoSize = True
+        chkShowPassword.Font = New Font("Segoe UI", 9.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        chkShowPassword.ForeColor = SystemColors.ButtonHighlight
+        chkShowPassword.Location = New Point(82, 320)
+        chkShowPassword.Name = "chkShowPassword"
+        chkShowPassword.Size = New Size(108, 19)
+        chkShowPassword.TabIndex = 15
+        chkShowPassword.Text = "Show Password"
+        chkShowPassword.UseVisualStyleBackColor = True
+        ' 
         ' lblForgotPassword
         ' 
         lblForgotPassword.AutoSize = True
-        lblForgotPassword.ForeColor = SystemColors.ActiveCaption
-        lblForgotPassword.Location = New Point(9, 502)
+        lblForgotPassword.ForeColor = SystemColors.ButtonHighlight
+        lblForgotPassword.Location = New Point(82, 408)
         lblForgotPassword.Name = "lblForgotPassword"
         lblForgotPassword.Size = New Size(100, 15)
         lblForgotPassword.TabIndex = 14
@@ -221,7 +204,7 @@ Partial Class Form1
         ' Label3
         ' 
         Label3.AutoSize = True
-        Label3.Font = New Font("Microsoft Tai Le", 20F, FontStyle.Bold)
+        Label3.Font = New Font("Microsoft Tai Le", 20.0F, FontStyle.Bold)
         Label3.ForeColor = SystemColors.Window
         Label3.Location = New Point(141, 172)
         Label3.Name = "Label3"
@@ -265,7 +248,7 @@ Partial Class Form1
         pnlSetup.Controls.Add(txtSetupPassword)
         pnlSetup.Controls.Add(txtSetupUsername)
         pnlSetup.Controls.Add(txtSetupFullname)
-        pnlSetup.Location = New Point(433, 0)
+        pnlSetup.Location = New Point(40, 3)
         pnlSetup.Name = "pnlSetup"
         pnlSetup.Size = New Size(396, 526)
         pnlSetup.TabIndex = 14
@@ -317,7 +300,7 @@ Partial Class Form1
         ' 
         ' Form1
         ' 
-        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleDimensions = New SizeF(7.0F, 15.0F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.White
         ClientSize = New Size(829, 526)
@@ -341,7 +324,6 @@ Partial Class Form1
         ResumeLayout(False)
         PerformLayout()
     End Sub
-    Friend WithEvents PasswordVisible As Button
     Friend WithEvents PictureBox2 As PictureBox
     Friend WithEvents PictureBox3 As PictureBox
     Friend WithEvents PictureBox1 As PictureBox
@@ -350,7 +332,6 @@ Partial Class Form1
     Friend WithEvents TextBox1 As TextBox
     Friend WithEvents Loginbtn As Button
     Friend WithEvents TextBox2 As TextBox
-    Friend WithEvents Cancelbtn As Button
     Friend WithEvents Label1 As Label
     Friend WithEvents Panel1 As Panel
     Friend WithEvents Label3 As Label
@@ -364,5 +345,6 @@ Partial Class Form1
     Friend WithEvents btnCreateAdmin As Button
     Friend WithEvents cmbSetupQuestion As ComboBox
     Friend WithEvents lblForgotPassword As Label
+    Friend WithEvents chkShowPassword As CheckBox
 
 End Class
