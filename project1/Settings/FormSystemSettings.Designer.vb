@@ -29,6 +29,11 @@ Partial Class FormSystemSettings
         txtContactNumber = New TextBox()
         btnSave = New Button()
         btnCancel = New Button()
+        Label1 = New Label()
+        Label2 = New Label()
+        Label3 = New Label()
+        Label4 = New Label()
+        Label5 = New Label()
         SuspendLayout()
         ' 
         ' txtBarangayName
@@ -41,7 +46,7 @@ Partial Class FormSystemSettings
         ' 
         ' txtCityName
         ' 
-        txtCityName.Location = New Point(50, 119)
+        txtCityName.Location = New Point(50, 128)
         txtCityName.Multiline = True
         txtCityName.Name = "txtCityName"
         txtCityName.Size = New Size(201, 34)
@@ -49,7 +54,7 @@ Partial Class FormSystemSettings
         ' 
         ' txtProvinceName
         ' 
-        txtProvinceName.Location = New Point(50, 167)
+        txtProvinceName.Location = New Point(50, 195)
         txtProvinceName.Multiline = True
         txtProvinceName.Name = "txtProvinceName"
         txtProvinceName.Size = New Size(201, 34)
@@ -57,7 +62,7 @@ Partial Class FormSystemSettings
         ' 
         ' txtCaptainName
         ' 
-        txtCaptainName.Location = New Point(50, 217)
+        txtCaptainName.Location = New Point(50, 255)
         txtCaptainName.Multiline = True
         txtCaptainName.Name = "txtCaptainName"
         txtCaptainName.Size = New Size(201, 34)
@@ -65,7 +70,7 @@ Partial Class FormSystemSettings
         ' 
         ' txtContactNumber
         ' 
-        txtContactNumber.Location = New Point(50, 272)
+        txtContactNumber.Location = New Point(50, 324)
         txtContactNumber.Multiline = True
         txtContactNumber.Name = "txtContactNumber"
         txtContactNumber.Size = New Size(201, 34)
@@ -73,27 +78,85 @@ Partial Class FormSystemSettings
         ' 
         ' btnSave
         ' 
-        btnSave.Location = New Point(418, 324)
+        btnSave.BackColor = Color.FromArgb(CByte(23), CByte(80), CByte(126))
+        btnSave.FlatStyle = FlatStyle.Flat
+        btnSave.Font = New Font("Microsoft PhagsPa", 11.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnSave.ForeColor = Color.White
+        btnSave.Location = New Point(36, 364)
         btnSave.Name = "btnSave"
-        btnSave.Size = New Size(76, 39)
+        btnSave.Size = New Size(233, 39)
         btnSave.TabIndex = 5
         btnSave.Text = "Save"
-        btnSave.UseVisualStyleBackColor = True
+        btnSave.UseVisualStyleBackColor = False
         ' 
         ' btnCancel
         ' 
-        btnCancel.Location = New Point(532, 324)
+        btnCancel.BackColor = Color.IndianRed
+        btnCancel.FlatStyle = FlatStyle.Flat
+        btnCancel.Font = New Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        btnCancel.ForeColor = Color.White
+        btnCancel.Location = New Point(36, 409)
         btnCancel.Name = "btnCancel"
-        btnCancel.Size = New Size(76, 39)
+        btnCancel.Size = New Size(233, 39)
         btnCancel.TabIndex = 6
         btnCancel.Text = "Cancel"
-        btnCancel.UseVisualStyleBackColor = True
+        btnCancel.UseVisualStyleBackColor = False
+        ' 
+        ' Label1
+        ' 
+        Label1.AutoSize = True
+        Label1.Location = New Point(50, 33)
+        Label1.Name = "Label1"
+        Label1.Size = New Size(91, 15)
+        Label1.TabIndex = 7
+        Label1.Text = "Barangay Name"
+        ' 
+        ' Label2
+        ' 
+        Label2.AutoSize = True
+        Label2.Location = New Point(50, 110)
+        Label2.Name = "Label2"
+        Label2.Size = New Size(63, 15)
+        Label2.TabIndex = 8
+        Label2.Text = "City Name"
+        ' 
+        ' Label3
+        ' 
+        Label3.AutoSize = True
+        Label3.Location = New Point(50, 177)
+        Label3.Name = "Label3"
+        Label3.Size = New Size(88, 15)
+        Label3.TabIndex = 9
+        Label3.Text = "Province Name"
+        ' 
+        ' Label4
+        ' 
+        Label4.AutoSize = True
+        Label4.Location = New Point(50, 237)
+        Label4.Name = "Label4"
+        Label4.Size = New Size(83, 15)
+        Label4.TabIndex = 10
+        Label4.Text = "Captain Name"
+        ' 
+        ' Label5
+        ' 
+        Label5.AutoSize = True
+        Label5.Location = New Point(50, 306)
+        Label5.Name = "Label5"
+        Label5.Size = New Size(96, 15)
+        Label5.TabIndex = 11
+        Label5.Text = "Contact Number"
         ' 
         ' FormSystemSettings
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(676, 450)
+        ClientSize = New Size(338, 450)
+        Controls.Add(Label5)
+        Controls.Add(Label4)
+        Controls.Add(Label3)
+        Controls.Add(Label2)
+        Controls.Add(Label1)
         Controls.Add(btnCancel)
         Controls.Add(btnSave)
         Controls.Add(txtContactNumber)
@@ -114,4 +177,9 @@ Partial Class FormSystemSettings
     Friend WithEvents txtContactNumber As TextBox
     Friend WithEvents btnSave As Button
     Friend WithEvents btnCancel As Button
+    Friend WithEvents Label1 As Label
+    Friend WithEvents Label2 As Label
+    Friend WithEvents Label3 As Label
+    Friend WithEvents Label4 As Label
+    Friend WithEvents Label5 As Label
 End Class

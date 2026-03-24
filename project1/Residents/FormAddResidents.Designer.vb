@@ -48,7 +48,7 @@ Partial Class FormAddResidents
         ' 
         Label1.AutoSize = True
         Label1.Font = New Font("Arial Black", 14.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        Label1.ForeColor = Color.FromArgb(CByte(76), CByte(118), CByte(59))
+        Label1.ForeColor = Color.Black
         Label1.Location = New Point(100, 24)
         Label1.Name = "Label1"
         Label1.Size = New Size(186, 27)
@@ -154,10 +154,10 @@ Partial Class FormAddResidents
         ' 
         ' btnSaveResident
         ' 
-        btnSaveResident.BackColor = Color.FromArgb(CByte(115), CByte(148), CByte(107))
+        btnSaveResident.BackColor = Color.FromArgb(CByte(23), CByte(80), CByte(126))
         btnSaveResident.FlatAppearance.BorderSize = 0
         btnSaveResident.FlatStyle = FlatStyle.Flat
-        btnSaveResident.Font = New Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        btnSaveResident.Font = New Font("Microsoft PhagsPa", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         btnSaveResident.ForeColor = Color.White
         btnSaveResident.Location = New Point(78, 478)
         btnSaveResident.Name = "btnSaveResident"
@@ -168,7 +168,7 @@ Partial Class FormAddResidents
         ' 
         ' btnCancel
         ' 
-        btnCancel.BackColor = Color.Firebrick
+        btnCancel.BackColor = Color.IndianRed
         btnCancel.FlatAppearance.BorderSize = 0
         btnCancel.FlatStyle = FlatStyle.Flat
         btnCancel.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
@@ -241,7 +241,7 @@ Partial Class FormAddResidents
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
-        BackColor = SystemColors.Menu
+        BackColor = SystemColors.ControlLight
         BackgroundImageLayout = ImageLayout.None
         ClientSize = New Size(404, 561)
         ControlBox = False

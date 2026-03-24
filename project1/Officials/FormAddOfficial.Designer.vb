@@ -34,48 +34,58 @@ Partial Class FormAddOfficial
         ' 
         ' txtFullName
         ' 
-        txtFullName.Location = New Point(117, 45)
+        txtFullName.Location = New Point(65, 71)
         txtFullName.Multiline = True
         txtFullName.Name = "txtFullName"
-        txtFullName.Size = New Size(136, 23)
+        txtFullName.Size = New Size(185, 29)
         txtFullName.TabIndex = 0
         ' 
         ' txtPosition
         ' 
-        txtPosition.Location = New Point(117, 106)
+        txtPosition.Location = New Point(65, 133)
+        txtPosition.Multiline = True
         txtPosition.Name = "txtPosition"
-        txtPosition.Size = New Size(136, 23)
+        txtPosition.Size = New Size(185, 29)
         txtPosition.TabIndex = 1
         ' 
         ' txtContactNumber
         ' 
-        txtContactNumber.Location = New Point(117, 162)
+        txtContactNumber.Location = New Point(65, 197)
+        txtContactNumber.Multiline = True
         txtContactNumber.Name = "txtContactNumber"
-        txtContactNumber.Size = New Size(136, 23)
+        txtContactNumber.Size = New Size(185, 29)
         txtContactNumber.TabIndex = 2
         ' 
         ' btnCancel
         ' 
-        btnCancel.Location = New Point(89, 299)
+        btnCancel.BackColor = Color.IndianRed
+        btnCancel.FlatStyle = FlatStyle.Flat
+        btnCancel.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        btnCancel.ForeColor = Color.White
+        btnCancel.Location = New Point(77, 326)
         btnCancel.Name = "btnCancel"
         btnCancel.Size = New Size(173, 29)
         btnCancel.TabIndex = 3
         btnCancel.Text = "Cancel"
-        btnCancel.UseVisualStyleBackColor = True
+        btnCancel.UseVisualStyleBackColor = False
         ' 
         ' btnSave
         ' 
-        btnSave.Location = New Point(89, 255)
+        btnSave.BackColor = Color.FromArgb(CByte(23), CByte(80), CByte(126))
+        btnSave.FlatStyle = FlatStyle.Flat
+        btnSave.Font = New Font("Microsoft PhagsPa", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnSave.ForeColor = Color.White
+        btnSave.Location = New Point(77, 282)
         btnSave.Name = "btnSave"
         btnSave.Size = New Size(173, 29)
         btnSave.TabIndex = 4
         btnSave.Text = "Save"
-        btnSave.UseVisualStyleBackColor = True
+        btnSave.UseVisualStyleBackColor = False
         ' 
         ' Label1
         ' 
         Label1.AutoSize = True
-        Label1.Location = New Point(26, 48)
+        Label1.Location = New Point(65, 53)
         Label1.Name = "Label1"
         Label1.Size = New Size(61, 15)
         Label1.TabIndex = 5
@@ -84,7 +94,7 @@ Partial Class FormAddOfficial
         ' Label2
         ' 
         Label2.AutoSize = True
-        Label2.Location = New Point(26, 106)
+        Label2.Location = New Point(65, 115)
         Label2.Name = "Label2"
         Label2.Size = New Size(50, 15)
         Label2.TabIndex = 6
@@ -93,7 +103,7 @@ Partial Class FormAddOfficial
         ' Label3
         ' 
         Label3.AutoSize = True
-        Label3.Location = New Point(15, 165)
+        Label3.Location = New Point(65, 179)
         Label3.Name = "Label3"
         Label3.Size = New Size(96, 15)
         Label3.TabIndex = 7

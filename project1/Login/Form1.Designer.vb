@@ -31,7 +31,7 @@ Partial Class Form1
         Loginbtn = New Button()
         TextBox2 = New TextBox()
         Label1 = New Label()
-        Panel1 = New Panel()
+        pnlLogin = New Panel()
         chkShowPassword = New CheckBox()
         lblForgotPassword = New Label()
         pnlSetup = New Panel()
@@ -47,7 +47,7 @@ Partial Class Form1
         PictureBox1 = New PictureBox()
         CType(PictureBox2, ComponentModel.ISupportInitialize).BeginInit()
         CType(PictureBox3, ComponentModel.ISupportInitialize).BeginInit()
-        Panel1.SuspendLayout()
+        pnlLogin.SuspendLayout()
         pnlSetup.SuspendLayout()
         Panel2.SuspendLayout()
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
@@ -148,25 +148,25 @@ Partial Class Form1
         Label1.Text = "Welcome to Barangay"
         Label1.TextAlign = ContentAlignment.TopCenter
         ' 
-        ' Panel1
+        ' pnlLogin
         ' 
-        Panel1.BackColor = Color.FromArgb(CByte(98), CByte(155), CByte(181))
-        Panel1.Controls.Add(chkShowPassword)
-        Panel1.Controls.Add(lblForgotPassword)
-        Panel1.Controls.Add(TextBox2)
-        Panel1.Controls.Add(pnlSetup)
-        Panel1.Controls.Add(Loginbtn)
-        Panel1.Controls.Add(TextBox1)
-        Panel1.Controls.Add(Username)
-        Panel1.Controls.Add(Password)
-        Panel1.Controls.Add(PictureBox3)
-        Panel1.Controls.Add(PictureBox2)
-        Panel1.Controls.Add(Label3)
-        Panel1.Dock = DockStyle.Right
-        Panel1.Location = New Point(444, 0)
-        Panel1.Name = "Panel1"
-        Panel1.Size = New Size(385, 526)
-        Panel1.TabIndex = 5
+        pnlLogin.BackColor = Color.FromArgb(CByte(98), CByte(155), CByte(181))
+        pnlLogin.Controls.Add(chkShowPassword)
+        pnlLogin.Controls.Add(lblForgotPassword)
+        pnlLogin.Controls.Add(TextBox2)
+        pnlLogin.Controls.Add(pnlSetup)
+        pnlLogin.Controls.Add(Loginbtn)
+        pnlLogin.Controls.Add(TextBox1)
+        pnlLogin.Controls.Add(Username)
+        pnlLogin.Controls.Add(Password)
+        pnlLogin.Controls.Add(PictureBox3)
+        pnlLogin.Controls.Add(PictureBox2)
+        pnlLogin.Controls.Add(Label3)
+        pnlLogin.Dock = DockStyle.Right
+        pnlLogin.Location = New Point(444, 0)
+        pnlLogin.Name = "pnlLogin"
+        pnlLogin.Size = New Size(385, 526)
+        pnlLogin.TabIndex = 5
         ' 
         ' chkShowPassword
         ' 
@@ -198,7 +198,7 @@ Partial Class Form1
         pnlSetup.Controls.Add(txtSetupPassword)
         pnlSetup.Controls.Add(txtSetupUsername)
         pnlSetup.Controls.Add(txtSetupFullname)
-        pnlSetup.Location = New Point(391, 12)
+        pnlSetup.Location = New Point(366, 0)
         pnlSetup.Name = "pnlSetup"
         pnlSetup.Size = New Size(372, 526)
         pnlSetup.TabIndex = 14
@@ -303,15 +303,15 @@ Partial Class Form1
         BackColor = Color.Black
         ClientSize = New Size(829, 526)
         Controls.Add(Panel2)
-        Controls.Add(Panel1)
+        Controls.Add(pnlLogin)
         FormBorderStyle = FormBorderStyle.None
         Name = "Form1"
         StartPosition = FormStartPosition.CenterScreen
         Text = "Login Form"
         CType(PictureBox2, ComponentModel.ISupportInitialize).EndInit()
         CType(PictureBox3, ComponentModel.ISupportInitialize).EndInit()
-        Panel1.ResumeLayout(False)
-        Panel1.PerformLayout()
+        pnlLogin.ResumeLayout(False)
+        pnlLogin.PerformLayout()
         pnlSetup.ResumeLayout(False)
         pnlSetup.PerformLayout()
         Panel2.ResumeLayout(False)
@@ -327,7 +327,7 @@ Partial Class Form1
     Friend WithEvents Loginbtn As Button
     Friend WithEvents TextBox2 As TextBox
     Friend WithEvents Label1 As Label
-    Friend WithEvents Panel1 As Panel
+    Friend WithEvents pnlLogin As Panel
     Friend WithEvents Label3 As Label
     Friend WithEvents Label2 As Label
     Friend WithEvents pnlSetup As Panel

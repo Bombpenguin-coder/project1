@@ -22,6 +22,7 @@ Partial Class FormSystemMaintenance
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim DataGridViewCellStyle3 As DataGridViewCellStyle = New DataGridViewCellStyle()
         cmbCategory = New ComboBox()
         dgvItems = New DataGridView()
         txtNewItem = New TextBox()
@@ -42,10 +43,20 @@ Partial Class FormSystemMaintenance
         ' 
         ' dgvItems
         ' 
+        dgvItems.BackgroundColor = SystemColors.ControlLight
+        DataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle3.BackColor = Color.FromArgb(CByte(98), CByte(155), CByte(181))
+        DataGridViewCellStyle3.Font = New Font("Segoe UI Light", 9.75F)
+        DataGridViewCellStyle3.ForeColor = SystemColors.Window
+        DataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(CByte(123), CByte(189), CByte(232))
+        DataGridViewCellStyle3.SelectionForeColor = Color.White
+        DataGridViewCellStyle3.WrapMode = DataGridViewTriState.True
+        dgvItems.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle3
         dgvItems.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
         dgvItems.Location = New Point(49, 113)
         dgvItems.Name = "dgvItems"
-        dgvItems.Size = New Size(306, 150)
+        dgvItems.ReadOnly = True
+        dgvItems.Size = New Size(354, 150)
         dgvItems.TabIndex = 1
         ' 
         ' txtNewItem
@@ -57,30 +68,42 @@ Partial Class FormSystemMaintenance
         ' 
         ' btnAdd
         ' 
+        btnAdd.BackColor = Color.FromArgb(CByte(23), CByte(80), CByte(126))
+        btnAdd.FlatStyle = FlatStyle.Flat
+        btnAdd.Font = New Font("Microsoft PhagsPa", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnAdd.ForeColor = Color.White
         btnAdd.Location = New Point(129, 353)
         btnAdd.Name = "btnAdd"
         btnAdd.Size = New Size(88, 34)
         btnAdd.TabIndex = 3
         btnAdd.Text = "Add"
-        btnAdd.UseVisualStyleBackColor = True
+        btnAdd.UseVisualStyleBackColor = False
         ' 
         ' btnDelete
         ' 
+        btnDelete.BackColor = Color.IndianRed
+        btnDelete.FlatStyle = FlatStyle.Flat
+        btnDelete.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        btnDelete.ForeColor = Color.White
         btnDelete.Location = New Point(252, 353)
         btnDelete.Name = "btnDelete"
         btnDelete.Size = New Size(88, 34)
         btnDelete.TabIndex = 4
         btnDelete.Text = "Delete"
-        btnDelete.UseVisualStyleBackColor = True
+        btnDelete.UseVisualStyleBackColor = False
         ' 
         ' btnCancel
         ' 
+        btnCancel.BackColor = Color.FromArgb(CByte(23), CByte(80), CByte(126))
+        btnCancel.FlatStyle = FlatStyle.Flat
+        btnCancel.Font = New Font("Microsoft PhagsPa", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnCancel.ForeColor = Color.White
         btnCancel.Location = New Point(369, 353)
         btnCancel.Name = "btnCancel"
         btnCancel.Size = New Size(88, 34)
         btnCancel.TabIndex = 5
         btnCancel.Text = "Cancel"
-        btnCancel.UseVisualStyleBackColor = True
+        btnCancel.UseVisualStyleBackColor = False
         ' 
         ' txtPrice
         ' 

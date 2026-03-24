@@ -11,12 +11,13 @@ Public Class Form1
         TextBox2.TabIndex = 1
         Loginbtn.TabIndex = 2
 
-        ' ✅ CORRECT INITIAL STATE
         chkShowPassword.Checked = False
         TextBox2.UseSystemPasswordChar = False
         Loginbtn.TabStop = False
         Loginbtn.FlatStyle = FlatStyle.Flat
         Loginbtn.FlatAppearance.BorderSize = 0
+
+        pnlSetup.Location = pnlLogin.Location
 
         CheckFirstRunSetup()
     End Sub
@@ -175,7 +176,7 @@ Public Class Form1
         End If
     End Sub
 
-    Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs) Handles Panel1.Paint
+    Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs) Handles pnlLogin.Paint
 
     End Sub
 

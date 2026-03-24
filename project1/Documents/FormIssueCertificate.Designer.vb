@@ -22,8 +22,8 @@ Partial Class FormIssueCertificate
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle1 As DataGridViewCellStyle = New DataGridViewCellStyle()
-        Dim DataGridViewCellStyle2 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle5 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle6 As DataGridViewCellStyle = New DataGridViewCellStyle()
         Label14 = New Label()
         Label12 = New Label()
         Label11 = New Label()
@@ -100,23 +100,23 @@ Partial Class FormIssueCertificate
         dgvResidentLookup.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
         dgvResidentLookup.BackgroundColor = SystemColors.ControlLightLight
         dgvResidentLookup.BorderStyle = BorderStyle.None
-        DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter
-        DataGridViewCellStyle1.BackColor = Color.FromArgb(CByte(62), CByte(95), CByte(68))
-        DataGridViewCellStyle1.Font = New Font("Segoe UI Light", 9F)
-        DataGridViewCellStyle1.ForeColor = SystemColors.Window
-        DataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(CByte(128), CByte(175), CByte(129))
-        DataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText
-        DataGridViewCellStyle1.WrapMode = DataGridViewTriState.True
-        dgvResidentLookup.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle5.BackColor = Color.FromArgb(CByte(98), CByte(155), CByte(181))
+        DataGridViewCellStyle5.Font = New Font("Segoe UI Light", 9.75F)
+        DataGridViewCellStyle5.ForeColor = SystemColors.Window
+        DataGridViewCellStyle5.SelectionBackColor = Color.FromArgb(CByte(123), CByte(189), CByte(232))
+        DataGridViewCellStyle5.SelectionForeColor = SystemColors.HighlightText
+        DataGridViewCellStyle5.WrapMode = DataGridViewTriState.True
+        dgvResidentLookup.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle5
         dgvResidentLookup.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle2.BackColor = SystemColors.ButtonFace
-        DataGridViewCellStyle2.Font = New Font("Segoe UI", 9F)
-        DataGridViewCellStyle2.ForeColor = SystemColors.ControlText
-        DataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(CByte(128), CByte(175), CByte(129))
-        DataGridViewCellStyle2.SelectionForeColor = SystemColors.ButtonFace
-        DataGridViewCellStyle2.WrapMode = DataGridViewTriState.False
-        dgvResidentLookup.DefaultCellStyle = DataGridViewCellStyle2
+        DataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle6.BackColor = Color.FromArgb(CByte(235), CByte(243), CByte(249))
+        DataGridViewCellStyle6.Font = New Font("Segoe UI", 9F)
+        DataGridViewCellStyle6.ForeColor = SystemColors.ControlText
+        DataGridViewCellStyle6.SelectionBackColor = Color.FromArgb(CByte(123), CByte(189), CByte(232))
+        DataGridViewCellStyle6.SelectionForeColor = SystemColors.ButtonFace
+        DataGridViewCellStyle6.WrapMode = DataGridViewTriState.False
+        dgvResidentLookup.DefaultCellStyle = DataGridViewCellStyle6
         dgvResidentLookup.Location = New Point(12, 91)
         dgvResidentLookup.Name = "dgvResidentLookup"
         dgvResidentLookup.RowHeadersVisible = False
@@ -132,12 +132,16 @@ Partial Class FormIssueCertificate
         ' 
         ' btnCancel
         ' 
-        btnCancel.Location = New Point(610, 436)
+        btnCancel.BackColor = Color.FromArgb(CByte(23), CByte(80), CByte(126))
+        btnCancel.FlatStyle = FlatStyle.Flat
+        btnCancel.Font = New Font("Microsoft PhagsPa", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        btnCancel.ForeColor = Color.White
+        btnCancel.Location = New Point(610, 405)
         btnCancel.Name = "btnCancel"
         btnCancel.Size = New Size(107, 37)
         btnCancel.TabIndex = 25
         btnCancel.Text = "Print Preview"
-        btnCancel.UseVisualStyleBackColor = True
+        btnCancel.UseVisualStyleBackColor = False
         ' 
         ' Label16
         ' 
@@ -159,12 +163,16 @@ Partial Class FormIssueCertificate
         ' 
         ' btnIssue
         ' 
-        btnIssue.Location = New Point(610, 377)
+        btnIssue.BackColor = Color.FromArgb(CByte(23), CByte(80), CByte(126))
+        btnIssue.FlatStyle = FlatStyle.Flat
+        btnIssue.Font = New Font("Microsoft PhagsPa", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        btnIssue.ForeColor = Color.White
+        btnIssue.Location = New Point(610, 348)
         btnIssue.Name = "btnIssue"
         btnIssue.Size = New Size(107, 37)
         btnIssue.TabIndex = 22
         btnIssue.Text = "Issue Save"
-        btnIssue.UseVisualStyleBackColor = True
+        btnIssue.UseVisualStyleBackColor = False
         ' 
         ' txtControlNumber
         ' 
@@ -185,6 +193,7 @@ Partial Class FormIssueCertificate
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
+        BackColor = SystemColors.ControlLight
         ClientSize = New Size(769, 534)
         Controls.Add(btnCancel)
         Controls.Add(Label16)

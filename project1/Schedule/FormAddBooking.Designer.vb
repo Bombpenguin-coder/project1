@@ -52,7 +52,7 @@ Partial Class FormAddBooking
         ' 
         ' grpBooking
         ' 
-        grpBooking.BackColor = Color.FromArgb(CByte(92), CByte(118), CByte(80))
+        grpBooking.BackColor = Color.FromArgb(CByte(98), CByte(155), CByte(181))
         grpBooking.Controls.Add(Label2)
         grpBooking.Controls.Add(Label1)
         grpBooking.Controls.Add(txtInCharge)
@@ -139,25 +139,29 @@ Partial Class FormAddBooking
         ' 
         ' btnCancel
         ' 
+        btnCancel.BackColor = Color.IndianRed
+        btnCancel.FlatStyle = FlatStyle.Flat
         btnCancel.Font = New Font("Segoe UI Light", 11.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        btnCancel.ForeColor = Color.Black
+        btnCancel.ForeColor = Color.White
         btnCancel.Location = New Point(553, 374)
         btnCancel.Name = "btnCancel"
         btnCancel.Size = New Size(86, 34)
         btnCancel.TabIndex = 19
         btnCancel.Text = "Cancel"
-        btnCancel.UseVisualStyleBackColor = True
+        btnCancel.UseVisualStyleBackColor = False
         ' 
         ' btnSave
         ' 
+        btnSave.BackColor = Color.FromArgb(CByte(23), CByte(80), CByte(126))
+        btnSave.FlatStyle = FlatStyle.Flat
         btnSave.Font = New Font("Segoe UI Light", 11.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        btnSave.ForeColor = Color.Black
+        btnSave.ForeColor = Color.White
         btnSave.Location = New Point(656, 374)
         btnSave.Name = "btnSave"
         btnSave.Size = New Size(86, 34)
         btnSave.TabIndex = 18
         btnSave.Text = "Save"
-        btnSave.UseVisualStyleBackColor = True
+        btnSave.UseVisualStyleBackColor = False
         ' 
         ' Label18
         ' 
@@ -181,7 +185,7 @@ Partial Class FormAddBooking
         dgvResidentLookup.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None
         DataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter
         DataGridViewCellStyle3.BackColor = Color.FromArgb(CByte(62), CByte(95), CByte(68))
-        DataGridViewCellStyle3.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        DataGridViewCellStyle3.Font = New Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         DataGridViewCellStyle3.ForeColor = SystemColors.Window
         DataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(CByte(128), CByte(175), CByte(129))
         DataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText
@@ -190,7 +194,7 @@ Partial Class FormAddBooking
         dgvResidentLookup.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
         DataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft
         DataGridViewCellStyle4.BackColor = SystemColors.ControlDarkDark
-        DataGridViewCellStyle4.Font = New Font("Segoe UI Light", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        DataGridViewCellStyle4.Font = New Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         DataGridViewCellStyle4.ForeColor = Color.White
         DataGridViewCellStyle4.SelectionBackColor = SystemColors.Highlight
         DataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText
