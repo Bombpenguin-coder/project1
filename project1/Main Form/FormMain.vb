@@ -78,12 +78,6 @@ Public Class FormMain
         cmbUserRole.Items.AddRange(New String() {"Superadmin", "Admin", "Staff"})
         cmbUserRole.SelectedIndex = 0 ' Default to Superadmin
 
-        ' --- PREVENT MULTIPLE SUPERADMINS ---
-        If cmbUserRole.Text = "Superadmin" Then
-            MessageBox.Show("You cannot create additional Superadmin accounts. There can only be one system owner.", "Security Restriction", MessageBoxButtons.OK, MessageBoxIcon.Stop)
-            Return
-        End If
-
         ' Load all users into the grid
         LoadUsers()
     End Sub
@@ -634,6 +628,12 @@ Public Class FormMain
        String.IsNullOrWhiteSpace(cmbUserRole.Text) Then
 
             MessageBox.Show("Please fill in all fields.", "Missing Data", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return
+        End If
+
+        ' --- PREVENT MULTIPLE SUPERADMINS ---
+        If cmbUserRole.Text = "Superadmin" Then
+            MessageBox.Show("You cannot create additional Superadmin accounts. There can only be one system owner.", "Security Restriction", MessageBoxButtons.OK, MessageBoxIcon.Stop)
             Return
         End If
 
@@ -1374,7 +1374,6 @@ Public Class FormMain
         End Try
     End Sub
 
-    ' --- SUB-MENU 1: USER MAINTENANCE ---
     ' --- SUB-MENU 1: USER MAINTENANCE ---
     Private Sub btnUserMaintenance_Click(sender As Object, e As EventArgs) Handles btnUserMaintenance.Click
         HideAllPanels()
