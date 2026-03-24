@@ -708,8 +708,31 @@ Public Class FormMain
             Return
         End If
 
-        ' Get the ID of the selected user
+        ' Get the data from the selected row
         Dim selectedId As Integer = dgvUsers.CurrentRow.Cells("id").Value
+        Dim selectedUsername As String = dgvUsers.CurrentRow.Cells("username").Value.ToString()
+        Dim selectedRole As String = dgvUsers.CurrentRow.Cells("role").Value.ToString()
+
+        ' --- NEW: ROLE-BASED SECURITY FOR UPDATING ---
+        If _currentUserRole = "Admin" Then
+            ' 1. Admins cannot touch Superadmins
+            If selectedRole = "Superadmin" Then
+                MessageBox.Show("For security reasons, Admins cannot update Superadmin accounts.", "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Stop)
+                Return
+            End If
+
+            ' 2. Admins cannot touch OTHER Admins (But can update themselves)
+            If selectedRole = "Admin" AndAlso selectedUsername <> _currentUsername Then
+                MessageBox.Show("Admins cannot update other Admin accounts.", "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Stop)
+                Return
+            End If
+        End If
+
+        ' 3. Prevent ANYONE from accidentally demoting the primary 'admin' account
+        If selectedUsername.ToLower() = "admin" AndAlso cmbUserRole.Text <> "Superadmin" Then
+            MessageBox.Show("The primary 'admin' account must remain a Superadmin.", "Action Prohibited", MessageBoxButtons.OK, MessageBoxIcon.Stop)
+            Return
+        End If
 
         ' 2. VALIDATION (Check for empty fields)
         If String.IsNullOrWhiteSpace(txtUserFullname.Text) OrElse
