@@ -36,10 +36,12 @@
                     dgvItems.Columns("item_price").Visible = True
                     dgvItems.Columns("item_price").HeaderText = "Price (₱)"
                 End If
+                lblPrice.Visible = True
                 txtPrice.Visible = True
             Else
                 If dgvItems.Columns.Contains("item_price") Then dgvItems.Columns("item_price").Visible = False
                 txtPrice.Visible = False
+                lblPrice.Visible = False
             End If
 
             dgvItems.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
@@ -116,5 +118,4 @@
     Private Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click
         Me.Close()
     End Sub
-
 End Class

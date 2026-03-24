@@ -78,6 +78,12 @@ Public Class FormMain
         cmbUserRole.Items.AddRange(New String() {"Superadmin", "Admin", "Staff"})
         cmbUserRole.SelectedIndex = 0 ' Default to Superadmin
 
+        ' --- PREVENT MULTIPLE SUPERADMINS ---
+        If cmbUserRole.Text = "Superadmin" Then
+            MessageBox.Show("You cannot create additional Superadmin accounts. There can only be one system owner.", "Security Restriction", MessageBoxButtons.OK, MessageBoxIcon.Stop)
+            Return
+        End If
+
         ' Load all users into the grid
         LoadUsers()
     End Sub
@@ -687,8 +693,6 @@ Public Class FormMain
         End Try
     End Sub
 
-
-
     Private Sub ClearUserForm()
         txtUserFullname.Clear()
         txtUserUsername.Clear()
@@ -731,6 +735,13 @@ Public Class FormMain
         ' 3. Prevent ANYONE from accidentally demoting the primary 'admin' account
         If selectedUsername.ToLower() = "admin" AndAlso cmbUserRole.Text <> "Superadmin" Then
             MessageBox.Show("The primary 'admin' account must remain a Superadmin.", "Action Prohibited", MessageBoxButtons.OK, MessageBoxIcon.Stop)
+            Return
+        End If
+
+        ' --- PREVENT PRIVILEGE ESCALATION ---
+        ' If they are trying to save the role as Superadmin, but the user wasn't ALREADY the Superadmin...
+        If cmbUserRole.Text = "Superadmin" AndAlso selectedRole <> "Superadmin" Then
+            MessageBox.Show("Accounts cannot be promoted to Superadmin.", "Security Restriction", MessageBoxButtons.OK, MessageBoxIcon.Stop)
             Return
         End If
 

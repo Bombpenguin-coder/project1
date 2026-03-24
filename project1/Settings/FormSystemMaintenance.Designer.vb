@@ -22,7 +22,8 @@ Partial Class FormSystemMaintenance
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle3 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As DataGridViewCellStyle = New DataGridViewCellStyle()
         cmbCategory = New ComboBox()
         dgvItems = New DataGridView()
         txtNewItem = New TextBox()
@@ -30,6 +31,9 @@ Partial Class FormSystemMaintenance
         btnDelete = New Button()
         btnCancel = New Button()
         txtPrice = New TextBox()
+        Label1 = New Label()
+        Label2 = New Label()
+        lblPrice = New Label()
         CType(dgvItems, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
@@ -44,18 +48,28 @@ Partial Class FormSystemMaintenance
         ' dgvItems
         ' 
         dgvItems.BackgroundColor = SystemColors.ControlLight
-        DataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle3.BackColor = Color.FromArgb(CByte(98), CByte(155), CByte(181))
-        DataGridViewCellStyle3.Font = New Font("Segoe UI Light", 9.75F)
-        DataGridViewCellStyle3.ForeColor = SystemColors.Window
-        DataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(CByte(123), CByte(189), CByte(232))
-        DataGridViewCellStyle3.SelectionForeColor = Color.White
-        DataGridViewCellStyle3.WrapMode = DataGridViewTriState.True
-        dgvItems.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle3
+        DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle1.BackColor = Color.FromArgb(CByte(98), CByte(155), CByte(181))
+        DataGridViewCellStyle1.Font = New Font("Segoe UI Light", 9.75F)
+        DataGridViewCellStyle1.ForeColor = SystemColors.Window
+        DataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(CByte(123), CByte(189), CByte(232))
+        DataGridViewCellStyle1.SelectionForeColor = Color.White
+        DataGridViewCellStyle1.WrapMode = DataGridViewTriState.True
+        dgvItems.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         dgvItems.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle2.BackColor = Color.FromArgb(CByte(235), CByte(243), CByte(249))
+        DataGridViewCellStyle2.Font = New Font("Segoe UI", 9F)
+        DataGridViewCellStyle2.ForeColor = SystemColors.ControlText
+        DataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(CByte(123), CByte(189), CByte(232))
+        DataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText
+        DataGridViewCellStyle2.WrapMode = DataGridViewTriState.False
+        dgvItems.DefaultCellStyle = DataGridViewCellStyle2
+        dgvItems.EnableHeadersVisualStyles = False
         dgvItems.Location = New Point(49, 113)
         dgvItems.Name = "dgvItems"
         dgvItems.ReadOnly = True
+        dgvItems.RowHeadersVisible = False
         dgvItems.Size = New Size(354, 150)
         dgvItems.TabIndex = 1
         ' 
@@ -112,11 +126,41 @@ Partial Class FormSystemMaintenance
         txtPrice.Size = New Size(135, 23)
         txtPrice.TabIndex = 6
         ' 
+        ' Label1
+        ' 
+        Label1.AutoSize = True
+        Label1.Location = New Point(49, 42)
+        Label1.Name = "Label1"
+        Label1.Size = New Size(55, 15)
+        Label1.TabIndex = 7
+        Label1.Text = "Category"
+        ' 
+        ' Label2
+        ' 
+        Label2.AutoSize = True
+        Label2.Location = New Point(49, 281)
+        Label2.Name = "Label2"
+        Label2.Size = New Size(66, 15)
+        Label2.TabIndex = 8
+        Label2.Text = "Item Name"
+        ' 
+        ' lblPrice
+        ' 
+        lblPrice.AutoSize = True
+        lblPrice.Location = New Point(230, 281)
+        lblPrice.Name = "lblPrice"
+        lblPrice.Size = New Size(33, 15)
+        lblPrice.TabIndex = 9
+        lblPrice.Text = "Price"
+        ' 
         ' FormSystemMaintenance
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(469, 450)
+        Controls.Add(lblPrice)
+        Controls.Add(Label2)
+        Controls.Add(Label1)
         Controls.Add(txtPrice)
         Controls.Add(btnCancel)
         Controls.Add(btnDelete)
@@ -138,4 +182,7 @@ Partial Class FormSystemMaintenance
     Friend WithEvents btnDelete As Button
     Friend WithEvents btnCancel As Button
     Friend WithEvents txtPrice As TextBox
+    Friend WithEvents Label1 As Label
+    Friend WithEvents Label2 As Label
+    Friend WithEvents lblPrice As Label
 End Class

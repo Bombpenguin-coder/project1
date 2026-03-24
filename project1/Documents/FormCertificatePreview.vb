@@ -61,6 +61,14 @@
                     <p>This is to certify that <strong>{fullName.ToUpper()}</strong>, of legal age, whose signature appears below, is a permanent and bona fide resident of this barangay.</p>
                     <p>Based on the records of this office, he/she has been residing at {address}.</p>
                     <p>This certification is issued upon his/her request for the purpose of: <strong>{purpose}</strong>.</p>"
+
+            Case Else
+                ' THE UNIVERSAL FALLBACK TEMPLATE
+                bodyParagraphs = $"
+                    <p><strong>TO WHOM IT MAY CONCERN:</strong></p>
+                    <p>This is to certify that <strong>{fullName.ToUpper()}</strong>, of legal age, is a recognized and bona fide resident of this barangay.</p>
+                    <p>This official document is generated and issued upon the request of the interested party for the purpose of: <strong>{purpose}</strong>.</p>
+                    <p>Any further details or specific verifications regarding this newly requested document type can be confirmed directly with the Barangay Office records.</p>"
         End Select
 
         ' 4. Put it all together into one massive HTML String!
