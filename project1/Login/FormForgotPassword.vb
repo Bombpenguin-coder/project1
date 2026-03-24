@@ -81,4 +81,8 @@ Public Class FormForgotPassword
             Return builder.ToString()
         End Using
     End Function
+
+    Private Sub lblSecurityQuestion_Click(sender As Object, e As EventArgs) Handles lblSecurityQuestion.Click
+
+    End Sub
 End Class

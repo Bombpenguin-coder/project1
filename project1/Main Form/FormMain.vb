@@ -213,7 +213,7 @@ Public Class FormMain
         editForm.txtFirstName.Text = dgvResidents.CurrentRow.Cells("firstname").Value.ToString()
         editForm.txtMiddleName.Text = dgvResidents.CurrentRow.Cells("middlename").Value.ToString()
 
-        editForm.cmbSex.Text = dgvResidents.CurrentRow.Cells("gender").Value.ToString()
+        editForm.cmbSex.Text = dgvResidents.CurrentRow.Cells("sex").Value.ToString()
         editForm.txtAddress.Text = dgvResidents.CurrentRow.Cells("address").Value.ToString()
         editForm.txtDistrict.Text = dgvResidents.CurrentRow.Cells("district").Value.ToString()
 
@@ -1414,6 +1414,10 @@ Public Class FormMain
         ' When they click the "Add Users" sub-menu button, 
         ' just mimic a click on the main Admin sidebar button!
         btnUserMaintenance.PerformClick()
+    End Sub
+
+    Private Sub Label28_Click(sender As Object, e As EventArgs) Handles Label28.Click
+
     End Sub
 End Class
 

@@ -28,64 +28,107 @@ Partial Class FormForgotPassword
         btnSearch = New Button()
         btnResetPassword = New Button()
         lblSecurityQuestion = New Label()
+        Label1 = New Label()
+        Label2 = New Label()
+        Label3 = New Label()
         SuspendLayout()
         ' 
         ' txtRecoverUsername
         ' 
-        txtRecoverUsername.Location = New Point(43, 83)
+        txtRecoverUsername.Location = New Point(43, 61)
         txtRecoverUsername.Name = "txtRecoverUsername"
         txtRecoverUsername.Size = New Size(121, 23)
         txtRecoverUsername.TabIndex = 0
-        txtRecoverUsername.Text = "Username"
         ' 
         ' txtSecurityAnswer
         ' 
-        txtSecurityAnswer.Location = New Point(43, 240)
+        txtSecurityAnswer.Location = New Point(43, 178)
         txtSecurityAnswer.Name = "txtSecurityAnswer"
         txtSecurityAnswer.Size = New Size(121, 23)
         txtSecurityAnswer.TabIndex = 1
-        txtSecurityAnswer.Text = "Security Answer"
         ' 
         ' txtNewPassword
         ' 
-        txtNewPassword.Location = New Point(43, 285)
+        txtNewPassword.Location = New Point(43, 255)
         txtNewPassword.Name = "txtNewPassword"
         txtNewPassword.Size = New Size(121, 23)
         txtNewPassword.TabIndex = 2
-        txtNewPassword.Text = "New Password"
         ' 
         ' btnSearch
         ' 
-        btnSearch.Location = New Point(43, 140)
+        btnSearch.BackColor = Color.FromArgb(CByte(23), CByte(80), CByte(126))
+        btnSearch.FlatStyle = FlatStyle.Flat
+        btnSearch.ForeColor = Color.White
+        btnSearch.Location = New Point(191, 61)
         btnSearch.Name = "btnSearch"
-        btnSearch.Size = New Size(99, 29)
+        btnSearch.Size = New Size(83, 23)
         btnSearch.TabIndex = 3
         btnSearch.Text = "Search"
-        btnSearch.UseVisualStyleBackColor = True
+        btnSearch.UseVisualStyleBackColor = False
         ' 
         ' btnResetPassword
         ' 
-        btnResetPassword.Location = New Point(95, 347)
+        btnResetPassword.BackColor = Color.FromArgb(CByte(23), CByte(80), CByte(126))
+        btnResetPassword.FlatStyle = FlatStyle.Flat
+        btnResetPassword.ForeColor = Color.White
+        btnResetPassword.Location = New Point(123, 322)
         btnResetPassword.Name = "btnResetPassword"
-        btnResetPassword.Size = New Size(155, 63)
+        btnResetPassword.Size = New Size(122, 40)
         btnResetPassword.TabIndex = 4
         btnResetPassword.Text = "Reset Password"
-        btnResetPassword.UseVisualStyleBackColor = True
+        btnResetPassword.UseVisualStyleBackColor = False
         ' 
         ' lblSecurityQuestion
         ' 
         lblSecurityQuestion.AutoSize = True
-        lblSecurityQuestion.Location = New Point(43, 198)
+        lblSecurityQuestion.Location = New Point(43, 107)
         lblSecurityQuestion.Name = "lblSecurityQuestion"
         lblSecurityQuestion.Size = New Size(16, 15)
         lblSecurityQuestion.TabIndex = 5
         lblSecurityQuestion.Text = "..."
         ' 
+        ' Label1
+        ' 
+        Label1.AutoSize = True
+        Label1.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label1.ForeColor = Color.White
+        Label1.Location = New Point(43, 33)
+        Label1.Name = "Label1"
+        Label1.Size = New Size(64, 15)
+        Label1.TabIndex = 6
+        Label1.Text = "Username"
+        ' 
+        ' Label2
+        ' 
+        Label2.AutoSize = True
+        Label2.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label2.ForeColor = Color.White
+        Label2.Location = New Point(43, 149)
+        Label2.Name = "Label2"
+        Label2.Size = New Size(98, 15)
+        Label2.TabIndex = 7
+        Label2.Text = "Security Answer"
+        ' 
+        ' Label3
+        ' 
+        Label3.AutoSize = True
+        Label3.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label3.ForeColor = Color.White
+        Label3.Location = New Point(43, 228)
+        Label3.Name = "Label3"
+        Label3.Size = New Size(88, 15)
+        Label3.TabIndex = 8
+        Label3.Text = "New Password"
+        ' 
         ' FormForgotPassword
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
+        BackColor = Color.FromArgb(CByte(98), CByte(155), CByte(181))
         ClientSize = New Size(354, 450)
+        Controls.Add(Label3)
+        Controls.Add(Label2)
+        Controls.Add(Label1)
         Controls.Add(lblSecurityQuestion)
         Controls.Add(btnResetPassword)
         Controls.Add(btnSearch)
@@ -104,4 +147,7 @@ Partial Class FormForgotPassword
     Friend WithEvents btnSearch As Button
     Friend WithEvents btnResetPassword As Button
     Friend WithEvents lblSecurityQuestion As Label
+    Friend WithEvents Label1 As Label
+    Friend WithEvents Label2 As Label
+    Friend WithEvents Label3 As Label
 End Class
