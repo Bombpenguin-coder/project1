@@ -745,6 +745,13 @@ Public Class FormMain
             Return
         End If
 
+        ' --- PREVENT SUPERADMIN DEMOTION ---
+        ' If the account is CURRENTLY a Superadmin, they cannot save it as anything else
+        If selectedRole = "Superadmin" AndAlso cmbUserRole.Text <> "Superadmin" Then
+            MessageBox.Show("A Superadmin account cannot be demoted to a lower role. The system must always have a Superadmin.", "Security Restriction", MessageBoxButtons.OK, MessageBoxIcon.Stop)
+            Return
+        End If
+
         ' 2. VALIDATION (Check for empty fields)
         If String.IsNullOrWhiteSpace(txtUserFullname.Text) OrElse
        String.IsNullOrWhiteSpace(txtUserUsername.Text) OrElse
