@@ -1183,8 +1183,8 @@ Public Class FormMain
         ' 4. CREATE AND SHOW THE PREVIEW FORM
         Dim previewForm As New FormCertificatePreview()
 
-        ' --- NEW: Pass the certType to the function ---
-        previewForm.PopulateCertificate(certType, residentFullName, residentAddress, certPurpose, certControlNum, certDate, certCaptain)
+        ' --- Pass ALL the dynamic settings into the certificate! ---
+        previewForm.PopulateCertificate(certType, residentFullName, residentAddress, certPurpose, certControlNum, certDate, certCaptain, brgyName, cityName, provName)
 
         previewForm.ShowDialog()
     End Sub
@@ -1451,6 +1451,12 @@ Public Class FormMain
 
     Private Sub Label28_Click(sender As Object, e As EventArgs) Handles Label28.Click
 
+    End Sub
+
+    Private Sub btnSystemSettings_Click(sender As Object, e As EventArgs) Handles btnSystemSettings.Click
+        Using settingsForm As New FormSystemSettings()
+            settingsForm.ShowDialog()
+        End Using
     End Sub
 End Class
 

@@ -2,7 +2,8 @@
 
     Private _pendingHtml As String = ""
     ' This is the main function that receives the data
-    Public Sub PopulateCertificate(ByVal certType As String, ByVal fullName As String, ByVal address As String, ByVal purpose As String, ByVal controlNumber As String, ByVal dateIssued As String, ByVal captainName As String)
+    ' Add brgyName, cityName, and provName to the end!
+    Public Sub PopulateCertificate(ByVal certType As String, ByVal fullName As String, ByVal address As String, ByVal purpose As String, ByVal controlNumber As String, ByVal dateIssued As String, ByVal captainName As String, ByVal brgyName As String, ByVal cityName As String, ByVal provName As String)
 
         ' 1. Steal the logo from our hidden PictureBox!
         Dim logoHtml As String = GetBase64Logo(picLogo.Image)
@@ -79,8 +80,11 @@
                 <div class='header' style='position: relative;'>
                     <img src='{logoHtml}' style='width: 120px; height: 120px; position: absolute; left: 0px; top: 0px;' />
                     
-                    <h3>Republic of the Philippines</h3>
-                    <h4>Office of the Punong Barangay</h4>
+                    <h4>Republic of the Philippines</h4>
+                    <h4>Province of {provName}</h4>
+                    <h4>City of {cityName}</h4>
+                    <h3 style='margin-top: 15px;'>BARANGAY {brgyName.ToUpper()}</h3>
+                    <h4 style='margin-top: 15px; font-weight: bold;'>OFFICE OF THE PUNONG BARANGAY</h4>
                 </div>
 
                 <div class='title'>{certType.ToUpper()}</div>
