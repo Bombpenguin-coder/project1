@@ -90,33 +90,33 @@ Partial Class FormForgotPassword
         ' Label1
         ' 
         Label1.AutoSize = True
-        Label1.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        Label1.ForeColor = Color.White
+        Label1.Font = New Font("Arial", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label1.ForeColor = Color.Black
         Label1.Location = New Point(43, 33)
         Label1.Name = "Label1"
-        Label1.Size = New Size(64, 15)
+        Label1.Size = New Size(66, 15)
         Label1.TabIndex = 6
         Label1.Text = "Username"
         ' 
         ' Label2
         ' 
         Label2.AutoSize = True
-        Label2.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        Label2.ForeColor = Color.White
+        Label2.Font = New Font("Arial", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label2.ForeColor = Color.Black
         Label2.Location = New Point(43, 149)
         Label2.Name = "Label2"
-        Label2.Size = New Size(98, 15)
+        Label2.Size = New Size(101, 15)
         Label2.TabIndex = 7
         Label2.Text = "Security Answer"
         ' 
         ' Label3
         ' 
         Label3.AutoSize = True
-        Label3.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        Label3.ForeColor = Color.White
+        Label3.Font = New Font("Arial", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label3.ForeColor = Color.Black
         Label3.Location = New Point(43, 228)
         Label3.Name = "Label3"
-        Label3.Size = New Size(88, 15)
+        Label3.Size = New Size(93, 15)
         Label3.TabIndex = 8
         Label3.Text = "New Password"
         ' 
@@ -124,7 +124,7 @@ Partial Class FormForgotPassword
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
-        BackColor = Color.FromArgb(CByte(98), CByte(155), CByte(181))
+        BackColor = Color.FromArgb(CByte(213), CByte(222), CByte(239))
         ClientSize = New Size(354, 450)
         Controls.Add(Label3)
         Controls.Add(Label2)
@@ -135,7 +135,11 @@ Partial Class FormForgotPassword
         Controls.Add(txtNewPassword)
         Controls.Add(txtSecurityAnswer)
         Controls.Add(txtRecoverUsername)
+        Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        FormBorderStyle = FormBorderStyle.FixedToolWindow
         Name = "FormForgotPassword"
+        ShowIcon = False
+        StartPosition = FormStartPosition.CenterScreen
         Text = "FormForgotPassword"
         ResumeLayout(False)
         PerformLayout()

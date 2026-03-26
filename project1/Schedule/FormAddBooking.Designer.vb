@@ -140,8 +140,9 @@ Partial Class FormAddBooking
         ' btnCancel
         ' 
         btnCancel.BackColor = Color.IndianRed
+        btnCancel.FlatAppearance.BorderSize = 0
         btnCancel.FlatStyle = FlatStyle.Flat
-        btnCancel.Font = New Font("Segoe UI Light", 11.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnCancel.Font = New Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         btnCancel.ForeColor = Color.White
         btnCancel.Location = New Point(553, 374)
         btnCancel.Name = "btnCancel"
@@ -153,8 +154,9 @@ Partial Class FormAddBooking
         ' btnSave
         ' 
         btnSave.BackColor = Color.FromArgb(CByte(23), CByte(80), CByte(126))
+        btnSave.FlatAppearance.BorderSize = 0
         btnSave.FlatStyle = FlatStyle.Flat
-        btnSave.Font = New Font("Segoe UI Light", 11.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnSave.Font = New Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         btnSave.ForeColor = Color.White
         btnSave.Location = New Point(656, 374)
         btnSave.Name = "btnSave"
@@ -195,7 +197,7 @@ Partial Class FormAddBooking
         DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft
         DataGridViewCellStyle2.BackColor = SystemColors.Control
         DataGridViewCellStyle2.Font = New Font("Segoe UI", 11.25F)
-        DataGridViewCellStyle2.ForeColor = SystemColors.ControlText
+        DataGridViewCellStyle2.ForeColor = Color.White
         DataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight
         DataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText
         DataGridViewCellStyle2.WrapMode = DataGridViewTriState.False
@@ -317,6 +319,7 @@ Partial Class FormAddBooking
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(825, 484)
         Controls.Add(grpBooking)
+        FormBorderStyle = FormBorderStyle.None
         Name = "FormAddBooking"
         Text = "FormAddBooking"
         grpBooking.ResumeLayout(False)

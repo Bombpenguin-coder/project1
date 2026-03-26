@@ -47,7 +47,7 @@ Partial Class FormSystemMaintenance
         ' 
         ' dgvItems
         ' 
-        dgvItems.BackgroundColor = SystemColors.ControlLight
+        dgvItems.BackgroundColor = Color.FromArgb(CByte(240), CByte(243), CByte(250))
         DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft
         DataGridViewCellStyle1.BackColor = Color.FromArgb(CByte(98), CByte(155), CByte(181))
         DataGridViewCellStyle1.Font = New Font("Segoe UI Light", 9.75F)
@@ -84,7 +84,7 @@ Partial Class FormSystemMaintenance
         ' 
         btnAdd.BackColor = Color.FromArgb(CByte(23), CByte(80), CByte(126))
         btnAdd.FlatStyle = FlatStyle.Flat
-        btnAdd.Font = New Font("Microsoft PhagsPa", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnAdd.Font = New Font("Microsoft PhagsPa", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         btnAdd.ForeColor = Color.White
         btnAdd.Location = New Point(129, 353)
         btnAdd.Name = "btnAdd"
@@ -96,8 +96,9 @@ Partial Class FormSystemMaintenance
         ' btnDelete
         ' 
         btnDelete.BackColor = Color.IndianRed
+        btnDelete.FlatAppearance.BorderSize = 0
         btnDelete.FlatStyle = FlatStyle.Flat
-        btnDelete.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        btnDelete.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         btnDelete.ForeColor = Color.White
         btnDelete.Location = New Point(252, 353)
         btnDelete.Name = "btnDelete"
@@ -157,7 +158,9 @@ Partial Class FormSystemMaintenance
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
+        BackColor = Color.FromArgb(CByte(213), CByte(222), CByte(239))
         ClientSize = New Size(469, 450)
+        ControlBox = False
         Controls.Add(lblPrice)
         Controls.Add(Label2)
         Controls.Add(Label1)
@@ -168,7 +171,15 @@ Partial Class FormSystemMaintenance
         Controls.Add(txtNewItem)
         Controls.Add(dgvItems)
         Controls.Add(cmbCategory)
+        FormBorderStyle = FormBorderStyle.None
+        MaximizeBox = False
+        MdiChildrenMinimizedAnchorBottom = False
+        MinimizeBox = False
         Name = "FormSystemMaintenance"
+        ShowIcon = False
+        ShowInTaskbar = False
+        SizeGripStyle = SizeGripStyle.Hide
+        StartPosition = FormStartPosition.CenterScreen
         Text = "FormSystemMaintenance"
         CType(dgvItems, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)

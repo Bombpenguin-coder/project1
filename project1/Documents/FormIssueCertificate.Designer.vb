@@ -22,8 +22,8 @@ Partial Class FormIssueCertificate
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle5 As DataGridViewCellStyle = New DataGridViewCellStyle()
-        Dim DataGridViewCellStyle6 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As DataGridViewCellStyle = New DataGridViewCellStyle()
         Label14 = New Label()
         Label12 = New Label()
         Label11 = New Label()
@@ -38,58 +38,60 @@ Partial Class FormIssueCertificate
         btnIssue = New Button()
         txtControlNumber = New TextBox()
         txtAmountPaid = New TextBox()
+        Label1 = New Label()
         CType(dgvResidentLookup, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
         ' Label14
         ' 
         Label14.AutoSize = True
-        Label14.Location = New Point(23, 348)
+        Label14.Location = New Point(23, 394)
         Label14.Name = "Label14"
-        Label14.Size = New Size(53, 15)
+        Label14.Size = New Size(59, 17)
         Label14.TabIndex = 19
         Label14.Text = "Purpose:"
         ' 
         ' Label12
         ' 
         Label12.AutoSize = True
-        Label12.Location = New Point(23, 283)
+        Label12.Location = New Point(23, 321)
         Label12.Name = "Label12"
-        Label12.Size = New Size(91, 15)
+        Label12.Size = New Size(100, 17)
         Label12.TabIndex = 18
         Label12.Text = "Certificate Type:"
         ' 
         ' Label11
         ' 
         Label11.AutoSize = True
-        Label11.Location = New Point(41, 60)
+        Label11.Location = New Point(41, 68)
         Label11.Name = "Label11"
-        Label11.Size = New Size(45, 15)
+        Label11.Size = New Size(50, 17)
         Label11.TabIndex = 17
         Label11.Text = "Search:"
         ' 
         ' txtPurpose
         ' 
-        txtPurpose.Location = New Point(23, 377)
+        txtPurpose.Location = New Point(23, 427)
         txtPurpose.Multiline = True
         txtPurpose.Name = "txtPurpose"
-        txtPurpose.Size = New Size(313, 84)
+        txtPurpose.Size = New Size(313, 95)
         txtPurpose.TabIndex = 16
         ' 
         ' cmbCertificateType
         ' 
         cmbCertificateType.FormattingEnabled = True
-        cmbCertificateType.Location = New Point(24, 309)
+        cmbCertificateType.Location = New Point(24, 350)
         cmbCertificateType.Name = "cmbCertificateType"
-        cmbCertificateType.Size = New Size(145, 23)
+        cmbCertificateType.Size = New Size(145, 25)
         cmbCertificateType.TabIndex = 15
         ' 
         ' lblSelectedResident
         ' 
         lblSelectedResident.AutoSize = True
-        lblSelectedResident.Location = New Point(269, 59)
+        lblSelectedResident.Font = New Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        lblSelectedResident.Location = New Point(269, 67)
         lblSelectedResident.Name = "lblSelectedResident"
-        lblSelectedResident.Size = New Size(69, 15)
+        lblSelectedResident.Size = New Size(76, 17)
         lblSelectedResident.TabIndex = 14
         lblSelectedResident.Text = "Placeholder"
         ' 
@@ -98,36 +100,40 @@ Partial Class FormIssueCertificate
         dgvResidentLookup.AllowUserToAddRows = False
         dgvResidentLookup.AllowUserToDeleteRows = False
         dgvResidentLookup.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
-        dgvResidentLookup.BackgroundColor = SystemColors.ControlLightLight
+        dgvResidentLookup.BackgroundColor = Color.FromArgb(CByte(240), CByte(243), CByte(250))
         dgvResidentLookup.BorderStyle = BorderStyle.None
-        DataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleCenter
-        DataGridViewCellStyle5.BackColor = Color.FromArgb(CByte(98), CByte(155), CByte(181))
-        DataGridViewCellStyle5.Font = New Font("Segoe UI Light", 9.75F)
-        DataGridViewCellStyle5.ForeColor = SystemColors.Window
-        DataGridViewCellStyle5.SelectionBackColor = Color.FromArgb(CByte(123), CByte(189), CByte(232))
-        DataGridViewCellStyle5.SelectionForeColor = SystemColors.HighlightText
-        DataGridViewCellStyle5.WrapMode = DataGridViewTriState.True
-        dgvResidentLookup.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle5
+        dgvResidentLookup.CellBorderStyle = DataGridViewCellBorderStyle.None
+        dgvResidentLookup.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None
+        DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle1.BackColor = Color.FromArgb(CByte(98), CByte(155), CByte(181))
+        DataGridViewCellStyle1.Font = New Font("Segoe UI Light", 9.75F)
+        DataGridViewCellStyle1.ForeColor = SystemColors.Window
+        DataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(CByte(123), CByte(189), CByte(232))
+        DataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText
+        DataGridViewCellStyle1.WrapMode = DataGridViewTriState.True
+        dgvResidentLookup.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         dgvResidentLookup.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle6.BackColor = Color.FromArgb(CByte(235), CByte(243), CByte(249))
-        DataGridViewCellStyle6.Font = New Font("Segoe UI", 9F)
-        DataGridViewCellStyle6.ForeColor = SystemColors.ControlText
-        DataGridViewCellStyle6.SelectionBackColor = Color.FromArgb(CByte(123), CByte(189), CByte(232))
-        DataGridViewCellStyle6.SelectionForeColor = SystemColors.ButtonFace
-        DataGridViewCellStyle6.WrapMode = DataGridViewTriState.False
-        dgvResidentLookup.DefaultCellStyle = DataGridViewCellStyle6
-        dgvResidentLookup.Location = New Point(12, 91)
+        DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle2.BackColor = Color.FromArgb(CByte(235), CByte(243), CByte(249))
+        DataGridViewCellStyle2.Font = New Font("Segoe UI", 9F)
+        DataGridViewCellStyle2.ForeColor = SystemColors.ControlText
+        DataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(CByte(123), CByte(189), CByte(232))
+        DataGridViewCellStyle2.SelectionForeColor = SystemColors.ButtonFace
+        DataGridViewCellStyle2.WrapMode = DataGridViewTriState.False
+        dgvResidentLookup.DefaultCellStyle = DataGridViewCellStyle2
+        dgvResidentLookup.EnableHeadersVisualStyles = False
+        dgvResidentLookup.Location = New Point(16, 114)
         dgvResidentLookup.Name = "dgvResidentLookup"
+        dgvResidentLookup.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.Sunken
         dgvResidentLookup.RowHeadersVisible = False
-        dgvResidentLookup.Size = New Size(738, 150)
+        dgvResidentLookup.Size = New Size(738, 170)
         dgvResidentLookup.TabIndex = 13
         ' 
         ' txtResidentSearch
         ' 
-        txtResidentSearch.Location = New Point(106, 57)
+        txtResidentSearch.Location = New Point(106, 65)
         txtResidentSearch.Name = "txtResidentSearch"
-        txtResidentSearch.Size = New Size(111, 23)
+        txtResidentSearch.Size = New Size(111, 25)
         txtResidentSearch.TabIndex = 12
         ' 
         ' btnCancel
@@ -136,9 +142,9 @@ Partial Class FormIssueCertificate
         btnCancel.FlatStyle = FlatStyle.Flat
         btnCancel.Font = New Font("Microsoft PhagsPa", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         btnCancel.ForeColor = Color.White
-        btnCancel.Location = New Point(610, 405)
+        btnCancel.Location = New Point(610, 459)
         btnCancel.Name = "btnCancel"
-        btnCancel.Size = New Size(107, 37)
+        btnCancel.Size = New Size(107, 42)
         btnCancel.TabIndex = 25
         btnCancel.Text = "Print Preview"
         btnCancel.UseVisualStyleBackColor = False
@@ -146,18 +152,18 @@ Partial Class FormIssueCertificate
         ' Label16
         ' 
         Label16.AutoSize = True
-        Label16.Location = New Point(406, 346)
+        Label16.Location = New Point(406, 392)
         Label16.Name = "Label16"
-        Label16.Size = New Size(97, 15)
+        Label16.Size = New Size(106, 17)
         Label16.TabIndex = 24
         Label16.Text = "Control Number:"
         ' 
         ' Label15
         ' 
         Label15.AutoSize = True
-        Label15.Location = New Point(406, 280)
+        Label15.Location = New Point(406, 317)
         Label15.Name = "Label15"
-        Label15.Size = New Size(80, 15)
+        Label15.Size = New Size(85, 17)
         Label15.TabIndex = 23
         Label15.Text = "Amount Paid:"
         ' 
@@ -167,34 +173,45 @@ Partial Class FormIssueCertificate
         btnIssue.FlatStyle = FlatStyle.Flat
         btnIssue.Font = New Font("Microsoft PhagsPa", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         btnIssue.ForeColor = Color.White
-        btnIssue.Location = New Point(610, 348)
+        btnIssue.Location = New Point(610, 394)
         btnIssue.Name = "btnIssue"
-        btnIssue.Size = New Size(107, 37)
+        btnIssue.Size = New Size(107, 42)
         btnIssue.TabIndex = 22
         btnIssue.Text = "Issue Save"
         btnIssue.UseVisualStyleBackColor = False
         ' 
         ' txtControlNumber
         ' 
-        txtControlNumber.Location = New Point(406, 377)
+        txtControlNumber.Location = New Point(406, 427)
         txtControlNumber.Name = "txtControlNumber"
         txtControlNumber.ReadOnly = True
-        txtControlNumber.Size = New Size(147, 23)
+        txtControlNumber.Size = New Size(147, 25)
         txtControlNumber.TabIndex = 21
         ' 
         ' txtAmountPaid
         ' 
-        txtAmountPaid.Location = New Point(406, 309)
+        txtAmountPaid.Location = New Point(406, 350)
         txtAmountPaid.Name = "txtAmountPaid"
-        txtAmountPaid.Size = New Size(147, 23)
+        txtAmountPaid.Size = New Size(147, 25)
         txtAmountPaid.TabIndex = 20
+        ' 
+        ' Label1
+        ' 
+        Label1.AutoSize = True
+        Label1.Font = New Font("Arial", 11.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label1.Location = New Point(23, 24)
+        Label1.Name = "Label1"
+        Label1.Size = New Size(130, 18)
+        Label1.TabIndex = 26
+        Label1.Text = "Issue Documents"
         ' 
         ' FormIssueCertificate
         ' 
-        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleDimensions = New SizeF(7F, 17F)
         AutoScaleMode = AutoScaleMode.Font
-        BackColor = SystemColors.ControlLight
-        ClientSize = New Size(769, 534)
+        BackColor = Color.FromArgb(CByte(213), CByte(222), CByte(239))
+        ClientSize = New Size(769, 605)
+        Controls.Add(Label1)
         Controls.Add(btnCancel)
         Controls.Add(Label16)
         Controls.Add(Label15)
@@ -209,6 +226,8 @@ Partial Class FormIssueCertificate
         Controls.Add(lblSelectedResident)
         Controls.Add(dgvResidentLookup)
         Controls.Add(txtResidentSearch)
+        Font = New Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        FormBorderStyle = FormBorderStyle.FixedSingle
         Name = "FormIssueCertificate"
         Text = "FormIssueCertificate"
         CType(dgvResidentLookup, ComponentModel.ISupportInitialize).EndInit()
@@ -230,4 +249,5 @@ Partial Class FormIssueCertificate
     Friend WithEvents btnIssue As Button
     Friend WithEvents txtControlNumber As TextBox
     Friend WithEvents txtAmountPaid As TextBox
+    Friend WithEvents Label1 As Label
 End Class

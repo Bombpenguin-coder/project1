@@ -145,6 +145,7 @@ Partial Class FormAddResidents
         ' 
         ' cmbSex
         ' 
+        cmbSex.DropDownStyle = ComboBoxStyle.DropDownList
         cmbSex.FormattingEnabled = True
         cmbSex.Items.AddRange(New Object() {"Male", "Female", "Other"})
         cmbSex.Location = New Point(204, 424)
@@ -213,6 +214,7 @@ Partial Class FormAddResidents
         ' 
         ' cmbStreet
         ' 
+        cmbStreet.DropDownStyle = ComboBoxStyle.DropDownList
         cmbStreet.FormattingEnabled = True
         cmbStreet.Items.AddRange(New Object() {"Male", "Female", "Other"})
         cmbStreet.Location = New Point(62, 364)
@@ -241,7 +243,7 @@ Partial Class FormAddResidents
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
-        BackColor = SystemColors.ControlLight
+        BackColor = Color.FromArgb(CByte(213), CByte(222), CByte(239))
         BackgroundImageLayout = ImageLayout.None
         ClientSize = New Size(404, 561)
         ControlBox = False

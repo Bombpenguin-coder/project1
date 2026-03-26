@@ -34,11 +34,12 @@ Partial Class FormSystemSettings
         Label3 = New Label()
         Label4 = New Label()
         Label5 = New Label()
+        Label6 = New Label()
         SuspendLayout()
         ' 
         ' txtBarangayName
         ' 
-        txtBarangayName.Location = New Point(50, 62)
+        txtBarangayName.Location = New Point(58, 76)
         txtBarangayName.Multiline = True
         txtBarangayName.Name = "txtBarangayName"
         txtBarangayName.Size = New Size(201, 34)
@@ -46,7 +47,7 @@ Partial Class FormSystemSettings
         ' 
         ' txtCityName
         ' 
-        txtCityName.Location = New Point(50, 128)
+        txtCityName.Location = New Point(58, 142)
         txtCityName.Multiline = True
         txtCityName.Name = "txtCityName"
         txtCityName.Size = New Size(201, 34)
@@ -54,7 +55,7 @@ Partial Class FormSystemSettings
         ' 
         ' txtProvinceName
         ' 
-        txtProvinceName.Location = New Point(50, 195)
+        txtProvinceName.Location = New Point(58, 209)
         txtProvinceName.Multiline = True
         txtProvinceName.Name = "txtProvinceName"
         txtProvinceName.Size = New Size(201, 34)
@@ -62,7 +63,7 @@ Partial Class FormSystemSettings
         ' 
         ' txtCaptainName
         ' 
-        txtCaptainName.Location = New Point(50, 255)
+        txtCaptainName.Location = New Point(58, 269)
         txtCaptainName.Multiline = True
         txtCaptainName.Name = "txtCaptainName"
         txtCaptainName.Size = New Size(201, 34)
@@ -70,7 +71,7 @@ Partial Class FormSystemSettings
         ' 
         ' txtContactNumber
         ' 
-        txtContactNumber.Location = New Point(50, 324)
+        txtContactNumber.Location = New Point(58, 338)
         txtContactNumber.Multiline = True
         txtContactNumber.Name = "txtContactNumber"
         txtContactNumber.Size = New Size(201, 34)
@@ -82,7 +83,7 @@ Partial Class FormSystemSettings
         btnSave.FlatStyle = FlatStyle.Flat
         btnSave.Font = New Font("Microsoft PhagsPa", 11.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnSave.ForeColor = Color.White
-        btnSave.Location = New Point(36, 364)
+        btnSave.Location = New Point(46, 385)
         btnSave.Name = "btnSave"
         btnSave.Size = New Size(233, 39)
         btnSave.TabIndex = 5
@@ -95,7 +96,7 @@ Partial Class FormSystemSettings
         btnCancel.FlatStyle = FlatStyle.Flat
         btnCancel.Font = New Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         btnCancel.ForeColor = Color.White
-        btnCancel.Location = New Point(36, 409)
+        btnCancel.Location = New Point(46, 430)
         btnCancel.Name = "btnCancel"
         btnCancel.Size = New Size(233, 39)
         btnCancel.TabIndex = 6
@@ -105,7 +106,7 @@ Partial Class FormSystemSettings
         ' Label1
         ' 
         Label1.AutoSize = True
-        Label1.Location = New Point(50, 33)
+        Label1.Location = New Point(58, 58)
         Label1.Name = "Label1"
         Label1.Size = New Size(91, 15)
         Label1.TabIndex = 7
@@ -114,7 +115,7 @@ Partial Class FormSystemSettings
         ' Label2
         ' 
         Label2.AutoSize = True
-        Label2.Location = New Point(50, 110)
+        Label2.Location = New Point(58, 124)
         Label2.Name = "Label2"
         Label2.Size = New Size(63, 15)
         Label2.TabIndex = 8
@@ -123,7 +124,7 @@ Partial Class FormSystemSettings
         ' Label3
         ' 
         Label3.AutoSize = True
-        Label3.Location = New Point(50, 177)
+        Label3.Location = New Point(58, 191)
         Label3.Name = "Label3"
         Label3.Size = New Size(88, 15)
         Label3.TabIndex = 9
@@ -132,7 +133,7 @@ Partial Class FormSystemSettings
         ' Label4
         ' 
         Label4.AutoSize = True
-        Label4.Location = New Point(50, 237)
+        Label4.Location = New Point(58, 251)
         Label4.Name = "Label4"
         Label4.Size = New Size(83, 15)
         Label4.TabIndex = 10
@@ -141,17 +142,28 @@ Partial Class FormSystemSettings
         ' Label5
         ' 
         Label5.AutoSize = True
-        Label5.Location = New Point(50, 306)
+        Label5.Location = New Point(58, 320)
         Label5.Name = "Label5"
         Label5.Size = New Size(96, 15)
         Label5.TabIndex = 11
         Label5.Text = "Contact Number"
         ' 
+        ' Label6
+        ' 
+        Label6.AutoSize = True
+        Label6.Font = New Font("Arial", 11.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label6.Location = New Point(98, 24)
+        Label6.Name = "Label6"
+        Label6.Size = New Size(122, 18)
+        Label6.TabIndex = 12
+        Label6.Text = "System Settings"
+        ' 
         ' FormSystemSettings
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(338, 450)
+        ClientSize = New Size(338, 497)
+        Controls.Add(Label6)
         Controls.Add(Label5)
         Controls.Add(Label4)
         Controls.Add(Label3)
@@ -164,6 +176,7 @@ Partial Class FormSystemSettings
         Controls.Add(txtProvinceName)
         Controls.Add(txtCityName)
         Controls.Add(txtBarangayName)
+        FormBorderStyle = FormBorderStyle.None
         Name = "FormSystemSettings"
         Text = "FormSystemSettings"
         ResumeLayout(False)
@@ -182,4 +195,5 @@ Partial Class FormSystemSettings
     Friend WithEvents Label3 As Label
     Friend WithEvents Label4 As Label
     Friend WithEvents Label5 As Label
+    Friend WithEvents Label6 As Label
 End Class

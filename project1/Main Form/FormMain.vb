@@ -546,7 +546,7 @@ Public Class FormMain
                 btnResidents.Enabled = True
                 btnUserMaintenance.Enabled = False
                 btnOfficials.Enabled = False
-                btnBlotter.Enabled = False
+                btnBlotter.Enabled = True
                 btnSchedule.Enabled = True
 
             Case Else
