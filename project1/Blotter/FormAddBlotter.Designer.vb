@@ -148,6 +148,7 @@ Partial Class FormAddBlotter
         ' dtpIncidentDate
         ' 
         dtpIncidentDate.CustomFormat = "MMMM dd, yyyy"
+        dtpIncidentDate.Format = DateTimePickerFormat.Short
         dtpIncidentDate.Location = New Point(283, 238)
         dtpIncidentDate.Name = "dtpIncidentDate"
         dtpIncidentDate.Size = New Size(147, 23)
@@ -236,6 +237,7 @@ Partial Class FormAddBlotter
         ' dtpIncidentTime
         ' 
         dtpIncidentTime.CustomFormat = "hh:mm tt"
+        dtpIncidentTime.Format = DateTimePickerFormat.Custom
         dtpIncidentTime.Location = New Point(283, 295)
         dtpIncidentTime.Name = "dtpIncidentTime"
         dtpIncidentTime.ShowUpDown = True
@@ -256,9 +258,9 @@ Partial Class FormAddBlotter
         Label3.AutoSize = True
         Label3.Location = New Point(283, 105)
         Label3.Name = "Label3"
-        Label3.Size = New Size(137, 15)
+        Label3.Size = New Size(194, 15)
         Label3.TabIndex = 41
-        Label3.Text = "Respondent Contact No."
+        Label3.Text = "Respondent Contact No. (Optional)"
         ' 
         ' Label4
         ' 

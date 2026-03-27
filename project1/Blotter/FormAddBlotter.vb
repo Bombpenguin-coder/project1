@@ -169,10 +169,20 @@
         Dim repo As New BlotterRepository()
         If repo.IsDuplicateCase(Complainant, Respondent, IncidentDate, CaseID) Then
             MessageBox.Show("A case involving this Complainant and Respondent on this exact date already exists!" & vbCrLf & vbCrLf &
-                            "Please locate the existing case in the Blotter list and update it rather than creating a duplicate.",
+                             "Please locate the existing case in the Blotter list and update it rather than creating a duplicate.",
                             "Duplicate Case Detected", MessageBoxButtons.OK, MessageBoxIcon.Stop)
             Return
         End If
+
+        ' --- NEW: HANDLE MISSING CONTACT NUMBERS ---
+        If String.IsNullOrWhiteSpace(txtComplainantCell.Text) Then
+            txtComplainantCell.Text = "N/A"
+        End If
+
+        If String.IsNullOrWhiteSpace(txtRespondentCell.Text) Then
+            txtRespondentCell.Text = "Unknown"
+        End If
+        ' -------------------------------------------
 
         Me.DialogResult = DialogResult.OK
         Me.Close()
@@ -183,6 +193,4 @@
         Me.Close()
     End Sub
 
-    Private Sub cmbStreet_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbStreet.SelectedIndexChanged
-    End Sub
 End Class

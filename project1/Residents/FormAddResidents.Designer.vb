@@ -28,11 +28,9 @@ Partial Class FormAddResidents
         Label4 = New Label()
         Label6 = New Label()
         Label7 = New Label()
-        Label8 = New Label()
         txtLastName = New TextBox()
         txtFirstName = New TextBox()
         txtMiddleName = New TextBox()
-        txtDistrict = New TextBox()
         cmbSex = New ComboBox()
         btnSaveResident = New Button()
         btnCancel = New Button()
@@ -89,7 +87,7 @@ Partial Class FormAddResidents
         ' 
         Label6.AutoSize = True
         Label6.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        Label6.Location = New Point(198, 401)
+        Label6.Location = New Point(43, 398)
         Label6.Name = "Label6"
         Label6.Size = New Size(29, 17)
         Label6.TabIndex = 5
@@ -104,16 +102,6 @@ Partial Class FormAddResidents
         Label7.Size = New Size(44, 17)
         Label7.TabIndex = 6
         Label7.Text = "Street"
-        ' 
-        ' Label8
-        ' 
-        Label8.AutoSize = True
-        Label8.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        Label8.Location = New Point(47, 401)
-        Label8.Name = "Label8"
-        Label8.Size = New Size(53, 17)
-        Label8.TabIndex = 7
-        Label8.Text = "District"
         ' 
         ' txtLastName
         ' 
@@ -136,21 +124,14 @@ Partial Class FormAddResidents
         txtMiddleName.Size = New Size(263, 23)
         txtMiddleName.TabIndex = 12
         ' 
-        ' txtDistrict
-        ' 
-        txtDistrict.Location = New Point(62, 424)
-        txtDistrict.Name = "txtDistrict"
-        txtDistrict.Size = New Size(105, 23)
-        txtDistrict.TabIndex = 15
-        ' 
         ' cmbSex
         ' 
         cmbSex.DropDownStyle = ComboBoxStyle.DropDownList
         cmbSex.FormattingEnabled = True
-        cmbSex.Items.AddRange(New Object() {"Male", "Female", "Other"})
-        cmbSex.Location = New Point(204, 424)
+        cmbSex.Items.AddRange(New Object() {"Male", "Female"})
+        cmbSex.Location = New Point(62, 418)
         cmbSex.Name = "cmbSex"
-        cmbSex.Size = New Size(121, 23)
+        cmbSex.Size = New Size(263, 23)
         cmbSex.TabIndex = 18
         ' 
         ' btnSaveResident
@@ -196,11 +177,11 @@ Partial Class FormAddResidents
         dtpBirthDate.CustomFormat = ""
         dtpBirthDate.Format = DateTimePickerFormat.Short
         dtpBirthDate.Location = New Point(62, 254)
-        dtpBirthDate.MaxDate = New Date(2025, 10, 24, 0, 0, 0, 0)
+        dtpBirthDate.MaxDate = New Date(2030, 12, 31, 0, 0, 0, 0)
         dtpBirthDate.Name = "dtpBirthDate"
         dtpBirthDate.Size = New Size(121, 23)
         dtpBirthDate.TabIndex = 22
-        dtpBirthDate.Value = New Date(2025, 10, 24, 0, 0, 0, 0)
+        dtpBirthDate.Value = New Date(2026, 3, 27, 0, 0, 0, 0)
         ' 
         ' lblCalculatedAge
         ' 
@@ -255,11 +236,9 @@ Partial Class FormAddResidents
         Controls.Add(btnCancel)
         Controls.Add(btnSaveResident)
         Controls.Add(cmbSex)
-        Controls.Add(txtDistrict)
         Controls.Add(txtMiddleName)
         Controls.Add(txtFirstName)
         Controls.Add(txtLastName)
-        Controls.Add(Label8)
         Controls.Add(Label7)
         Controls.Add(Label6)
         Controls.Add(Label5)
@@ -281,13 +260,11 @@ Partial Class FormAddResidents
     Friend WithEvents Label4 As Label
     Friend WithEvents Label6 As Label
     Friend WithEvents Label7 As Label
-    Friend WithEvents Label8 As Label
     Friend WithEvents Label9 As Label
     Friend WithEvents Label10 As Label
     Friend WithEvents txtLastName As TextBox
     Friend WithEvents txtFirstName As TextBox
     Friend WithEvents txtMiddleName As TextBox
-    Friend WithEvents txtDistrict As TextBox
     Friend WithEvents txtCity As TextBox
     Friend WithEvents cmbSex As ComboBox
     Friend WithEvents btnSaveResident As Button

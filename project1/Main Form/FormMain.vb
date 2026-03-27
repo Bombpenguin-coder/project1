@@ -149,7 +149,6 @@ Public Class FormMain
                 newResident.Age = addForm.Age
                 newResident.Sex = addForm.Sex
                 newResident.Address = addForm.Address
-                newResident.District = addForm.District
 
                 ' 2. Send it to the Repository
                 Dim repo As New ResidentRepository()
@@ -215,7 +214,6 @@ Public Class FormMain
 
         editForm.cmbSex.Text = dgvResidents.CurrentRow.Cells("sex").Value.ToString()
         editForm.txtAddress.Text = dgvResidents.CurrentRow.Cells("address").Value.ToString()
-        editForm.txtDistrict.Text = dgvResidents.CurrentRow.Cells("district").Value.ToString()
 
         ' 3. ROBUST DATE POPULATION (Fixes the ArgumentOutOfRangeException)
         Dim dgvCellValue = dgvResidents.CurrentRow.Cells("birthdate").Value
@@ -255,7 +253,6 @@ Public Class FormMain
                 updatedRes.Age = editForm.Age
                 updatedRes.Sex = editForm.Sex
                 updatedRes.Address = editForm.Address
-                updatedRes.District = editForm.District
                 ' 2. Call the Repository
                 Dim repo As New ResidentRepository()
                 repo.UpdateResident(updatedRes)
@@ -292,7 +289,7 @@ Public Class FormMain
             If dgvResidents.Columns.Contains("age") Then dgvResidents.Columns("age").HeaderText = "Age"
             If dgvResidents.Columns.Contains("sex") Then dgvResidents.Columns("sex").HeaderText = "Sex"
             If dgvResidents.Columns.Contains("address") Then dgvResidents.Columns("address").HeaderText = "Address"
-            If dgvResidents.Columns.Contains("district") Then dgvResidents.Columns("district").HeaderText = "District"
+            If dgvResidents.Columns.Contains("district") Then dgvResidents.Columns("district").Visible = False
 
             UpdateResidentCount()
         Catch ex As Exception
@@ -499,8 +496,8 @@ Public Class FormMain
                     officialCount = Convert.ToInt32(cmd.ExecuteScalar())
                 End Using
 
-                ' 3. Get Total Reports Generated (from certificates_issued table)
-                Dim queryReports As String = "SELECT COUNT(id) FROM certificates_issued"
+                ' 3. Get Total Reports Generated TODAY (Actionable Dashboard Metric)
+                Dim queryReports As String = "SELECT COUNT(id) FROM certificates_issued WHERE DATE(date_issued) = CURDATE()"
                 Using cmd As New MySqlCommand(queryReports, conn)
                     reportsCount = Convert.ToInt32(cmd.ExecuteScalar())
                 End Using
@@ -1244,6 +1241,7 @@ Public Class FormMain
             ' Hide extra columns if needed
             If dgvBlotter.Columns.Contains("location") Then dgvBlotter.Columns("location").Visible = False
             If dgvBlotter.Columns.Contains("narrative") Then dgvBlotter.Columns("narrative").Visible = False
+            If dgvBlotter.Columns.Contains("incident_time") Then dgvBlotter.Columns("incident_time").Visible = False
 
         Catch ex As Exception
             MessageBox.Show("Error loading blotter: " & ex.Message)
@@ -1252,11 +1250,11 @@ Public Class FormMain
 
     Private Sub btnSaveCase_Click(sender As Object, e As EventArgs) Handles btnSaveCase.Click
         ' Open the new Pop-up Form
-        Using addForm As New FormAddBlotter()
-            If addForm.ShowDialog() = DialogResult.OK Then
+        Using addForm As New FormAddBlotter
+            If addForm.ShowDialog = DialogResult.OK Then
                 Try
                     ' 1. Pack data into the Class
-                    Dim newCase As New BlotterCase()
+                    Dim newCase As New BlotterCase
                     newCase.Complainant = addForm.Complainant
                     newCase.ComplainantCell = addForm.ComplainantCell ' NEW
                     newCase.Respondent = addForm.Respondent
@@ -1270,7 +1268,7 @@ Public Class FormMain
                     newCase.FullInformation = addForm.FullInformation ' NEW
 
                     ' 2. Send to Repository
-                    Dim repo As New BlotterRepository()
+                    Dim repo As New BlotterRepository
                     repo.AddCase(newCase)
 
                     ' 3. Refresh
@@ -1456,14 +1454,59 @@ Public Class FormMain
         btnUserMaintenance.PerformClick()
     End Sub
 
-    Private Sub Label28_Click(sender As Object, e As EventArgs) Handles Label28.Click
-
-    End Sub
-
     Private Sub btnSystemSettings_Click(sender As Object, e As EventArgs) Handles btnSystemSettings.Click
         Using settingsForm As New FormSystemSettings()
             settingsForm.ShowDialog()
         End Using
+    End Sub
+
+    Private Sub btnPrintCase_Click(sender As Object, e As EventArgs) Handles btnPrintCase.Click
+        ' 1. VALIDATE
+        If dgvBlotter.CurrentRow Is Nothing Then
+            MessageBox.Show("Please select a case from the list to print.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return
+        End If
+
+        Dim selectedRow = dgvBlotter.CurrentRow
+
+        ' 2. GATHER SETTINGS (Just like Certificates!)
+        Dim certCaptain = "", brgyName = "", cityName = "", provName = ""
+        Try
+            Dim settingsRepo As New SettingsRepository()
+            Dim currentSettings = settingsRepo.GetSettings()
+            certCaptain = currentSettings.CaptainName
+            brgyName = currentSettings.BarangayName
+            cityName = currentSettings.CityName
+            provName = currentSettings.ProvinceName
+        Catch ex As Exception
+            certCaptain = "Error Loading Captain"
+        End Try
+
+        ' 3. GATHER BLOTTER DATA
+        Dim caseId As String = selectedRow.Cells("id").Value.ToString()
+        Dim dateRec As String = CDate(selectedRow.Cells("incident_date").Value).ToString("MMMM dd, yyyy")
+        Dim complainant As String = selectedRow.Cells("complainant").Value.ToString()
+        Dim respondent As String = selectedRow.Cells("respondent").Value.ToString()
+        Dim incidentType As String = selectedRow.Cells("incident_type").Value.ToString()
+        Dim status As String = selectedRow.Cells("status").Value.ToString()
+
+        ' Grab the exact time if it exists in the database
+        Dim timeRec As String = "Not Specified"
+        If dgvBlotter.Columns.Contains("incident_time") AndAlso selectedRow.Cells("incident_time").Value IsNot DBNull.Value Then
+            timeRec = selectedRow.Cells("incident_time").Value.ToString()
+        End If
+
+        ' Some hidden columns might be empty, so handle safely
+        Dim location As String = ""
+        If dgvBlotter.Columns.Contains("location") Then location = selectedRow.Cells("location").Value.ToString()
+
+        Dim narrative As String = ""
+        If dgvBlotter.Columns.Contains("narrative") Then narrative = selectedRow.Cells("narrative").Value.ToString()
+
+        ' 4. SHOW THE PREVIEW!
+        Dim previewForm As New FormBlotterPreview()
+        previewForm.PopulateBlotterReport(caseId, dateRec, timeRec, complainant, respondent, incidentType, location, narrative, status, certCaptain, brgyName, cityName, provName)
+        previewForm.ShowDialog()
     End Sub
 End Class
 

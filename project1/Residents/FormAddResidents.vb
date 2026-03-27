@@ -42,16 +42,6 @@ Public Class FormAddResidents
         End Set
     End Property
 
-    ' --- RESTORED DISTRICT TEXTBOX ---
-    Public Property District As String
-        Get
-            Return txtDistrict.Text.Trim()
-        End Get
-        Set(value As String)
-            txtDistrict.Text = value
-        End Set
-    End Property
-
     ' --- NEW STREET COMBOBOX ---
     Public Property Street As String
         Get
@@ -109,6 +99,8 @@ Public Class FormAddResidents
             cmbSex.Items.AddRange(New String() {"Male", "Female"})
         End If
 
+        dtpBirthDate.MaxDate = Date.Today
+
         ' Dynamically load streets from database
         LoadStreetsFromDatabase()
 
@@ -164,7 +156,6 @@ Public Class FormAddResidents
            String.IsNullOrWhiteSpace(FirstName) OrElse
            String.IsNullOrWhiteSpace(Address) OrElse
            String.IsNullOrWhiteSpace(Street) OrElse
-           String.IsNullOrWhiteSpace(District) OrElse
            String.IsNullOrWhiteSpace(Sex) Then
 
             MessageBox.Show("Please fill in all required fields.", "Missing Data", MessageBoxButtons.OK, MessageBoxIcon.Warning)
