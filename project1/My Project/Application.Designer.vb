@@ -33,7 +33,9 @@ Namespace My
         
         <Global.System.Diagnostics.DebuggerStepThroughAttribute()>  _
         Protected Overrides Sub OnCreateMainForm()
-            Me.MainForm = Global.project1.Form1
+            Dim repo As IUserRepository = New UserRepository()
+            Dim service As New UserService(repo)
+            Me.MainForm = New Global.project1.Form1(service)
         End Sub
         
         <Global.System.Diagnostics.DebuggerStepThroughAttribute()>  _

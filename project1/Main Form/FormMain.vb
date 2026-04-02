@@ -122,8 +122,9 @@ Public Class FormMain
         Next
 
         If loginForm Is Nothing Then
-            loginForm = New Form1()
-            loginForm.Show()
+            Dim repo As IUserRepository = New UserRepository()
+            Dim service As New UserService(repo)
+            loginForm = New Form1(service)
         Else
             loginForm.Show()
             loginForm.PrepareForLogin()

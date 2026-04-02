@@ -1,10 +1,11 @@
 ﻿Imports MySql.Data.MySqlClient
 
 Public Class UserRepository
+    Implements IUserRepository
 
     Private connectionString As String = "server=localhost;user id=root;password=;database=login_db"
 
-    Public Function Login(username As String, password As String) As UserDTO
+    Public Function Login(username As String, password As String) As UserDTO Implements IUserRepository.Login
         Dim user As UserDTO = Nothing
 
         Try
@@ -35,7 +36,31 @@ Public Class UserRepository
         Return user
     End Function
 
-    Public Function InsertLoginHistory(username As String, role As String) As Integer
+    Public Sub CreateAdmin(fullname As String, username As String, password As String, question As String, answer As String) Implements IUserRepository.CreateAdmin
+
+        Try
+            Using conn As New MySqlConnection(connectionString)
+                conn.Open()
+
+                Dim query As String = "INSERT INTO users (fullname, username, password, role, security_question, security_answer) VALUES (@Fullname, @Username, @Password, 'Superadmin', @Question, @Answer)"
+
+                Using cmd As New MySqlCommand(query, conn)
+                    cmd.Parameters.AddWithValue("@Fullname", fullname)
+                    cmd.Parameters.AddWithValue("@Username", username)
+                    cmd.Parameters.AddWithValue("@Password", password)
+                    cmd.Parameters.AddWithValue("@Question", question)
+                    cmd.Parameters.AddWithValue("@Answer", answer)
+                    cmd.ExecuteNonQuery()
+                End Using
+            End Using
+
+        Catch ex As Exception
+            Throw New Exception("Error creating admin: " & ex.Message)
+        End Try
+
+    End Sub
+
+    Public Function InsertLoginHistory(username As String, role As String) As Integer Implements IUserRepository.InsertLoginHistory
         Dim historyId As Integer = 0
 
         Try
