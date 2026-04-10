@@ -1,5 +1,6 @@
 ﻿Public Class Resident
-    Public Property ID As Integer
+    Inherits Person 'INHERITANCE: Automatically gets the Id property
+
     Public Property LastName As String
     Public Property FirstName As String
     Public Property MiddleName As String
@@ -9,4 +10,9 @@
     Public Property Sex As String
     Public Property BirthDate As Date
     Public Property Age As Integer
+
+    'POLYMORPHISM: Overriding the base method
+    Public Overrides Function GetDetails() As String
+        Return "Resident: " & FirstName & " " & LastName & " (" & Street & ")"
+    End Function
 End Class
